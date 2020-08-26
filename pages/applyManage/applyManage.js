@@ -28,10 +28,7 @@ Page({
 
   },
 
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
+  refresh: function () {
     var that = this
     db.collection('apply').where({
       newest: 1,
@@ -53,6 +50,12 @@ Page({
         console.log("获取数据失败")
       }
     })
+  },
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow: function () {
+    this.refresh()
   },
 
   /**

@@ -1,4 +1,5 @@
 const db = wx.cloud.database()
+import Toast from '../../miniprogram_npm/@vant/weapp/toast/toast';
 Page({
 
   /**
@@ -42,8 +43,27 @@ Page({
     }
   },
 
+  getRemark: function (res) {
+    this.setData({
+      remark: res.detail
+    })
+  },
+
+  checkNotNull: function () {
+    if (this.data.condition.length == 0) {
+      Toast.fail('请填写审核意见');
+      return false
+    } else if (this.data.remark.length == 0) {
+      Toast.fail('请填写备注');
+      return false
+    } else {
+      return true
+    }
+  },
+
   save: function () {
-    if (this.data.condition.length != 0) {
+    // 检查输入是否为空
+    if (this.checkNotNull()) {
       db.collection('apply').where({
         _id: this.data.id
       }).update({
@@ -59,9 +79,13 @@ Page({
           type: this.data.type
         },
         success: function (res) {
+          console.log(res)
           wx.navigateBack({
             delta: 0,
           })
+        },
+        fail: function (res) {
+          console.log(res)
         }
       })
     }

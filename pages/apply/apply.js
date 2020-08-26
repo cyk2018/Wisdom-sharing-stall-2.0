@@ -13,6 +13,7 @@ Page({
     reapply: false
   },
   showApply: function (res) {
+    console.log(res)
     var that = this
     //判断是否展开
     if (res.detail.length == 2) {
@@ -93,11 +94,14 @@ Page({
           })
 
         }
+      },
+      fail: function (res) {
+        console.log(res)
       }
     })
   },
 
-  
+
 
   /**
    * 生命周期函数--监听页面加载
