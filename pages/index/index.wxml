@@ -207,7 +207,7 @@
 	<view class="nextPage">
 		<van-button plain hairline type="primary" disabled='{{isDisabled}}' bind:click="change">下一页</van-button>
 	</view>
-	<van-dialog show="{{submitShow}}" title="您已经提交过申请" message="您已经提交过申请，不能重复提交" confirmButtonText="返回主页" bind:close="submitShow" />
+	<van-dialog show="{{submitShow}}" title="您已经提交过申请" message="您已经提交过申请，不能重复提交" confirmButtonText="返回主页" bind:close="submitShow" confirm-button-color="#04BE02" />
 </block>
 
 <block wx:if="{{active == 1}}">
@@ -243,5 +243,5 @@
 </block>
 
 <block wx:if="{{active == 2}}">
-	<van-dialog id="van-dialog" confirmButtonText="返回主页" />
+	<van-dialog id="van-dialog" confirmButtonText="返回主页" confirm-button-color="#04BE02" />
 </block>

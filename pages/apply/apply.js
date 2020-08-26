@@ -97,20 +97,7 @@ Page({
     })
   },
 
-  getOpenid: function () {
-    wx.cloud.callFunction({
-      name: 'getOpenid',
-      success: function (res) {
-        var openid = res.result.openId
-        //console.log(res) 
-        wx.setStorageSync('openid', openid)
-        //本地缓存当前用户的openid 
-      },
-      fail: function () {
-        console.log("无法获得用户openid")
-      }
-    })
-  },
+  
 
   /**
    * 生命周期函数--监听页面加载
@@ -119,10 +106,6 @@ Page({
     wx.setNavigationBarTitle({
       title: '资质申请',
     })
-    this.getOpenid()
-    //获得用户的openid
-
-    //console.log("onLoad")
   },
 
   /**

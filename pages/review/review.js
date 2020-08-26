@@ -11,7 +11,8 @@ Page({
     sexSelect: ["男", "女", ],
     showOpinion: false,
     opinionSelect: ["申请成功", "申请失败", ],
-    condition: ""
+    condition: "",
+    remark: ""
   },
 
   showOpinion: function () {

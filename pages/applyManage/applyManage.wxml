@@ -9,3 +9,7 @@
 		<van-button size="small" data-index="{{index}}" bind:click='gotoPage'>审核</van-button>
 	</view>
 </van-card>
+
+<block wx:if="{{noApply}}">
+	<van-empty image="search" description="当前没有申请哈" />
+</block>

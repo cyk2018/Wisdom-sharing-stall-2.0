@@ -43,8 +43,8 @@ Page({
     showSex: false,
     sexSelect: ["男", "女", ],
     submitShow: false,
-    id: "",
-    //通过id判断是新增申请还是修改申请
+    applyId: "",
+    //通过id判断是提交申请还是修改申请
   },
   brand: function (res) {
     //console.log(res.detail)
@@ -64,13 +64,8 @@ Page({
     }
     //console.log(res.detail)
   },
-  //性别选择的函数（OLD）
-  // sexSelect: function (res) {
-  //   //console.log(res)
-  //   this.data.sex = res.detail.value
-  // },
 
-  //  test  性别选择的函数 （NEW）
+  //性别选择的函数
   selectSex: function (res) {
     var that = this
     console.log(res.detail)
@@ -199,11 +194,11 @@ Page({
         TELError: "请输入11位有效电话号"
       })
     } else {
-      if (that.data.id.length != 0) {
-        console.log(that.data.id)
+      if (that.data.applyId != "") {
+        //console.log(that.data.applyId)
         //修改申请
         db.collection('apply').where({
-          _id: that.data.id
+          _id: that.data.applyId
         }).update({
           data: {
             newest: 0
@@ -281,7 +276,7 @@ Page({
         tel: options.tel,
         idcard: options.idcard,
         sex: options.sex,
-        id: options.id
+        applyId: options.id
       })
     }
   },

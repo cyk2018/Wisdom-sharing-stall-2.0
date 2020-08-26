@@ -5,7 +5,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    noApply: false
   },
   gotoPage: function (res) {
     var index = res.currentTarget.dataset.index;
@@ -38,10 +38,16 @@ Page({
       condition: "0"
     }).get({
       success: function (res) {
-        console.log(res)
-        that.setData({
-          data: res.data
-        })
+        if (res.data.length == 0) {
+          that.setData({
+            noApply: true
+          })
+        } else {
+          that.setData({
+            data: res.data,
+            noApply: false
+          })
+        }
       },
       fail: function () {
         console.log("获取数据失败")

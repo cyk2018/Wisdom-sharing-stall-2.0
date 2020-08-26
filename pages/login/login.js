@@ -1,14 +1,31 @@
 const db = wx.cloud.database()
 import Toast from '../../miniprogram_npm/@vant/weapp/toast/toast';
 Page({
-
-
   /**
    * 页面的初始数据
    */
   data: {
 
   },
+
+  getOpenid: function () {
+    var that = this
+    wx.cloud.callFunction({
+      name: 'getOpenid',
+      success: function (res) {
+        var openid = res.result.openId
+        that.setData({
+          openid: openid
+        })
+        wx.setStorageSync('openid', openid)
+        //本地缓存当前用户的openid 
+      },
+      fail: function (res) {
+        console.log("无法获得用户openid")
+      }
+    })
+  },
+
 
   loading: function () {
     wx.showLoading({
@@ -17,18 +34,14 @@ Page({
   },
 
   userLogin: function () {
+    //普通用户登录
     this.loading()
-    var openid = wx.getStorage({
-      key: 'openid',
-    })
-    this.setData({
-      openid: openid
-    })
+    //查询数据库中是否有此用户
     db.collection('user').where({
       _openid: this.data.openid
     }).get({
       success: function (res) {
-        console.log(res.data.length)
+        //没找到对应用户
         if (res.data.length == 0) {
           db.collection('user').add({
             data: {
@@ -65,7 +78,11 @@ Page({
           })
         } else {
           //没有申请成为管理
-          Toast.fail('请先申请成为管理');
+          wx.hideLoading({
+            success: (res) => {
+              Toast.fail('请先申请成为管理');
+            },
+          })
         }
       }
     })
@@ -78,7 +95,7 @@ Page({
       _openid: that.data.openid
     }).get({
       success: function (res) {
-        //console.log(res)
+        //用户存在且不是管理员
         if (res.data.length > 0 && res.data[0].admin == "0") {
           db.collection('user').where({
               _openid: that.data.openid
@@ -96,14 +113,15 @@ Page({
               }
             })
         }
+        //用户是管理员
         if (res.data[0].admin == "1") {
           wx.hideLoading({
             success: (res) => {
               Toast.success('已申请')
             },
           })
-          
         }
+        //用户不存在
         if (res.data.length == 0) {
           db.collection('user').add({
             admin: "1",
@@ -124,7 +142,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    this.getOpenid()
   },
 
   /**

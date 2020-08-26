@@ -7,6 +7,7 @@
 	<van-field value="{{idcard}}" label="身份证号" input-align="right" />
 	<van-cell title="审核意见" is-link arrow-direction="down" bind:click="showOpinion" value="{{opinion}}" />
 	<van-field value="{{remark}}" label="备注" input-align="right" />
+	<!-- 晚上有空再改，设置更改输入框内容的逻辑 -->
 	<van-button type="default" bind:click="save">保存</van-button>
 </van-cell-group>
 
