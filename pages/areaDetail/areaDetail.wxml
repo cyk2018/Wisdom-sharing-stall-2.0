@@ -1,0 +1,18 @@
+<van-cell-group>
+
+	​
+	<van-cell title="区域名称" value="{{name}}" />
+
+	​
+	<van-cell title="地理位置" value="{{address}}" />
+
+	​
+	<van-cell title="开始时间" value="{{start_time}}" />
+
+	​
+	<van-cell title="结束时间" value="{{close_time}}" />
+
+	​
+	<van-cell title="摊位数量" value="{{max_number}}" />
+
+</van-cell-group>

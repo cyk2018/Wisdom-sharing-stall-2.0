@@ -1,0 +1,23 @@
+<van-cell-group>
+	<van-field value="{{brand}}" label="品牌" input-align="right" />
+	<van-cell title="服务类型" is-link arrow-direction="down" bind:click="showType" value="{{type}}" />
+	<van-field value="{{name}}" label="负责人姓名" input-align="right" />
+	<van-cell title="性别" is-link arrow-direction="down" bind:click="showSex" value="{{sex}}" />
+	<van-field value="{{tel}}" label="电话" input-align="right" />
+	<van-field value="{{idcard}}" label="身份证号" input-align="right" />
+	<van-cell title="审核意见" is-link arrow-direction="down" bind:click="showOpinion" value="{{opinion}}" />
+	<van-field value="{{remark}}" label="备注" input-align="right" />
+	<van-button type="default" bind:click="save">保存</van-button>
+</van-cell-group>
+
+<van-action-sheet show="{{ showSex }}" title="选择性别" bind:close="closeSex" bind:click-overlay="closeSex">
+	<van-picker columns="{{ sexSelect }}" show-toolbar bind:cancel="closeSex" bind:confirm="selectSex" />
+</van-action-sheet>
+
+<van-action-sheet show="{{ showType }}" title="选择服务类型" bind:close="closeType" bind:click-overlay="closeType">
+	<van-picker columns="{{ columns }}" show-toolbar bind:cancel="closeType" bind:confirm="selectType" />
+</van-action-sheet>
+
+<van-action-sheet show="{{ showOpinion }}" title="选择审核意见" bind:close="closeOpinion" bind:click-overlay="closeOpinion">
+	<van-picker columns="{{ opinionSelect }}" show-toolbar bind:cancel="closeOpinion" bind:confirm="selectOpinion" />
+</van-action-sheet>

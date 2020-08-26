@@ -1,0 +1,13 @@
+<block wx:for="{{myAreas}}">
+	<van-card>
+		<view slot="tags">
+			<van-cell title="区域名称" value="{{item.name}}" size="small" />
+			<van-cell title="摊位数量" value="{{item.max_number}}" size="small" />
+		</view>
+		<view slot="footer">
+			<van-button size="small" id="{{index}}" bind:click='gotoPage'>查看完整信息</van-button>
+			<van-button size="small" id="{{index}}"bind:click="changeInformation">修改信息</van-button>
+			<van-button size="small" id="{{index}}"bind:click="setMaxNumber">摊位布局</van-button>
+		</view>
+	</van-card>
+</block>

@@ -1,0 +1,2 @@
+<button bindtap="search">查询</button>
+<button bindtap="insert">预约</button>

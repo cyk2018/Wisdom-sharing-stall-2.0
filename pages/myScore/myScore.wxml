@@ -1,0 +1,7 @@
+<block wx:if="{{check}}">
+	<van-cell-group>
+		<van-cell title="我的积分" value="{{myScore}}" />
+	</van-cell-group>
+
+	<van-button plain type="primary" bind:click="addScore">加分</van-button>
+</block>

@@ -1,0 +1,23 @@
+<van-cell-group>
+	<van-field label="区域名称" value="{{ name }}" input-align="right" placeholder="请输入区域名" border bind:change="onChange" />
+	<van-cell title="选择区域位置" is-link="{{checkArea}}" bind:click="onChooseLocation" center value="{{address}}">
+	</van-cell>
+	<van-cell title="开市时间" is-link value="{{start_time}}" bind:click="chooseTime" id="start" />
+	<van-cell title="闭市时间" is-link value="{{close_time}}" bind:click="chooseTime" id="end" />
+	<van-field label="可容纳摊位" value="{{ max_number }}" input-align="right" placeholder="请输入可容纳的摊位数量" border bind:change="onMaxNumberChange" type="number" />
+</van-cell-group>
+
+<van-popup show="{{ show }}" bind:close="onClose" position="bottom">
+	<van-datetime-picker type="time" title="{{nowTitle}}" value="{{ currentDate }}" min-date="{{ minDate }}" max-date="{{ maxDate }}" bind:confirm="confirmTime" bind:cancel="cancelTime" filter="{{ filter }}" />
+</van-popup>
+
+<!-- 此时判断为修改信息 -->
+<block wx:if="{{checkCondition}}">
+	<van-button plain type="primary" bind:click="confirmChange" disabled="{{checkButton}}">{{buttonTitle}}</van-button>
+</block>
+
+<block wx:elif="{{buttonShow}}">
+	<van-button plain type="primary" bind:click="confirmSeat" disabled="{{checkButton}}">{{buttonTitle}}</van-button>
+</block>
+
+<!-- <van-toast id="van-toast" show="{{toast}}" type="{{toastType}}" message="{{toastTitle}}" /> -->

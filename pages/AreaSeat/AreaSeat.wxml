@@ -1,0 +1,8 @@
+<van-cell title="摊位数量" value="{{max_number}}" />
+<van-cell title="区域行数">
+	<van-stepper value="{{ 1 }}" id="row" bind:change="onChange" />
+</van-cell>
+<van-cell title="区域列数">
+	<van-stepper value="{{ 1 }}" id="column" bind:change="onChange" />
+</van-cell>
+<!-- 设计通过点击按钮控制当前摊位区域 -->

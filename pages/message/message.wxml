@@ -1,0 +1,21 @@
+<!--pages/message/message.wxml-->
+ <van-cell-group>
+
+​    <van-cell title="品牌" value="{{brand}}" />
+
+​    <van-cell title="服务类型" value="{{type}}" />
+
+​    <van-cell title="负责人姓名" value="{{name}}" />
+
+​    <van-cell title="身份证号" value="{{idcard}}" />
+
+​    <van-cell title="联系方式" value="{{tel}}" />
+
+​    <van-cell title="提交时间" value="{{createTime}}" />
+
+​    <van-cell title="申请状态" value="{{condition}}" />
+
+​    <van-cell title="备注" value="{{remarks}}" />
+
+
+   </van-cell-group>

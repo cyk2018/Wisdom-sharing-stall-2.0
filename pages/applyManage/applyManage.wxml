@@ -1,0 +1,11 @@
+<!-- 根据areaid搜索该区域的所有申请，按照createTime排序，判断是否是最新的 -->
+<van-card wx:for="{{data}}" wx:for-index="index" wx:for-item="item" style="margin: 0rpx 0rpx 0rpx 50px">
+	<!-- 在这个地方使用了插槽，所以直接根据插槽设置对应的属性 -->
+	<view slot="tags" style="margin-bottom:20px">
+		<!-- 设置hidden标签，储存index，用于gotoPage功能获取数据 -->
+		<van-cell title="品牌" value="{{item.brand}}" size="small" />
+		<van-cell title="商品类型" value="{{item.type}}" size="small" />
+		<van-cell title="负责人姓名" value="{{item.principal.name}}" size="small" />
+		<van-button size="small" data-index="{{index}}" bind:click='gotoPage'>审核</van-button>
+	</view>
+</van-card>

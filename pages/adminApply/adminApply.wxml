@@ -1,0 +1,7 @@
+<van-cell-group>
+	<!-- 允许用户在地图上选择地点 -->
+	<van-cell title="添加摆摊区域" is-link center ink-type="navigateTo" url="/pages/chooseArea/chooseArea" value="{{address}}" />
+	<van-cell title="我管理的区域" is-link center ink-type="navigateTo" url="/pages/myArea/myArea" />
+	<van-cell title="管理申请" is-link center ink-type="navigateTo" url="/pages/applyManage/applyManage" />
+	<!-- 在地图上选点之后管理对应的用户数据和预约情况 -->
+</van-cell-group>
