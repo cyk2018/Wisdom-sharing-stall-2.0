@@ -14,6 +14,7 @@ Page({
     name: "",
     idcard: "",
     tel: "",
+    remarks: "",
     check: false
   },
   getBrand: function () {
@@ -49,6 +50,7 @@ Page({
             name: res.data[0].principal.name,
             idcard: res.data[0].principal.idcard,
             tel: res.data[0].principal.tel,
+            remarks: res.data[0].remark,
             check: true
           })
           wx.hideLoading({})
@@ -71,17 +73,18 @@ Page({
     //更新此页面的data数据
     this.setNavigationBar();
     this.getBrand();
-    //无数据，则显示警告
-    // setTimeout(() => {
-    //   wx.hideLoading();
-    //   if (that.data.check==false) {
-    //     Notify({
-    //       type: 'warning',
-    //       message: '当前无品牌通过资质审核'
-    //     })
+   // 无数据，则显示警告
+   console.log(that.data.check);
+    setTimeout(() => {
+      wx.hideLoading();
+      if (that.data.check==false) {
+        Notify({
+          type: 'warning',
+          message: '当前无品牌通过资质审核'
+        })
 
-    //   } 
-    // }, 1000)
+      } 
+    }, 1000)
   },
 
   /**
