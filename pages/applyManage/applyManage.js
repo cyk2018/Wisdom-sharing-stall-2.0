@@ -60,15 +60,15 @@ Page({
         console.log("获取数据失败")
       },
       complete: function (res) {
-        //循环刷新
+        //循环刷新，如果当前该页面在前台就启动循环刷新
         var pages = getCurrentPages();
         var currPage = pages[pages.length - 1];
-        console.log(currPage)
-        if (currPage.route == "pages/applyManage/applyManage") {
-          setTimeout(() => {
-            that.refresh()
-          }, 30000)
-        }
+        // console.log(currPage)
+        // if (currPage.route == "pages/applyManage/applyManage") {
+        //   setTimeout(() => {
+        //     that.refresh()
+        //   }, 30000)
+        // }
       }
     })
   },
