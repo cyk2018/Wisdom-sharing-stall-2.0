@@ -78,6 +78,20 @@
 					"id": -1,
 					"name": "管理申请",
 					"pathName": "pages/applyManage/applyManage",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/myScore/myScore",
+					"pathName": "pages/myScore/myScore",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "我的",
+					"pathName": "pages/mine/mine",
 					"scene": null
 				}
 			]

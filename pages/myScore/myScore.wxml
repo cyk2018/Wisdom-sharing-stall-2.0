@@ -3,5 +3,5 @@
 		<van-cell title="我的积分" value="{{myScore}}" />
 	</van-cell-group>
 
-	<van-button plain type="primary" bind:click="addScore">加分</van-button>
+	<van-button plain type="primary" bind:click="showDetail">显示详情</van-button>
 </block>

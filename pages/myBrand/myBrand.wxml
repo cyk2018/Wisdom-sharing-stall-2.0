@@ -1,0 +1,24 @@
+<!--pages/myBrand/myBrand.wxml-->
+<block wx:if="{{check}}">
+  <van-cell-group>
+
+  ​    <van-cell title="品牌名" value="{{brand}}" />
+
+  ​    <van-cell title="服务类型" value="{{type}}" />
+
+  ​    <van-cell title="经营地区" value="{{area}}" />
+
+  ​    <van-cell title="经营号" value="{{manageID}}" />
+
+  ​    <van-cell title="负责人姓名" value="{{name}}" />
+
+  ​    <van-cell title="身份证号" value="{{idcard}}" />
+
+  ​    <van-cell title="联系方式" value="{{tel}}" />
+
+  ​    <van-cell title="备注" value="{{remarks}}" />
+
+
+    </van-cell-group>
+</block >
+

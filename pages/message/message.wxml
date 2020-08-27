@@ -1,7 +1,7 @@
 <!--pages/message/message.wxml-->
  <van-cell-group>
 
-​    <van-cell title="品牌" value="{{brand}}" />
+​    <van-cell title="品牌名" value="{{brand}}" />
 
 ​    <van-cell title="服务类型" value="{{type}}" />
 
