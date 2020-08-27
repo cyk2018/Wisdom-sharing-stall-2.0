@@ -76,13 +76,17 @@ Page({
             sex: this.data.sex,
             tel: this.data.tel
           },
-          type: this.data.type
+          type: this.data.type,
+          remark: this.data.remark
         },
         success: function (res) {
           console.log(res)
+          var pages = getCurrentPages();
+          var prevPage = pages[pages.length - 2]; //上一个页面
+          prevPage.refresh() //刷新方法
           wx.navigateBack({
-            delta: 0,
-          })
+            delta: 1
+          });
         },
         fail: function (res) {
           console.log(res)

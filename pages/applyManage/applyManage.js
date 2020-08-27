@@ -7,6 +7,7 @@ Page({
   data: {
     noApply: false
   },
+
   gotoPage: function (res) {
     var index = res.currentTarget.dataset.index;
     var data = this.data.data[index]
@@ -30,13 +31,19 @@ Page({
 
   refresh: function () {
     var that = this
+    wx.showLoading({
+      title: '数据刷新中',
+    })
+    console.log("数据刷新中。。。")
     db.collection('apply').where({
       newest: 1,
       condition: "0"
     }).get({
       success: function (res) {
+        console.log(res)
         if (res.data.length == 0) {
           that.setData({
+            data: res.data,
             noApply: true
           })
         } else {
@@ -45,9 +52,23 @@ Page({
             noApply: false
           })
         }
+        wx.hideLoading({
+          success: (res) => {},
+        })
       },
       fail: function () {
         console.log("获取数据失败")
+      },
+      complete: function (res) {
+        //循环刷新
+        var pages = getCurrentPages();
+        var currPage = pages[pages.length - 1];
+        console.log(currPage)
+        if (currPage.route == "pages/applyManage/applyManage") {
+          setTimeout(() => {
+            that.refresh()
+          }, 30000)
+        }
       }
     })
   },

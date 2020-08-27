@@ -165,7 +165,7 @@ Page({
     })
     wx.navigateBack({
       delta: 1
-    })
+    });
   },
   apply: function () {
     var that = this
@@ -219,7 +219,8 @@ Page({
           newest: 1,
           //添加newest表示最新的提交
           condition: "0",
-          createTime: db.serverDate()
+          createTime: db.serverDate(),
+          remark: "无备注"
         },
         success: function () {
           that.setData({
@@ -229,6 +230,10 @@ Page({
             title: '提交申请',
             message: '您的申请已提交，将于3-5个工作日之内给予回复',
           }).then(() => {
+            var pages = getCurrentPages();
+            var prevPage = pages[pages.length - 2]; //上一个页面
+            console.log(prevPage)
+            prevPage.refresh() //刷新方法
             wx.navigateBack({
               delta: 1
             })

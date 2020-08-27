@@ -15,5 +15,6 @@
 		<van-notify id="van-notify" />
 		<van-cell is-link title="我的违规" link-type="navigateTo" url="/pages/myViolation/myViolation" />
 		<van-cell is-link title="我的预约" link-type="navigateTo" url="/pages/myReservation/myReservation" />
+		<van-cell is-link title="退出登录" link-type="navigateTo" url="/pages/login/login" />
 	</van-cell-group>
 </view>

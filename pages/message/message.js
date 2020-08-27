@@ -21,21 +21,6 @@ Page({
      */
     onLoad: function (options) {
         let that = this;
-        //查看传递数据 是否成功
-        //console.log(options);
-        // var condition = ""
-        // console.log(options.condition)
-        // switch (options.condition) {
-        //     case "-1":
-        //         condition = "申请失败"
-        //         break;
-        //     case "0":
-        //         condition = "已提交"
-        //         break;
-        //     case "1":
-        //         condition = "申请成功"
-        //         break;
-        // }
         //更新此页面的data数据
         that.setData({
             brand: options.brand,
@@ -47,7 +32,6 @@ Page({
             createTime: options.createTime,
             remarks: options.remarks
         })
-        // console.log("onLoad")
     },
 
     /**

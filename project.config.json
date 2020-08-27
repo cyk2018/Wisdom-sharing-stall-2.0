@@ -71,6 +71,13 @@
 					"id": -1,
 					"name": "管理申请",
 					"pathName": "pages/applyManage/applyManage",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "管理申请",
+					"pathName": "pages/applyManage/applyManage",
 					"scene": null
 				}
 			]

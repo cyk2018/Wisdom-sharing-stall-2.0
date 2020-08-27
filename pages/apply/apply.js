@@ -42,16 +42,25 @@ Page({
     }
   },
 
+  refresh: function (res) {
+    this.search()
+  },
+
   //获取申请数据并更新
   search: function () {
     var that = this
     wx.showLoading({
       title: '加载中',
     })
+    var openid
+    wx.getStorage({
+      key: 'openid',
+      success: function (res) {
+        openid = res.data
+      }
+    })
     db.collection('apply').where({
-      _openid: wx.getStorage({
-        key: 'openid',
-      })
+      _openid: openid
     }).get({
       success: function (res) {
         var length = res.data.length
@@ -173,7 +182,7 @@ Page({
     // console.log(this.data.data);
     // 这里使用this.data.data的原因是setData的时候，更新了数组结构
     wx.navigateTo({
-      url: '/pages/message/message?brand=' + this.data.data[index].brand + '&type=' + this.data.data[index].type + '&name=' + this.data.data[index].principal.name + '&idcard=' + this.data.data[index].principal.idcard + '&tel=' + this.data.data[index].principal.tel + '&createTime=' + this.data.data[index].createTime.toLocaleString() + '&condition=' + this.data.data[index].condition + '&remarks=' + this.data.data[index].remarks
+      url: '/pages/message/message?brand=' + this.data.data[index].brand + '&type=' + this.data.data[index].type + '&name=' + this.data.data[index].principal.name + '&idcard=' + this.data.data[index].principal.idcard + '&tel=' + this.data.data[index].principal.tel + '&createTime=' + this.data.data[index].createTime.toLocaleString() + '&condition=' + this.data.data[index].condition + '&remarks=' + this.data.data[index].remark
     })
   },
   // 与gotoPage函数同理,用于用户修改申请
