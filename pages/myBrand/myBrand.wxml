@@ -22,6 +22,7 @@
     </van-cell-group>
 </block >
 
-<van-notify id="van-notify" />
-<van-empty description="什么也没有" />
-
+<block wx:if="{{!check}}">
+  <van-notify id="van-notify" />
+  <van-empty description="什么也没有" />
+</block >
