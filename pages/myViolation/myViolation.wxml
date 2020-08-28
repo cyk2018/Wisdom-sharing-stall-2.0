@@ -1,20 +1,23 @@
-<van-collapse value="{{ activeNames }}" bind:change="showViolation">
-	<van-collapse-item title="记录1">
-		<block>
-			<!--插入区-->
-			<!--card-->
-			<van-card>
-				<view slot="tags">
-					<van-cell title="记录号" value="{{id}}" size="small" />
-					<van-cell title="品牌" value="{{brand}}" size="small" />
-					<van-cell title="违规事项" value="{{Item}}" size="small" />
-					<van-cell title="记录时间" value="{{recordTime}}" size="small" />
-				</view>
-				<view slot="footer">
-					<van-button size="small" bind:click='gotoPage'>申诉</van-button>
-				</view>
-			</van-card>
-			<!--card-->
-		</block>
-	</van-collapse-item>
-</van-collapse>
+<block wx:if="{{Violated}}">
+  <van-cell-group>
+
+
+  ​    <van-cell title="经营号" value="{{manageIDforUser}}" />
+
+			<van-cell title="所在摊位" value="{{stallID}}" />
+
+			<van-cell title="备注" value="{{remarks}}" />
+
+			<van-cell title="记录时间" value="{{recordTime}}" />
+
+			<van-cell title="违规事项" value="{{item}}" />
+
+
+
+    </van-cell-group>
+</block >
+
+<block wx:if="{{!Violated}}">
+  <van-notify id="van-notify" />
+  <van-empty description="什么也没有" />
+</block >
