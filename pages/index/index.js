@@ -45,6 +45,9 @@ Page({
     submitShow: false,
     applyId: "",
     //通过id判断是提交申请还是修改申请
+    area: "",
+    manageID: "",
+    score: 0
   },
   brand: function (res) {
     //console.log(res.detail)
@@ -210,6 +213,9 @@ Page({
         data: {
           brand: this.data.brand,
           type: this.data.type,
+          score: this.data.score,
+          manageID: this.data.manageID,
+          area: this.data.area,
           principal: {
             name: this.data.name,
             sex: this.data.sex,

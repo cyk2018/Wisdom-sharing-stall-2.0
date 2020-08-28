@@ -8,13 +8,8 @@ Page({
     check: false
   },
 
-  addScore: function () {
-    var that = this
-    var nowScore = that.data.myScore
-    nowScore++
-    that.setData({
-      myScore: nowScore
-    })
+  showDetail: function () {
+    
   },
 
   setNavigationBar: function () {
@@ -31,7 +26,7 @@ Page({
       .get({
         success: function (res) {
           // console.log(res.data[0].nowScore)
-          var score = res.data[0].nowScore
+          var score = res.data[0].score
           that.setData({
             myScore: score,
             check: true
