@@ -28,6 +28,9 @@ Page({
       url: '/pages/startReserve/startReserve?id=' + that.data.markerId + '&name=' + that.data.name + '&startTime=' +
         that.data.startTime + '&closeTime=' +
         that.data.closeTime,
+      success: function () {
+        console.log("页面跳转成功")
+      },
       fail: function () {
         console.log("页面跳转失败")
       }
@@ -181,8 +184,13 @@ Page({
           })
         }
       })
+
+      this.startReserve()
   },
+
+  // 点击遮罩层调用此函数
   onClickHide: function () {
+    console.log("执行到这了")
     this.setData({
       show: false,
     })

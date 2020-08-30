@@ -109,17 +109,18 @@ Page({
 
 
   },
-  //解决官方bug
-  handleScale: function (e) {
-    if (this.data.timer) {
-      clearTimeout(this.data.timer)
-    }
-    let timer = setTimeout(() => {
-      this.setData({
-        seatArea: this.data.seatArea
-      });
-    }, 200)
-  },
+  // //解决官方bug
+  // 该段代码应该是解决seatArea更新不及时造成的问题
+  // handleScale: function (e) {
+  //   if (this.data.timer) {
+  //     clearTimeout(this.data.timer)
+  //   }
+  //   let timer = setTimeout(() => {
+  //     this.setData({
+  //       seatArea: this.data.seatArea
+  //     });
+  //   }, 200)
+  // },
 
   // 根据seatList 生成一个类map的对象 key值为gRow坐标 value值为gRow为key值的数组
   creatSeatMap: function () {

@@ -52,17 +52,12 @@ Page({
     wx.showLoading({
       title: '加载中',
     })
-    var openid
-    wx.getStorage({
-      key: 'openid',
-      success: function (res) {
-        openid = res.data
-      }
-    })
+    
     db.collection('apply').where({
-      _openid: openid
+      _openid: that.data.openid
     }).get({
       success: function (res) {
+        console.log(res)
         var length = res.data.length
         if (length == 0) {
           that.setData({
@@ -116,8 +111,17 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    var that = this
     wx.setNavigationBarTitle({
       title: '资质申请',
+    })
+    wx.getStorage({
+      key: 'openid',
+      success: function (res) {
+        that.setData({
+          openid: res.data
+        })
+      }
     })
   },
 

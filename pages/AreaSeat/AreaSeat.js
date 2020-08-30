@@ -18,9 +18,20 @@ Page({
   },
   //这个需要设计新的UI，以显示所有的行列数
   //通过行列数的改变及时调整当前数组中的数据
-  onChange: function () {
-
+  onChangeRow: function (res) {
+    // res.detail
+    this.setData({
+      row: res.detail
+    })
   },
+
+  onChangeCol: function (res) {
+    // res.detail
+    this.setData({
+      col: res.detail
+    })
+  },
+
 
   /**
    * 生命周期函数--监听页面初次渲染完成

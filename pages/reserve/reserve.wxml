@@ -1,5 +1,5 @@
 <view class="map">
-	<van-overlay show="{{ show }}" bind:click="onClickHide">
+	<!-- <van-overlay show="{{show}}" bind:click="onClickHide">
 		<view class="wrapper" border="{{false}}">
 			<view class="block">
 				<van-cell-group>
@@ -11,7 +11,7 @@
 				<van-button class="btn">取消预约</van-button>
 			</view>
 		</view>
-	</van-overlay>
+	</van-overlay> -->
 	<map style="width: 100%; height: 100vh;" longitude="{{photoLongitude}}" latitude="{{photoLatitude}}" scale="{{scale}}" show-location="true" enable-3D show-compass show-scale enable-traffic markers="{{markers}}" bindtap="getLocation" bindmarkertap="showDetail">
 		<cover-image src="/images/btn_plus@3x.png" class="control-btn control-btn-increase" bindtap="onIncreaseScale"></cover-image>
 		<cover-image src="/images/btn_minus@3x.png" class="control-btn control-btn-decrease" bindtap="onDecreaseScale"></cover-image>
