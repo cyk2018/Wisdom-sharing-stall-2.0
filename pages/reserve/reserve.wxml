@@ -1,5 +1,18 @@
-<view class="map">
-	<!-- <van-overlay show="{{show}}" bind:click="onClickHide">
+<!-- overlay 好像出问题了，重构一下-2020/9/2 -->
+<view>
+	<map style="width:100%; height:100vh" longitude="{{longitude}}" latitude="{{latitude}}" scale="{{scale}}" show-location enable-3D show-compass show-scale enable-traffic markers="{{markers}}" bindmarkertap="showDetail">
+		<image src="/images/main_bt_position@2x.png" class="focus-btn focus-btn-decrease" bindtap="onFocus" />
+		<!-- 目前自动弹出所有的对话框， 后期根据页面当前位置只弹出对应窗口的对话框 -->
+		<cover-view slot="callout">
+			<block wx:for="{{customCalloutMarkerIds}}" marker-id="{{item}}">
+				<cover-view>test</cover-view>
+			</block>
+		</cover-view>
+	</map>
+</view>
+
+<!-- <view class="map">
+	<van-overlay show="{{show}}" bind:click="onClickHide">
 		<view class="wrapper" border="{{false}}">
 			<view class="block">
 				<van-cell-group>
@@ -11,7 +24,7 @@
 				<van-button class="btn">取消预约</van-button>
 			</view>
 		</view>
-	</van-overlay> -->
+	</van-overlay>
 	<map style="width: 100%; height: 100vh;" longitude="{{photoLongitude}}" latitude="{{photoLatitude}}" scale="{{scale}}" show-location="true" enable-3D show-compass show-scale enable-traffic markers="{{markers}}" bindtap="getLocation" bindmarkertap="showDetail">
 		<cover-image src="/images/btn_plus@3x.png" class="control-btn control-btn-increase" bindtap="onIncreaseScale"></cover-image>
 		<cover-image src="/images/btn_minus@3x.png" class="control-btn control-btn-decrease" bindtap="onDecreaseScale"></cover-image>
@@ -23,4 +36,4 @@
 			</van-search>
 		</view>
 	</map>
-</view>
+</view> -->

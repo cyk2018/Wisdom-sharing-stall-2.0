@@ -7,16 +7,18 @@ Page({
    * 页面的初始数据
    */
   data: {
-    name: "test",
+    name: "",
     startTime: "",
     closeTime: "",
     nowNumber: "",
     maxNumber: "",
     markerId: "",
-    photoLatitude: "",
-    photoLongitude: "",
-    latitude: "33.27229",
-    longitude: "113.009854",
+    // tempLatitude: "",
+    // tempLongitude: "",
+    // //存储当前屏幕中心的位置信息
+
+    latitude: "",
+    longitude: "",
     scale: 15,
     markers: [],
     show: false,
@@ -40,40 +42,48 @@ Page({
     console.log(res.detail.latitude)
     console.log(res.detail.longitude)
   },
-  onChangeSearch: function (res) {
-    console.log(res)
-    //this.data.address = res
-  },
-  onSearchAddress: function () {
 
-  },
-  onFocus: function () {
+
+  // onChangeSearch: function (res) {
+
+  //   console.log(res)
+  //   //this.data.address = res
+  // },
+  // onSearchAddress: function () {
+
+  // },
+
+
+  // 这个同层渲染在模拟器上有问题，真机上没问题
+  onFocus: function (res) {
+    // console.log(res)
+    // console.log("点到了")
     this.setData({
-      photoLatitude: this.data.latitude,
-      photoLongitude: this.data.longitude
+      latitude: this.data.latitude,
+      longitude: this.data.longitude
     })
   },
-  // 控制地图缩放级别
-  onIncreaseScale() {
-    let scale = this.data.scale;
-    if (scale === 20) {
-      return;
-    }
-    scale++;
-    this.setData({
-      scale: scale
-    });
-  },
-  onDecreaseScale() {
-    let scale = this.data.scale;
-    if (scale === 3) {
-      return;
-    }
-    scale--;
-    this.setData({
-      scale: scale
-    });
-  },
+  // // 控制地图缩放级别
+  // onIncreaseScale() {
+  //   let scale = this.data.scale;
+  //   if (scale === 20) {
+  //     return;
+  //   }
+  //   scale++;
+  //   this.setData({
+  //     scale: scale
+  //   });
+  // },
+  // onDecreaseScale() {
+  //   let scale = this.data.scale;
+  //   if (scale === 3) {
+  //     return;
+  //   }
+  //   scale--;
+  //   this.setData({
+  //     scale: scale
+  //   });
+  // },
   postAddress: function () {
     var that = this
     wx.getSetting({
@@ -105,8 +115,8 @@ Page({
         that.setData({
           latitude: res.latitude,
           longitude: res.longitude,
-          photoLatitude: res.latitude,
-          photoLongitude: res.longitude
+          // tempLatitude: res.latitude,
+          // tempLongitude: res.longitude
         })
       }
     })
@@ -114,6 +124,7 @@ Page({
   getStallLocation: function () {
     //获得模拟的摊位规划区数据，添加对应的标记
     var that = this
+    // 存储当前各markers信息的数组
     var markersLatitude = []
     var markersLongitude = []
     var id = []
@@ -129,6 +140,7 @@ Page({
         i = 0
         if (markersLatitude.length > 0) {
           var markers = []
+          //当
           while (i < markersLatitude.length) {
             var marker = {
               id: "",
@@ -145,7 +157,8 @@ Page({
             i++
           }
           that.setData({
-            markers: markers
+            markers: markers,
+            customCalloutMarkerIds: id
           })
         }
       }
@@ -185,7 +198,7 @@ Page({
         }
       })
 
-      this.startReserve()
+    this.startReserve()
   },
 
   // 点击遮罩层调用此函数
