@@ -128,6 +128,7 @@ Page({
     var markersLatitude = []
     var markersLongitude = []
     var id = []
+    var _id = []
     var i = 0
     db.collection('markers').get({
       success: function (res) {
@@ -135,7 +136,7 @@ Page({
         for (i; i < res.data.length; i++) {
           markersLatitude.push(res.data[i].latitude)
           markersLongitude.push(res.data[i].longitude)
-          id.push(res.data[i]._id)
+          _id.push(res.data[i]._id)
         }
         i = 0
         if (markersLatitude.length > 0) {
@@ -143,14 +144,15 @@ Page({
           //当
           while (i < markersLatitude.length) {
             var marker = {
-              id: "",
+              id: i,
+              _id: "",
               iconPath: '/images/Marker3_Activated@3x.png',
               latitude: "",
               longitude: "",
               width: 30,
               height: 30
             }
-            marker.id = id[i]
+            marker._id = _id[i]
             marker.latitude = markersLatitude[i],
               marker.longitude = markersLongitude[i],
               markers.push(marker)
