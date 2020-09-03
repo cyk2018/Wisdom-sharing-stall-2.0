@@ -150,14 +150,21 @@ Page({
               latitude: "",
               longitude: "",
               width: 30,
-              height: 30
+              height: 30,
+              customCallout: {
+                anchorX: 0,
+                anchorY: 0,
+                display: "ALWAYS"
+              }
             }
             marker._id = _id[i]
             marker.latitude = markersLatitude[i],
               marker.longitude = markersLongitude[i],
               markers.push(marker)
+            id.push(i)
             i++
           }
+          console.log(id)
           that.setData({
             markers: markers,
             customCalloutMarkerIds: id

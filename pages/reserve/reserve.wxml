@@ -5,14 +5,14 @@
 		<image src="/images/main_bt_position@2x.png" class="focus-btn focus-btn-decrease" bindtap="onFocus" />
 		<!-- 目前自动弹出所有的对话框， 后期根据页面当前位置只弹出对应窗口的对话框 -->
 		<cover-view slot="callout">
-        <block wx:for="{{customCalloutMarkerIds}}" wx:key="*this">
-          <cover-view  class="customCallout" marker-id="{{item}}" >
-            <cover-view class="content"> 
-              test
-            </cover-view>
-          </cover-view>
-        </block>
-      </cover-view>
+			<block wx:for="{{customCalloutMarkerIds}}" wx:key="*this">
+				<cover-view class="customCallout" marker-id="{{item}}">
+					<cover-view class="content">
+						test
+					</cover-view>
+				</cover-view>
+			</block>
+		</cover-view>
 	</map>
 </view>
 
