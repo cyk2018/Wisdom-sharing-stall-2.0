@@ -2,13 +2,16 @@
 <view>
 	<map style="width:100%; height:100vh" longitude="{{longitude}}" latitude="{{latitude}}" scale="{{scale}}"
 		show-location enable-3D show-compass show-scale enable-traffic markers="{{markers}}" bindmarkertap="showDetail">
-		<image src="/images/main_bt_position@2x.png" class="focus-btn focus-btn-decrease" bindtap="onFocus" />
+		<image src="/images/main_bt_position@2x.png" class="focus-btn focus-btn-decrease" bindtap="onFocus" bindcallouttap="showDetail"/>
 		<!-- 目前自动弹出所有的对话框， 后期根据页面当前位置只弹出对应窗口的对话框 -->
 		<cover-view slot="callout">
 			<block wx:for="{{customCalloutMarkerIds}}" wx:key="*this">
 				<cover-view class="customCallout" marker-id="{{item}}">
 					<cover-view class="content">
-						test
+						{{markers[item].name}}
+					</cover-view>
+					<cover-view class="content">
+						{{markers[item].start_time}} --- {{markers[item].close_time}}
 					</cover-view>
 				</cover-view>
 			</block>

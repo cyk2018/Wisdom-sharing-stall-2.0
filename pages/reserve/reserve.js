@@ -7,16 +7,6 @@ Page({
    * 页面的初始数据
    */
   data: {
-    name: "",
-    startTime: "",
-    closeTime: "",
-    nowNumber: "",
-    maxNumber: "",
-    markerId: "",
-    // tempLatitude: "",
-    // tempLongitude: "",
-    // //存储当前屏幕中心的位置信息
-
     latitude: "",
     longitude: "",
     scale: 15,
@@ -122,61 +112,41 @@ Page({
     })
   },
   getStallLocation: function () {
-    //获得模拟的摊位规划区数据，添加对应的标记
+    //展示当前所有的标记和气泡
     var that = this
-    // 存储当前各markers信息的数组
-    var markersLatitude = []
-    var markersLongitude = []
-    var id = []
-    var _id = []
-    var i = 0
     db.collection('markers').get({
       success: function (res) {
-        //console.log(res.data.length)
-        for (i; i < res.data.length; i++) {
-          markersLatitude.push(res.data[i].latitude)
-          markersLongitude.push(res.data[i].longitude)
-          _id.push(res.data[i]._id)
+        // console.log(res)
+        var markers = res.data
+        var customCalloutMarkerIds = []
+        //为每个对象添加字段
+        for (var i = 0; i < markers.length; i++) {
+          // console.log(markers[i])
+          markers[i].customCallout = {
+              anchorX: 0,
+              anchorY: 0,
+              display: "ALWAYS"
+            },
+            markers[i].id = i
+          customCalloutMarkerIds.push(i)
         }
-        i = 0
-        if (markersLatitude.length > 0) {
-          var markers = []
-          //当
-          while (i < markersLatitude.length) {
-            var marker = {
-              id: i,
-              _id: "",
-              iconPath: '/images/Marker3_Activated@3x.png',
-              latitude: "",
-              longitude: "",
-              width: 30,
-              height: 30,
-              customCallout: {
-                anchorX: 0,
-                anchorY: 0,
-                display: "ALWAYS"
-              }
-            }
-            marker._id = _id[i]
-            marker.latitude = markersLatitude[i],
-              marker.longitude = markersLongitude[i],
-              markers.push(marker)
-            id.push(i)
-            i++
-          }
-          console.log(id)
-          that.setData({
-            markers: markers,
-            customCalloutMarkerIds: id
-          })
-        }
+
+        // console.log(markers)
+        that.setData({
+          markers,
+          customCalloutMarkerIds
+        })
+      },
+      fail: function () {
+        console.log("数据库查询失败")
       }
     })
   },
   showDetail: function (res) {
+    console.log(res)
     var id = res.markerId
     var that = this
-    //console.log("点击了标记物" + id)
+    console.log("点击了标记物" + id)
     wx.showToast({
       title: '加载中',
       icon: 'loading',
