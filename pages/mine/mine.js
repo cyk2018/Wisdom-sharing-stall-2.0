@@ -106,12 +106,38 @@ Page({
   onReady: function () {
 
   },
-
+changeCon:function(){
+  var that=this
+  wx.showLoading({
+    title: '刷新中',
+  })
+  console.log('refresh')
+  wx.getStorage({
+    key: 'Con',
+    success(res){
+      console.log('在mine中获取Con'+res.data)
+      if(res.data==0)
+      {
+        that.setData({
+          message:'开始摆摊'
+        })
+      }
+      else if(res.data==1)
+      {
+        that.setData({
+          message:"扫码结束摆摊"
+        })
+      }
+    }
+  })
+  wx.hideLoading({
+    success: (res) => {},
+  })
+},
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
     var that = this
     wx.getSetting({
       success(res) {
@@ -139,28 +165,13 @@ Page({
         }
       }
     })
+    this.changeCon()
     if (typeof this.getTabBar === 'function' && this.getTabBar()) {
       this.getTabBar().setData({
         active: 3
       });
     }
-    wx.getStorage({
-      key: 'Con',
-      success(res) {
-        console.log("mine"+res.data)
-        if (res.data == 1) {
-          console.log("显示")
-          that.setData({
-            message: "扫码结束摆摊"
-          })
-        } else {
-          console.log("显示")
-          that.setData({
-            message: "扫码摆摊"
-          })
-        }
-      }
-    })
+   
   },
 
   /**
