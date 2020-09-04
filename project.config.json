@@ -29,7 +29,11 @@
 		"useIsolateContext": true,
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 		"useCompilerModule": false,
+=======
+		"useCompilerModule": true,
+>>>>>>> master
 =======
 		"useCompilerModule": true,
 >>>>>>> master
@@ -115,7 +119,10 @@
 					"scene": null
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> master
 =======
 >>>>>>> master
 				},
@@ -132,6 +139,9 @@
 					"pathName": "pages/mine/mine",
 					"scene": null
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> master
+=======
 >>>>>>> master
 =======
 >>>>>>> master
