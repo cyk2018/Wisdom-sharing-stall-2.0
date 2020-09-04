@@ -5,9 +5,16 @@ Page({
    * 页面的初始数据
    */
   data: {
+    minHour: 10,
+    maxHour: 20,
+    minDate: new Date().getTime(),
+    maxDate: new Date(2021, 10, 1).getTime(),
+    currentDate: new Date().getTime(),
+
     show: false,
     choose: 0,
     startReserveTime: "",
+    d: "",
     buttonShow: false,
     formatter(type, value) {
       if (type === 'year') {
@@ -67,27 +74,41 @@ Page({
       })
     }
   },
-
   confirmTime: function (res) {
-    console.log(res)
+    //this.formatDate(res.detail)
+    var d = new Date(res.detail)
+    //this.formatDate(d)
+    var a=this.formatDate(d)
+    //console.log(d)
+    //console.log(res)
     var that = this
     if (that.data.choose == 1) {
       that.setData({
         show: false,
-        startReserveTime: res.detail,
+        startReserveTime: a,
         //currentDate: res.detail
       })
     }
     //&& that.data.startReserveTime.length > 0
-    if (that.data.choose == 2 ) {
+    if (that.data.choose == 2) {
       that.setData({
         show: false,
-        endReserveTime: res.detail,
+        endReserveTime: a,
         buttonShow: true
       })
     }
   },
 
+  formatDate: function(now) {
+    var year = now.getFullYear()
+    var month = now.getMonth() + 1
+    var date = now.getDate()
+    var hour = now.getHours()
+    var minute = now.getMinutes()
+    //var second = now.getSeconds()
+    console.log(year + "-" + month + "-" + date + " " + hour + ":" + minute ) 
+    return year + "-" + month + "-" + date + " " + hour + ":" + minute 
+},
   /**
    * 生命周期函数--监听页面加载
    */
