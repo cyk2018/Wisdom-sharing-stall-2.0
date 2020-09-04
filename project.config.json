@@ -27,7 +27,11 @@
 			"outputPath": ""
 		},
 		"useIsolateContext": true,
+<<<<<<< HEAD
 		"useCompilerModule": false,
+=======
+		"useCompilerModule": true,
+>>>>>>> master
 		"userConfirmedUseCompilerModuleSwitch": false,
 		"useMultiFrameRuntime": true,
 		"useApiHook": true,
@@ -105,6 +109,22 @@
 					"pathName": "pages/reserve/reserve",
 					"query": "",
 					"scene": null
+<<<<<<< HEAD
+=======
+				},
+				{
+					"id": -1,
+					"name": "pages/myViolation/myViolation",
+					"pathName": "pages/myViolation/myViolation",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/mine/mine",
+					"pathName": "pages/mine/mine",
+					"scene": null
+>>>>>>> master
 				}
 			]
 		}
