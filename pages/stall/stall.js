@@ -92,16 +92,6 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-    wx.getStorage({
-      key: 'Con',
-      fail: function() {
-        wx.setStorage({
-        data: 0,
-        key: 'Con',
-      })
-      console.log('初始化')
-    }
-    })
   
   },
 
@@ -147,11 +137,18 @@ Page({
          })
          console.log("结束摆摊")
        }
+       wx.getStorage({
+         key: 'Con',
+         success(res){
+           console.log("在stall中获取Con"+res.data)
+           wx.switchTab({
+             url: '/pages/mine/mine',
+           })
+         }
+       })
+
       }
     })
-   wx.navigateBack({
-     delta: 1,
-   })
     if (that.data.type == 0) {
       db.collection('user')
         .where({

@@ -106,11 +106,8 @@ Page({
   onReady: function () {
 
   },
-changeCon:function(){
+  changeCon: function(){
   var that=this
-  wx.showLoading({
-    title: '刷新中',
-  })
   console.log('refresh')
   wx.getStorage({
     key: 'Con',
@@ -128,10 +125,14 @@ changeCon:function(){
           message:"扫码结束摆摊"
         })
       }
+    },
+    fail(res){
+      console.log("Con初始化")
+      wx.setStorage({
+        data: 0,
+        key: 'Con',
+      })
     }
-  })
-  wx.hideLoading({
-    success: (res) => {},
   })
 },
   /**
@@ -139,6 +140,7 @@ changeCon:function(){
    */
   onShow: function () {
     var that = this
+    that.changeCon()
     wx.getSetting({
       success(res) {
         if (res.authSetting['scope.userInfo']) {
@@ -165,7 +167,7 @@ changeCon:function(){
         }
       }
     })
-    this.changeCon()
+
     if (typeof this.getTabBar === 'function' && this.getTabBar()) {
       this.getTabBar().setData({
         active: 3
