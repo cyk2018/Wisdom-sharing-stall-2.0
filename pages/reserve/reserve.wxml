@@ -8,9 +8,9 @@
 		<cover-view slot="callout">
 			<block wx:for="{{customCalloutMarkerIds}}" wx:key="*this">
 				<cover-view class="customCallout" marker-id="{{item}}">
-						<text class="content">
+						<cover-view class="content">
 							{{markers[item].name}}\n{{markers[item].start_time}} --- {{markers[item].close_time}}
-						</text>
+						</cover-view>
 				</cover-view>
 			</block>
 		</cover-view>
