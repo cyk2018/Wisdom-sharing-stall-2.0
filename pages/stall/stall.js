@@ -10,9 +10,8 @@ Page({
     h: "00",
     m: "00",
     s: "00",
-    Con: true,
-    type: 0,
-    message: "开始摆摊"
+    type:0,
+    message: "开始/结束摆摊"
   },
   //插入1
   setInterval: function () {
@@ -87,19 +86,13 @@ Page({
    */
 
   onLoad: function (options) {
-    var that = this
-    if (options.type == 1) {
-      that.setData({
-        type: 1,
-        message: "结束摆摊"
-      })
-    }
+
   },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-
+  
   },
 
   /**
@@ -109,13 +102,52 @@ Page({
   //开始摆摊或者摆摊结束时的提示
   ChangeCon: function () {
     var that = this
-    if (that.data.type == 0) {
-      wx.setStorageSync('type', "1")
-    } else {
-      wx.setStorageSync('type', "0")
-    }
-    wx.navigateBack({
-      delta: 1,
+    wx.setStorage({
+      data: that.data.day,
+      key: 'day',
+    })
+    wx.setStorage({
+      data: that.data.h,
+      key: 'h',
+    })
+    wx.setStorage({
+      data: that.data.m,
+      key: 'm',
+    })
+    wx.setStorage({
+      data: that.data.s,
+      key: 's',
+    })
+    console.log(that.data.day+':'+that.data.h+':'+that.data.m+':'+that.data.s)
+    wx.getStorage({
+      key: 'Con',
+      success:function(res){
+       if(res.data==0)
+       {
+         wx.setStorage({
+           data: 1,
+           key: 'Con',
+         })
+         console.log("开始摆摊")
+       }
+       else{
+         wx.setStorage({
+           data: 0,
+           key: 'Con',
+         })
+         console.log("结束摆摊")
+       }
+       wx.getStorage({
+         key: 'Con',
+         success(res){
+           console.log("在stall中获取Con"+res.data)
+           wx.switchTab({
+             url: '/pages/mine/mine',
+           })
+         }
+       })
+
+      }
     })
     if (that.data.type == 0) {
       db.collection('user')
@@ -143,6 +175,7 @@ Page({
   },
 
   onShow: function () {
+    var that=this
     wx.showLoading({
       title: '加载中',
     })
@@ -155,6 +188,7 @@ Page({
         success: (res) => {},
       })
     }, 1000)
+    console.log("Type:"+that.data.type)
 
   },
 
