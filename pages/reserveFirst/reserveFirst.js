@@ -5,6 +5,12 @@ Page({
    * 页面的初始数据
    */
   data: {
+    minHour: 10,
+    maxHour: 20,
+    minDate: new Date().getTime(),
+    maxDate: new Date(2021, 10, 1).getTime(),
+    currentDate: new Date().getTime(),
+
     show: false,
     choose: 0,
     startReserveTime: "",
