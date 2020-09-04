@@ -19,23 +19,16 @@ Page({
   },
   getBrand: function () {
     var that = this
-    var openid
-    wx.getStorage({
-      key: 'openid',
-      success: function (res) {
-        openid = res.data
-      }
-    })
-    var newest
-    wx.getStorage({
-      key: 'newest',
-      success: function (res) {
-        newest = res.data
-      }
-    })
+    // var newest
+    // wx.getStorage({
+    //   key: 'newest',
+    //   success: function (res) {
+    //     newest = res.data
+    //   }
+    // })
     db.collection('apply')
       .where({
-        _openid: openid,
+        _openid: wx.getStorageSync('openid'),
         newest: 1
       })
       .get({
@@ -70,20 +63,28 @@ Page({
    */
   onLoad: function (options) {
     let that = this;
+    // wx.getStorage({
+    //   key: 'openid',
+    //   success: function (res) {
+    //     that.setData({
+    //       openid: res.data
+    //     })
+    //   }
+    // })
     //更新此页面的data数据
     this.setNavigationBar();
     this.getBrand();
-   // 无数据，则显示警告
-   console.log(that.data.check);
+    // 无数据，则显示警告
+    console.log(that.data.check);
     setTimeout(() => {
       wx.hideLoading();
-      if (that.data.check==false) {
+      if (that.data.check == false) {
         Notify({
           type: 'warning',
           message: '当前无品牌通过资质审核'
         })
 
-      } 
+      }
     }, 1000)
   },
 
