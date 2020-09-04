@@ -13,7 +13,8 @@ Page({
     item: "",
     recordTime: "",
     remarks: "",
-    index: ""
+    index: "",
+    openid: ""
 
   },
   setNavigationBar: function () {
@@ -24,18 +25,19 @@ Page({
 
   getManageID: function(){
     var that = this
-    var openid;
-    wx.getStorage({
-      key: 'openid',
-      success: function (res) {
-        openid = res.data;
-        console.log('get-id');
-      }
-    })
+    // var openid;
+    // wx.getStorage({
+    //   key: 'openid',
+    //   success: function (res) {
+    //     openid = res.data;
+    //     console.log(openid);
+    //     console.log('get-id');
+    //   }
+    // })
 
     db.collection('apply')
       .where({
-        _openid: openid,
+        _openid: this.data.openid,
        condition: "1"
       })
       .get({
@@ -83,6 +85,14 @@ Page({
    */
   onLoad: function (options) {
     var that=this
+    wx.getStorage({
+      key: 'openid',
+      success: function (res) {
+        that.setData({
+          openid: res.data
+        })
+      }
+    })
     wx.showLoading({ //弹出框显示内容，当出现hideloading时消失
       title: '加载中',
     })

@@ -5,6 +5,7 @@
 	},
 	"setting": {
 		"urlCheck": true,
+<<<<<<< HEAD
 		"scopeDataCheck": false,
 		"coverView": true,
 		"es6": true,
@@ -26,11 +27,37 @@
 		"checkSiteMap": false,
 		"useMultiFrameRuntime": true,
 		"useApiHook": true,
+=======
+		"es6": true,
+		"enhance": false,
+		"postcss": true,
+		"preloadBackgroundData": false,
+		"minified": true,
+		"newFeature": false,
+		"coverView": true,
+		"nodeModules": true,
+		"autoAudits": false,
+		"showShadowRootInWxmlPanel": true,
+		"scopeDataCheck": false,
+		"uglifyFileName": false,
+		"checkInvalidKey": true,
+		"checkSiteMap": false,
+		"uploadWithSourceMap": true,
+		"compileHotReLoad": false,
+>>>>>>> master
 		"babelSetting": {
 			"ignore": [],
 			"disablePlugins": [],
 			"outputPath": ""
 		},
+<<<<<<< HEAD
+=======
+		"useIsolateContext": true,
+		"useCompilerModule": true,
+		"userConfirmedUseCompilerModuleSwitch": false,
+		"useMultiFrameRuntime": true,
+		"useApiHook": true,
+>>>>>>> master
 		"packNpmManually": false,
 		"packNpmRelationList": []
 	},
@@ -105,6 +132,22 @@
 					"pathName": "pages/reserve/reserve",
 					"query": "",
 					"scene": null
+<<<<<<< HEAD
+=======
+				},
+				{
+					"id": -1,
+					"name": "pages/myViolation/myViolation",
+					"pathName": "pages/myViolation/myViolation",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/mine/mine",
+					"pathName": "pages/mine/mine",
+					"scene": null
+>>>>>>> master
 				}
 			]
 		}
