@@ -14,12 +14,13 @@ Page({
     show: false,
     placeholder: "请输入地址"
   },
-  startReserve: function () {
+  startReserve: function (res) {
     var that = this
+    var marker = this.data.markers[res]
     wx.navigateTo({
-      url: '/pages/startReserve/startReserve?id=' + that.data.markerId + '&name=' + that.data.name + '&startTime=' +
-        that.data.startTime + '&closeTime=' +
-        that.data.closeTime,
+      url: '/pages/startReserve/startReserve?id=' + marker._id + '&name=' + marker.name + '&startTime=' +
+        marker.start_time + '&closeTime=' +
+        marker.close_time,
       success: function () {
         console.log("页面跳转成功")
       },
@@ -128,9 +129,10 @@ Page({
               display: "ALWAYS"
             },
             markers[i].id = i
+          // markers[i].width = 50
+          // markers[i].height = 50
           customCalloutMarkerIds.push(i)
         }
-
         // console.log(markers)
         that.setData({
           markers,
@@ -144,40 +146,7 @@ Page({
   },
   showDetail: function (res) {
     console.log(res)
-    var id = res.markerId
-    var that = this
-    console.log("点击了标记物" + id)
-    wx.showToast({
-      title: '加载中',
-      icon: 'loading',
-    })
-    db.collection('markers').where({
-        _id: id
-      })
-      .get({
-        success: function (res) {
-          that.setData({
-            name: res.data[0].name,
-            startTime: res.data[0].start_time,
-            closeTime: res.data[0].close_time,
-            nowNumber: res.data[0].now_number,
-            maxNumber: res.data[0].max_number,
-            placeholder: "",
-            show: true,
-          })
-          that.data.markerId = id
-          wx.hideToast({
-            success: (res) => {
-              console.log("hide success")
-            },
-            fail: (res) => {
-              console.log("hide fail")
-            }
-          })
-        }
-      })
-
-    this.startReserve()
+    this.startReserve(res.detail.markerId)
   },
 
   // 点击遮罩层调用此函数
