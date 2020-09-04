@@ -10,7 +10,6 @@ Page({
     name: "123",
     check: false,
     checkloading: false,
-    type: 0,
     message: "扫码摆摊",
   },
   scan: function () {
@@ -74,9 +73,11 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    var that=this
     wx.setNavigationBarTitle({
       title: '我的信息',
     })
+   
     var checkType
     db.collection('user')
       .where({
@@ -110,6 +111,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+
     var that = this
     wx.getSetting({
       success(res) {
@@ -143,16 +145,17 @@ Page({
       });
     }
     wx.getStorage({
-      key: 'type',
+      key: 'Con',
       success(res) {
-        if (res.data == "1") {
+        console.log("mine"+res.data)
+        if (res.data == 1) {
+          console.log("显示")
           that.setData({
-            type: 1,
             message: "扫码结束摆摊"
           })
         } else {
+          console.log("显示")
           that.setData({
-            type: 0,
             message: "扫码摆摊"
           })
         }
