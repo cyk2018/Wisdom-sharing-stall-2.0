@@ -1,18 +1,16 @@
 <!-- overlay 好像出问题了，重构一下-2020/9/2 -->
 <view>
 	<map style="width:100%; height:100vh" longitude="{{longitude}}" latitude="{{latitude}}" scale="{{scale}}"
-		show-location enable-3D show-compass show-scale enable-traffic markers="{{markers}}" bindmarkertap="showDetail" bindcallouttap="showDetail">
+		show-location enable-3D show-compass show-scale enable-traffic markers="{{markers}}" bindmarkertap="showDetail"
+		bindcallouttap="showDetail">
 		<image src="/images/main_bt_position@2x.png" class="focus-btn focus-btn-decrease" bindtap="onFocus" />
 		<!-- 目前自动弹出所有的对话框， 后期根据页面当前位置只弹出对应窗口的对话框 -->
 		<cover-view slot="callout">
 			<block wx:for="{{customCalloutMarkerIds}}" wx:key="*this">
 				<cover-view class="customCallout" marker-id="{{item}}">
-					<cover-view class="content">
-						{{markers[item].name}}
-					</cover-view>
-					<cover-view class="content">
-						{{markers[item].start_time}} --- {{markers[item].close_time}}
-					</cover-view>
+						<text class="content">
+							{{markers[item].name}}\n{{markers[item].start_time}} --- {{markers[item].close_time}}
+						</text>
 				</cover-view>
 			</block>
 		</cover-view>
