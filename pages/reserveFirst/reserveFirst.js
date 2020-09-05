@@ -5,11 +5,22 @@ Page({
    * 页面的初始数据
    */
   data: {
+    maxminute:30,
     minHour: 10,
     maxHour: 20,
     minDate: new Date().getTime(),
     maxDate: new Date(2021, 10, 1).getTime(),
     currentDate: new Date().getTime(),
+    
+
+    //currentDate: '12:00',
+    filter(type, options) {
+      if (type === 'minute') {
+        return options.filter((option) => option % 30 === 0);
+      }
+
+      return options;
+    },
 
     show: false,
     choose: 0,
