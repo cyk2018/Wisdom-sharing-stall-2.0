@@ -5,7 +5,7 @@
 
 <van-popup show="{{ show }}" bind:close="onClose" position="bottom">
 	<!-- type 属性有几个可供选择的值，此处使用datetime 选择完整时间 -->
-	<van-datetime-picker title="{{nowTitle}}" value="{{ currentDate }}" min-date="{{ minDate }}" max-date="{{ maxDate }}" bind:confirm="confirmTime" bind:cancel="cancelTime" />
+	<van-datetime-picker title="{{nowTitle}}" type="datetime" value="{{ currentDate }}" filter="{{ filter }}" min-date="{{ minDate }}" max-date="{{ maxDate }}" bind:confirm="confirmTime" bind:cancel="cancelTime" />
 </van-popup>
 
 <block wx:if="{{buttonShow}}">
