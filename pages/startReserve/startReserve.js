@@ -1,11 +1,7 @@
 var jsonData = require('../../data/json.js');
 Page({
 
-  /**
-   * 页面的初始数据
-   */
   data: {
-    id: "",
     name: "",
     startTime: "",
     closeTime: "",
@@ -20,18 +16,20 @@ Page({
     hidden: ""
   },
 
-  confimReserve:function(){
+  confimReserve: function () {
     //确认预约，在数据库中更新对应的信息，需要预约时间和位置信息
   },
 
   // 点击每个座位触发的函数
-  clickSeat: function (event) {
-    let index = event.currentTarget.dataset.index;
+  clickSeat: function (res) {
+    let index = res.currentTarget.dataset.index;
+    //获得当前点击座位的索引
     if (this.data.seatList[index].canClick) {
-      //如果当前
-      if (this.data.seatList[index].nowIcon == this.data.seatList[index].selectedIcon) {
+      //判断当前座位是否被选中，如果选中的话就取消选择，否则的话选择这个，取消对应的
+      if (this.data.seatList[index].nowIcon === this.data.seatList[index].selectedIcon) {
         this.processSelected(index)
       } else {
+        //清空数组
         this.processUnSelected(index)
       }
     }
@@ -78,9 +76,7 @@ Page({
 
   },
 
-  /**
-   * 生命周期函数--监听页面显示
-   */
+
   onShow: function () {
     var that = this;
     wx.cloud.callFunction({
@@ -105,46 +101,29 @@ Page({
       },
       fail: console.error
     })
-
-
-
-
   },
-  // //解决官方bug
-  // 该段代码应该是解决seatArea更新不及时造成的问题
-  // handleScale: function (e) {
-  //   if (this.data.timer) {
-  //     clearTimeout(this.data.timer)
+  // // 根据seatList 生成一个类map的对象 key值为gRow坐标 value值为gRow为key值的数组
+  // creatSeatMap: function () {
+  //   let seatList = this.data.seatList
+  //   var obj = {}
+  //   for (let index in seatList) {
+  //     let seatRowList = seatList[index].gRow
+  //     if (seatRowList in obj) {
+  //       // 原本数组下标
+  //       seatList[index].orgIndex = index
+  //       obj[seatRowList].push(seatList[index])
+  //     } else {
+  //       let seatArr = []
+  //       // 原本数组下标
+  //       seatList[index].orgIndex = index
+  //       seatArr.push(seatList[index])
+  //       obj[seatRowList] = seatArr
+  //     }
   //   }
-  //   let timer = setTimeout(() => {
-  //     this.setData({
-  //       seatArea: this.data.seatArea
-  //     });
-  //   }, 200)
+  //   this.setData({
+  //     seatMap: obj
+  //   })
   // },
-
-  // 根据seatList 生成一个类map的对象 key值为gRow坐标 value值为gRow为key值的数组
-  creatSeatMap: function () {
-    let seatList = this.data.seatList
-    var obj = {}
-    for (let index in seatList) {
-      let seatRowList = seatList[index].gRow
-      if (seatRowList in obj) {
-        // 原本数组下标
-        seatList[index].orgIndex = index
-        obj[seatRowList].push(seatList[index])
-      } else {
-        let seatArr = []
-        // 原本数组下标
-        seatList[index].orgIndex = index
-        seatArr.push(seatList[index])
-        obj[seatRowList] = seatArr
-      }
-    }
-    this.setData({
-      seatMap: obj
-    })
-  },
 
   prosessSeatList: function (response) {
     //修改这个地方
@@ -220,26 +199,7 @@ Page({
     });
   },
 
-  // 点击每个座位触发的函数
-  clickSeat: function (event) {
-    let index = event.currentTarget.dataset.index;
-    //console.log(index)
-    //获得当前点击座位的索引
-    if (this.data.seatList[index].canClick) {
-      //判断当前座位是否被选中，如果选中的话就取消选择，否则的话选择这个，取消对应的
-      if (this.data.seatList[index].nowIcon === this.data.seatList[index].selectedIcon) {
-        this.processSelected(index)
-      } else {
-        //清空数组
-        this.processUnSelected(index)
-      }
-    }
-    if (this.data.selectedSeat.length == 0) {
-      this.setData({
-        hidden: "hidden"
-      });
-    }
-  },
+
   // 处理已选的座位
   processSelected: function (index) {
     let _selectedSeatList = this.data.selectedSeat

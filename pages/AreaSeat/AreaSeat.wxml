@@ -5,11 +5,15 @@
 <van-cell title="区域列数">
 	<van-stepper value="{{ 1 }}" id="column" bind:change="onChangeCol" />
 </van-cell>
-<!-- 设计通过点击按钮控制当前摊位区域 -->
-<movable-area scale-area="true" style="height:300px;width:400px">
-	<movable-view scale="true" direction="all" scale-max="2" scale-min="1" out-of-bounds="true">
-		<block wx:for="{{AreaList}}">
-			<image src="{{item.nowIcon}}"></image>
-		</block>
+
+<movable-area scale-area="true" style="height:{{seatArea}}px; width: 750rpx;">
+<!-- movable-area 表示可缩放区域，其中，高度为seatArea 宽度为750rpx -->
+	<movable-view class='movableOne' style="height:{{seatArea}}px; width: 750rpx;" scale="true" direction="all" scale-max="2" scale-min="1" out-of-bounds="true">
+		<!-- bindscale表示缩放过程中触发的事件 -->
+		<view class='seatArea' style='width:{{seatScaleHeight * maxX}}px;height:{{seatScaleHeight * maxY}}px'>
+			<view wx:for="{{seatList}}" wx:key="id" wx:for-index="index" wx:for-item="item" class='seatTap' catchtap='clickSeat' data-index='{{index}}' style="left:{{(item.gCol-1)* seatScaleHeight}}px;top:{{(item.gRow-1) * seatScaleHeight}}px;width: {{seatScaleHeight}}px;height: {{seatScaleHeight}}px">
+				<image src="{{item.nowIcon}}" class='normal' />
+			</view>
+		</view>
 	</movable-view>
 </movable-area>

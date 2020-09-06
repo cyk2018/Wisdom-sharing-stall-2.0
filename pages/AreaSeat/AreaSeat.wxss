@@ -1,1 +1,21 @@
-/* pages/AreaSeat/AreaSeat.wxss */
+.movableOne {
+  box-sizing: border-box;
+  padding: 100rpx, 60rpx;
+  color: #fff;
+}
+
+.seatArea{
+  margin: 0 auto;
+  font-size: 10rpx;
+  position: relative;
+}
+
+.seatTap{
+  position: absolute;
+}
+
+.normal{
+  position: relative;
+  width: 100%;
+  height: 100%;
+}

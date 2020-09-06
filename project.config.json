@@ -105,6 +105,13 @@
           "pathName": "pages/reserve/reserve",
           "query": "",
           "scene": null
+        },
+        {
+          "id": -1,
+          "name": "摊位布局",
+          "pathName": "pages/AreaSeat/AreaSeat",
+          "query": "",
+          "scene": null
         }
       ]
     }
