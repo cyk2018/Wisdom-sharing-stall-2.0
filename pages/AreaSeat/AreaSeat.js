@@ -7,7 +7,9 @@ Page({
   data: {
     row: 0,
     column: 0,
-    seatList: []
+    seatList: [],
+    seatArea: 500,
+    seatScaleHeight: 50
   },
 
   showArea: function (res) {
@@ -27,23 +29,27 @@ Page({
       var seatRowList = []
       for (var j = beforeColumn; j < column; j++) {
         var seat = {
-          row: i,
-          col: j,
-          grow: i,
-          gcol: j
+          row: i + 1,
+          col: j + 1,
+          grow: i + 1,
+          gcol: j + 1,
+          icon: "../../images/image_can_select_click.png",
+          canClick: true
         }
         seatRowList.push(seat)
       }
       // console.log(seatRowList)
       var seatList = seatList.concat(seatRowList)
-      console.log(seatList)
-    }
 
+      // console.log(seatList)
+    }
 
     this.setData({
       seatList: seatList
     })
   },
+
+
   /**
    * 生命周期函数--监听页面加载
    */
@@ -86,6 +92,34 @@ Page({
       column: res.detail
     })
     this.showArea(data)
+  },
+
+  clickSeat: function (res) {
+    var that = this
+    var id = res.currentTarget.id
+    // console.log(id)
+    var loc = id.indexOf("-")
+    var row = id.slice(0, loc)
+    var col = id.slice(loc + 1, id.length)
+    // console.log(row)
+    // console.log(col)
+    var locInArray = (parseInt(row) - 1) * that.data.column + parseInt(col) - 1
+    // 这里拿到的数据是字符串类型，所以需要转换为整型
+    // console.log(locInArray)
+    var seat = 'seatList[' + locInArray + ']'
+    var seatIcon = seat + '.icon'
+    if (that.data.seatList[locInArray].icon == "../../images/image_can_select_click.png") {
+      // console.log(that.data.seatList[locInArray])
+      that.setData({
+        [seatIcon]: "../../images/close.png"
+      })
+    } else {
+      // console.log(that.data.seatList[locInArray])
+      that.setData({
+        [seatIcon]: "../../images/image_can_select_click.png"
+      })
+    }
+
   },
 
   returnRowAndCol: function (row, column) {

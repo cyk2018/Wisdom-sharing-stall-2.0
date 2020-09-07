@@ -57,6 +57,7 @@ Page({
     let that = this;
     that.setData({
       //screenHeight : 屏幕高度 statusBarHeight ： 状态栏高度
+      //seatArea:控制可移动区域的高度，通过实际屏幕高度出去2/3的屏幕宽度得到
       seatArea: getApp().globalData.screenHeight - getApp().globalData.statusBarHeight - (500 * getApp().globalData.screenWidth / 750),
       rpxToPx: getApp().globalData.screenWidth / 750
     });
