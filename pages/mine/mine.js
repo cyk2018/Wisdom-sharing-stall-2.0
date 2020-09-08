@@ -12,6 +12,13 @@ Page({
     checkloading: false,
     message: "扫码摆摊",
   },
+
+  exit: function () {
+    wx.navigateTo({
+      url: '/pages/login/login',
+    })
+  },
+
   scan: function () {
     var that = this
     wx.scanCode({
@@ -73,11 +80,11 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    var that=this
+    var that = this
     wx.setNavigationBarTitle({
       title: '我的信息',
     })
-   
+
     var checkType
     db.collection('user')
       .where({
@@ -106,35 +113,32 @@ Page({
   onReady: function () {
 
   },
-  changeCon: function(){
-  var that=this
-  console.log('refresh')
-  wx.getStorage({
-    key: 'Con',
-    success(res){
-      console.log('在mine中获取Con'+res.data)
-      if(res.data==0)
-      {
-        that.setData({
-          message:'开始摆摊'
+  changeCon: function () {
+    var that = this
+    console.log('refresh')
+    wx.getStorage({
+      key: 'Con',
+      success(res) {
+        console.log('在mine中获取Con' + res.data)
+        if (res.data == 0) {
+          that.setData({
+            message: '开始摆摊'
+          })
+        } else if (res.data == 1) {
+          that.setData({
+            message: "扫码结束摆摊"
+          })
+        }
+      },
+      fail(res) {
+        console.log("Con初始化")
+        wx.setStorage({
+          data: 0,
+          key: 'Con',
         })
       }
-      else if(res.data==1)
-      {
-        that.setData({
-          message:"扫码结束摆摊"
-        })
-      }
-    },
-    fail(res){
-      console.log("Con初始化")
-      wx.setStorage({
-        data: 0,
-        key: 'Con',
-      })
-    }
-  })
-},
+    })
+  },
   /**
    * 生命周期函数--监听页面显示
    */
@@ -173,7 +177,7 @@ Page({
         active: 3
       });
     }
-   
+
   },
 
   /**
