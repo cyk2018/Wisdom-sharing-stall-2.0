@@ -1,3 +1,7 @@
-.btn{
+.btn {
   margin: 10px;
+}
+
+.background {
+  background-size: 100% 100%;
 }
