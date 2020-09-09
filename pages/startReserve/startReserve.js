@@ -1,4 +1,5 @@
 var jsonData = require('../../data/json.js');
+const db = wx.cloud.database()
 Page({
 
   data: {
@@ -24,6 +25,7 @@ Page({
   clickSeat: function (res) {
     let index = res.currentTarget.dataset.index;
     //获得当前点击座位的索引
+    console.log(index)
     if (this.data.seatList[index].canClick) {
       //判断当前座位是否被选中，如果选中的话就取消选择，否则的话选择这个，取消对应的
       if (this.data.seatList[index].nowIcon === this.data.seatList[index].selectedIcon) {
@@ -57,6 +59,7 @@ Page({
     let that = this;
     that.setData({
       //screenHeight : 屏幕高度 statusBarHeight ： 状态栏高度
+      //seatArea:控制可移动区域的高度，通过实际屏幕高度出去2/3的屏幕宽度得到
       seatArea: getApp().globalData.screenHeight - getApp().globalData.statusBarHeight - (500 * getApp().globalData.screenWidth / 750),
       rpxToPx: getApp().globalData.screenWidth / 750
     });
@@ -79,28 +82,23 @@ Page({
 
   onShow: function () {
     var that = this;
-    wx.cloud.callFunction({
-      // 云函数名称
-      name: 'getStallData',
-      // 传给云函数的参数
-      data: {
-        id: that.data.id
-      },
+    db.collection('markers').where({
+      _id: that.data.id
+    }).get({
       success: function (res) {
-        let seatList = that.prosessSeatList(res.result.data);
+        var seatList = res.data[0].seatList
         that.setData({
-          seatList: seatList,
-          seatTypeList: that.data.seatTypeList,
+          seatList,
           selectedSeat: [],
-          hidden: "hidden",
-        });
+          hidden: "hidden"
+        })
         //计算X和Y坐标最大值
         that.prosessMaxSeat(seatList);
         //按每排生成座位数组对象
-        that.creatSeatMap()
-      },
-      fail: console.error
+        // that.creatSeatMap()
+      }
     })
+    
   },
   // // 根据seatList 生成一个类map的对象 key值为gRow坐标 value值为gRow为key值的数组
   // creatSeatMap: function () {
@@ -163,14 +161,14 @@ Page({
     let seatList = value
     let maxY = 0;
     for (let i = 0; i < seatList.length; i++) {
-      let tempY = seatList[i].gRow;
+      let tempY = seatList[i].grow;
       if (parseInt(tempY) > parseInt(maxY)) {
         maxY = tempY;
       }
     }
     let maxX = 0;
     for (var i = 0; i < seatList.length; i++) {
-      var tempX = seatList[i].gCol;
+      var tempX = seatList[i].gcol;
       if (parseInt(tempX) > parseInt(maxX)) {
         maxX = tempX;
       }

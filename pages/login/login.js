@@ -5,7 +5,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    background: ["/images/timg.jfif"]
   },
 
   getOpenid: function () {
@@ -28,9 +28,11 @@ Page({
 
 
   loading: function () {
+    var that = this
     wx.showLoading({
       title: '加载中',
     })
+
   },
 
   userLogin: function () {
@@ -134,15 +136,39 @@ Page({
             }
           })
         }
+      },
+      complete: function () {
+        that.setData({
+          adminTextColor: "#DC143C"
+        })
       }
     })
   },
 
+  getSystemInfo: function () {
+    wx.getSystemInfo({
+      success: (result) => {
+        console.log("这么小声还想打印屏幕大小？")
+        this.setData({
+          windowHeight: result.windowHeight + "px",
+          windowWidth: result.windowWidth + "px"
+        })
+        // console.log(result.screenWidth)
+        // console.log(result.screenHeight)
+        // console.log(result.windowWidth)
+        // console.log(result.windowHeight)
+      },
+      fail: function () {
+        console.log("听不见，重来")
+      }
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
     this.getOpenid()
+    this.getSystemInfo()
   },
 
   /**
