@@ -37,15 +37,15 @@ Page({
 
     db.collection('apply')
       .where({
-        _openid: this.data.openid,
+        _openid: wx.getStorageSync('openid'),
        condition: "1"
       })
       .get({
         success: function(res) {
           console.log('get-manageID');
-          console.log('res' + res.data[1].manageID);
+          console.log('res' + res.data[0].manageID);
           that.setData({
-            manageIDforUser: res.data[1].manageID
+            manageIDforUser: res.data[0].manageID
             // brand: res.data[0].brand,
             // Item: res.data[0].Item,
             // id: res.data[0]._id,
@@ -85,14 +85,14 @@ Page({
    */
   onLoad: function (options) {
     var that=this
-    wx.getStorage({
-      key: 'openid',
-      success: function (res) {
-        that.setData({
-          openid: res.data
-        })
-      }
-    })
+    // wx.getStorage({
+    //   key: 'openid',
+    //   success: function (res) {
+    //     that.setData({
+    //       openid: res.data
+    //     })
+    //   }
+    // })
     wx.showLoading({ //弹出框显示内容，当出现hideloading时消失
       title: '加载中',
     })
