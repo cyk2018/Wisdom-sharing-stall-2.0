@@ -12,7 +12,7 @@ Page({
     var id = res.currentTarget.id
     var area = this.data.myAreas[id]
     wx.navigateTo({
-      url: '/pages/AreaSeat/AreaSeat?max_number=' + area.max_number,
+      url: '/pages/AreaSeat/AreaSeat?max_number=' + area.max_number + '&area_id=' + area._id,
     })
   },
   changeInformation: function (res) {

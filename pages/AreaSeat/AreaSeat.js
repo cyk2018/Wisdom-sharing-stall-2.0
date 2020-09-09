@@ -1,4 +1,5 @@
 var jsonData = require('../../data/json')
+const db = wx.cloud.database()
 Page({
 
   /**
@@ -54,18 +55,31 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    var that = this
     // this.setData({
     //   max_number: options.max_number,
     //   seatArea: getApp().globalData.screenHeight = getApp.globalData.statusBarHeight - (500 * getApp().globalData.screenWidth / 750),
     //   rpxToPx: getApp().globalData.screenWidth / 750
     // })
-    this.getIcon()
-    var data = this.returnRowAndCol(1, 1)
-    this.setData({
-      row: 1,
-      column: 1
+    that.getIcon()
+    var data = that.returnRowAndCol(1, 1)
+    db.collection('markers').where({
+      _id: options.area_id
+    }).get({
+      success: function (res) {
+        console.log(res.data[0].seatList)
+        that.setData({
+          seatList: res.data[0].seatList
+        })
+      }
     })
-    this.showArea(data)
+    that.setData({
+      row: 1,
+      column: 1,
+      max_number: options.max_number,
+      area_id: options.area_id,
+    })
+    that.showArea(data)
   },
 
   getIcon: function () {
@@ -150,14 +164,28 @@ Page({
    * 生命周期函数--监听页面隐藏
    */
   onHide: function () {
-    // 在这里调用云数据库存储相应的数据
+
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-
+    // 在这里调用云数据库存储相应的数据
+    console.log("不要催了正在做了")
+    db.collection('markers').where({
+      _id: this.data.area_id
+    }).update({
+      data: {
+        seatList: this.data.seatList
+      },
+      success: function (res) {
+        console.log("好，很有精神")
+      },
+      fail: function (res) {
+        console.log(res)
+      }
+    })
   },
 
   /**

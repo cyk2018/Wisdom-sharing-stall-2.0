@@ -112,6 +112,12 @@
           "pathName": "pages/AreaSeat/AreaSeat",
           "query": "",
           "scene": null
+        },
+        {
+          "id": -1,
+          "name": "管理区域",
+          "pathName": "pages/myArea/myArea",
+          "scene": null
         }
       ]
     }
