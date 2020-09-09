@@ -94,7 +94,7 @@ Page({
     //确认添加新的摆摊区域：首先在数据库中检查摆摊地点是否已被注册
     var that = this
     that.loading()
-    db.collection('markers').where({
+    db.collection('StallArea').where({
       _openid: that.data.openid
     }).get({
       success: function (res) {
@@ -118,15 +118,17 @@ Page({
 
       }
     })
-    db.collection('markers').add({
+    db.collection('StallArea').add({
       data: {
         name: that.data.name,
         address: that.data.address,
-        latitude: that.data.latitude,
-        longitude: that.data.longitude,
-        start_time: that.data.start_time,
-        close_time: that.data.close_time,
-        max_number: that.data.max_number
+        coordinat: {
+          latitude: that.data.latitude,
+          longitude: that.data.longitude
+        },
+        startTime: that.data.start_time,
+        endTime: that.data.close_time,
+        stallNum: that.data.max_number
       },
       success: function () {
         wx.hideLoading({
@@ -139,7 +141,7 @@ Page({
         wx.showLoading({
           title: '数据库部署中',
         })
-        db.collection('markers').where({
+        db.collection('StallArea').where({
             _openid: that.data.openid,
             name: that.data.name
           })
