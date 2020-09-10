@@ -82,11 +82,11 @@ Page({
 
   onShow: function () {
     var that = this;
-    db.collection('markers').where({
+    db.collection('StallArea').where({
       _id: that.data.id
     }).get({
       success: function (res) {
-        var seatList = res.data[0].seatList
+        var seatList = res.data[0].stallList
         that.setData({
           seatList,
           selectedSeat: [],

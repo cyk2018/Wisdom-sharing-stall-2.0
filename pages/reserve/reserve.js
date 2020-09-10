@@ -19,8 +19,8 @@ Page({
     var marker = this.data.markers[res]
     wx.navigateTo({
       url: '/pages/startReserve/startReserve?id=' + marker._id + '&name=' + marker.name + '&startTime=' +
-        marker.start_time + '&closeTime=' +
-        marker.close_time,
+        marker.startTime + '&closeTime=' +
+        marker.endTime,
       success: function () {
         console.log("页面跳转成功")
       },
@@ -115,25 +115,22 @@ Page({
   getStallLocation: function () {
     //展示当前所有的标记和气泡
     var that = this
-    db.collection('markers').get({
+    db.collection('StallArea').get({
       success: function (res) {
         // console.log(res)
         var markers = res.data
         var customCalloutMarkerIds = []
-        //为每个对象添加字段
-        for (var i = 0; i < markers.length; i++) {
-          // console.log(markers[i])
-          markers[i].customCallout = {
-              anchorX: 0,
-              anchorY: 0,
-              display: "ALWAYS"
-            },
-            markers[i].id = i
-          // markers[i].width = 50
-          // markers[i].height = 50
-          customCalloutMarkerIds.push(i)
-        }
-        // console.log(markers)
+        markers.forEach(function (item, index) {
+          item.customCallout = {
+            anchorX: 0,
+            anchorY: 0,
+            display: "ALWAYS"
+          },
+          item.id = index,
+          customCalloutMarkerIds.push(index)
+          item.latitude = item.coordinat.latitude,
+          item.longitude = item.coordinat.longitude
+        })
         that.setData({
           markers,
           customCalloutMarkerIds
