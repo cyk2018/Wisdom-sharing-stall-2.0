@@ -29,7 +29,8 @@ Page({
     db.collection('apply')
       .where({
         _openid: wx.getStorageSync('openid'),
-        newest: 1
+        newest: 1,
+        condition: "1"
       })
       .get({
         success: function (res) {

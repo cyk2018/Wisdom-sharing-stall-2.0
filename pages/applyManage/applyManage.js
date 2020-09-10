@@ -11,8 +11,9 @@ Page({
   gotoPage: function (res) {
     var index = res.currentTarget.dataset.index;
     var data = this.data.data[index]
+    console.log(data._id);
     wx.navigateTo({
-      url: '/pages/review/review?brand=' + data.brand + "&type=" + data.type + "&tel=" + data.principal.tel + "&idcard=" + data.principal.idcard + "&sex=" + data.principal.sex + "&name=" + data.principal.name + "&id=" + data._id,
+      url: '/pages/review/review?brand=' + data.brand + "&type=" + data.type + "&tel=" + data.principal.tel + "&idcard=" + data.principal.idcard + "&sex=" + data.principal.sex + "&name=" + data.principal.name + "&id=" + data._id + "&createTime=" + data.createTime.toLocaleString(),
     })
   },
   /**

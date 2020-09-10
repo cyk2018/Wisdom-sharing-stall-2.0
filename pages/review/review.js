@@ -13,7 +13,10 @@ Page({
     showOpinion: false,
     opinionSelect: ["申请成功", "申请失败", ],
     condition: "",
-    remark: ""
+    remark: "",
+    createTime: "",
+    success: "",
+    manageID: ""
   },
 
   showOpinion: function () {
@@ -34,11 +37,13 @@ Page({
     })
     if (res.detail.index == 0) {
       this.setData({
-        condition: "1"
+        condition: "1",
+        success: true
       })
     } else {
       this.setData({
-        condition: "-1"
+        condition: "-1",
+        success: false
       })
     }
   },
@@ -48,21 +53,30 @@ Page({
       remark: res.detail
     })
   },
+  getManageID: function(res){
+    this.setData({
+        manageID: res.detail
+    })
+  },
 
   checkNotNull: function () {
     if (this.data.condition.length == 0) {
       Toast.fail('请填写审核意见');
       return false
-    } else if (this.data.remark.length == 0) {
+    } else if (this.data.success==false && this.data.remark.length == 0) {
       Toast.fail('请填写备注');
       return false
-    } else {
+    } else if (this.data.success==true && this.data.manageID.length == 0) {
+    Toast.fail('请分配经营号');
+    return false
+   }else {
       return true
     }
   },
 
   save: function () {
     // 检查输入是否为空
+    console.log(this.data.id);
     if (this.checkNotNull()) {
       db.collection('apply').where({
         _id: this.data.id
@@ -77,7 +91,8 @@ Page({
             tel: this.data.tel
           },
           type: this.data.type,
-          remark: this.data.remark
+          remark: this.data.remark,
+          manageID: this.data.manageID
         },
         success: function (res) {
           console.log(res)
@@ -104,7 +119,9 @@ Page({
       tel: options.tel,
       name: options.name,
       sex: options.sex,
-      idcard: options.idcard
+      idcard: options.idcard,
+      id: options.id,
+      createTime: options.createTime
     })
   },
   selectSex: function (res) {
