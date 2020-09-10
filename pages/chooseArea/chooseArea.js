@@ -1,25 +1,23 @@
 const db = wx.cloud.database()
 import Toast from '../../miniprogram_npm/@vant/weapp/toast/toast'
 Page({
-
-  /**
-   * 页面的初始数据
-   */
   data: {
     show: false,
+    // show 控制弹出的选择框
     buttonTitle: "确认发布",
     name: "",
     address: "",
     start_time: "",
     close_time: "",
     max_number: "",
+    // 这些初值的存在是为了便于后面的非空判断
     buttonShow: false,
+    //控制保存按钮的弹出
 
     filter(type, options) {
       if (type === 'minute') {
         return options.filter((option) => option % 30 === 0);
       }
-
       return options;
     },
   },
@@ -52,15 +50,16 @@ Page({
   confirmChange: function () {
     var that = this
     that.loading()
-    db.collection('markers').where({
+    db.collection('StallArea').where({
       _id: that.data._id
+      // 此值是根据提出修改的页面传入的id来判断
     }).update({
       data: {
         name: that.data.name,
         address: that.data.address,
-        start_time: that.data.start_time,
-        close_time: that.data.close_time,
-        max_number: that.data.max_number,
+        startTime: that.data.start_time,
+        endTime: that.data.close_time,
+        stallNum: that.data.max_number,
       },
       success: function () {
         wx.hideLoading({
@@ -91,33 +90,10 @@ Page({
   },
 
   confirmSeat: function () {
-    //确认添加新的摆摊区域：首先在数据库中检查摆摊地点是否已被注册
+    // 添加新的摆摊区域，后期要确保同一个地点不允许有两个相同的区域
     var that = this
     that.loading()
-    db.collection('StallArea').where({
-      _openid: that.data.openid
-    }).get({
-      success: function (res) {
-        var checkName = true
-        var checkAddress = true
-        for (let key in res.data) {
-          if (that.data.name == res.data[key].name) {
-            checkName = false
-          }
-        }
-        if (checkName) {
-          for (let key in res.data) {
-            if (that.data.name == res.data[key].name) {
-              checkAddress = false
-            }
-          }
-        }
-        if (!checkAddress) {
-          //该地区已经被注册
-        }
-
-      }
-    })
+    
     db.collection('StallArea').add({
       data: {
         name: that.data.name,
@@ -141,20 +117,6 @@ Page({
         wx.showLoading({
           title: '数据库部署中',
         })
-        db.collection('StallArea').where({
-            _openid: that.data.openid,
-            name: that.data.name
-          })
-          .get({
-            success: function (res) {
-              var id = res.data[0].id
-              that.setData({
-                id: id
-              })
-            }
-          })
-        //这里添加新建集合的代码逻辑，将会用到http API
-
         wx.hideLoading({
           success: (res) => {},
         })

@@ -63,14 +63,19 @@ Page({
     // })
     that.getIcon()
     var data = that.returnRowAndCol(1, 1)
-    db.collection('markers').where({
+    db.collection('StallArea').where({
       _id: options.area_id
     }).get({
       success: function (res) {
-        console.log(res.data[0].seatList)
-        that.setData({
-          seatList: res.data[0].seatList
-        })
+        if (res.data.length != 0) {
+          console.log(res.data[0].stallList)
+          that.setData({
+            seatList: res.data[0].stallList,
+            row: res.data[0].rowNum,
+            column: res.data[0].columnNum
+          })
+        }
+
       }
     })
     that.setData({
@@ -173,11 +178,13 @@ Page({
   onUnload: function () {
     // 在这里调用云数据库存储相应的数据
     console.log("不要催了正在做了")
-    db.collection('markers').where({
+    db.collection('StallArea').where({
       _id: this.data.area_id
     }).update({
       data: {
-        seatList: this.data.seatList
+        stallList: this.data.seatList,
+        rowNum: this.data.row,
+        columnNum: this.data.column
       },
       success: function (res) {
         console.log("好，很有精神")

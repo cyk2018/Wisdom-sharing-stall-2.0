@@ -12,7 +12,7 @@ Page({
     var id = res.currentTarget.id
     var area = this.data.myAreas[id]
     wx.navigateTo({
-      url: '/pages/AreaSeat/AreaSeat?max_number=' + area.max_number + '&area_id=' + area._id,
+      url: '/pages/AreaSeat/AreaSeat?max_number=' + area.stallNum + '&area_id=' + area._id,
     })
   },
   changeInformation: function (res) {
@@ -20,7 +20,7 @@ Page({
     var id = res.currentTarget.id
     var area = this.data.myAreas[id]
     wx.navigateTo({
-      url: '/pages/chooseArea/chooseArea?name=' + area.name + "&address=" + area.address + "&start_time=" + area.start_time + "&close_time=" + area.close_time + "&max_number=" + area.max_number + "&_id=" + area._id + "&_openid=" + area._openid,
+      url: '/pages/chooseArea/chooseArea?name=' + area.name + "&address=" + area.address + "&start_time=" + area.startTime + "&close_time=" + area.endTime + "&max_number=" + area.stallNum + "&_id=" + area._id + "&_openid=" + area._openid,
       //这里传递id是为了修改区域信息时快速查询
     })
   },
@@ -29,7 +29,7 @@ Page({
     var id = res.currentTarget.id
     var area = this.data.myAreas[id]
     wx.navigateTo({
-      url: '/pages/areaDetail/areaDetail?name=' + area.name + "&address=" + area.address + "&start_time=" + area.start_time + "&close_time=" + area.close_time + "&max_number=" + area.max_number,
+      url: '/pages/areaDetail/areaDetail?name=' + area.name + "&address=" + area.address + "&start_time=" + area.startTime + "&close_time=" + area.endTime + "&max_number=" + area.stallNum,
     })
   },
 
@@ -61,10 +61,11 @@ Page({
       }
     })
     var openid = that.data.openid
-    db.collection('markers').where({
+    db.collection('StallArea').where({
       _openid: openid
     }).get({
       success: function (res) {
+        console.log(res)
         that.setData({
           myAreas: res.data
         })
