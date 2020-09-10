@@ -1,4 +1,4 @@
-<block wx:if="{{Violated}}">
+<!-- <block wx:if="{{Violated}}">
   <van-cell-group>
 
 
@@ -20,4 +20,29 @@
 <block wx:if="{{!Violated}}">
   <van-notify id="van-notify" />
   <van-empty description="什么也没有" />
+</block > -->
+
+<block wx:if="{{Violated}}">
+			<van-card style="margin: 0rpx 0rpx 0rpx 50px">
+				<view slot="tags" wx:for="{{data}}" wx:for-index="index" wx:for-item="item" style="margin-bottom:20px">
+              <van-cell-group>
+                  ​    <van-cell title="经营号" value="{{manageIDforUser}}" />
+
+                      <van-cell title="所在摊位" value="{{item.stallID}}" />
+
+                      <van-cell title="备注" value="{{item.remarks}}" />
+
+                      <van-cell title="记录时间" value="{{item.recordTime}}" />
+
+                      <van-cell title="违规事项" value="{{item.item}}" />
+
+                      <van-cell title="扣分" value="{{item.subScore}}" />
+              </van-cell-group>
+				</view>
+			</van-card>
 </block >
+
+<block wx:if="{{!Violated}}">
+  <van-notify id="van-notify" />
+  <van-empty description="什么也没有" />
+</block > 
