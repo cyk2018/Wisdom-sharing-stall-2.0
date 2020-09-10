@@ -112,7 +112,15 @@ Page({
       }
     })
   },
-  getStallLocation: function () {
+  getStallLocation: function (startTime, endTime) {
+    // 根据 startTime 和 endTime 查询当前的数据库获得标记信息
+    var that = this
+    const _ = db.command
+    // 这里面临着一个问题，就是如何根据用户设定的开始和结束时间搜索数据库获得当前可供摆摊的区域，需要在数据库架构上进行调整
+    // db.collection('StallArea').where({
+
+    // })
+
     //展示当前所有的标记和气泡
     var that = this
     db.collection('StallArea').get({
@@ -122,14 +130,14 @@ Page({
         var customCalloutMarkerIds = []
         markers.forEach(function (item, index) {
           item.customCallout = {
-            anchorX: 0,
-            anchorY: 0,
-            display: "ALWAYS"
-          },
-          item.id = index,
-          customCalloutMarkerIds.push(index)
+              anchorX: 0,
+              anchorY: 0,
+              display: "ALWAYS"
+            },
+            item.id = index,
+            customCalloutMarkerIds.push(index)
           item.latitude = item.coordinat.latitude,
-          item.longitude = item.coordinat.longitude
+            item.longitude = item.coordinat.longitude
         })
         that.setData({
           markers,
@@ -162,7 +170,11 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.getStallLocation()
+    this.setData({
+      startReserveTime: options.startTime,
+      endReserveTime: options.endTime
+    })
+    this.getStallLocation(oprions.startTime, options.endTime)
   },
 
   /**

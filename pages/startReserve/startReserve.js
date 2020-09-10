@@ -9,7 +9,7 @@ Page({
     seatTypeList: "",
     seatList: [],
     selectedSeat: [],
-    scaleValue: 1,
+    scaleValue: 3,
     hidden: "hidden",
     maxSelect: 1,
     timer: null,
