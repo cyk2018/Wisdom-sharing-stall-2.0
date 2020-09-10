@@ -30,12 +30,12 @@ Page({
       var seatRowList = []
       for (var j = beforeColumn; j < column; j++) {
         var seat = {
-          row: i + 1,
-          col: j + 1,
+          // row: i + 1,
+          // col: j + 1,
           grow: i + 1,
           gcol: j + 1,
           icon: "../../images/image_can_select_click.png",
-          canClick: true
+          // canClick: true
         }
         seatRowList.push(seat)
       }
