@@ -1,9 +1,9 @@
 <van-cell title="摊位数量" value="{{max_number}}" />
 <van-cell title="区域行数">
-	<van-stepper value="{{ 1 }}" id="row" bind:change="onChangeRow" />
+	<van-stepper value="{{ row }}" id="row" bind:change="onChangeRow" />
 </van-cell>
 <van-cell title="区域列数">
-	<van-stepper value="{{ 1 }}" id="column" bind:change="onChangeCol" />
+	<van-stepper value="{{ column }}" id="column" bind:change="onChangeCol" />
 </van-cell>
 
 <movable-area scale-area="true" style="height:{{seatArea}}px; width: 750rpx;">
