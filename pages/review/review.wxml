@@ -2,10 +2,10 @@
 	<van-cell title="品牌" value="{{brand}}" />
 	<van-cell title="服务类型" value="{{type}}" />
 	<van-cell title="负责人姓名" value="{{name}}" />
-	<van-cell title="服务类型" value="{{type}}" />
 	<van-cell title="性别" value="{{sex}}" />
 	<van-cell title="电话" value="{{tel}}" />
 	<van-cell title="身份证号" value="{{idcard}}" />
+	<van-cell title="提交时间" value="{{createTime}}"/>
 
 	<!-- <van-field value="{{brand}}" label="品牌" input-align="right" />
 	<van-cell title="服务类型" is-link arrow-direction="down" bind:click="showType" value="{{type}}" />
@@ -14,8 +14,11 @@
 	<van-field value="{{tel}}" label="电话" input-align="right" />
 	<van-field value="{{idcard}}" label="身份证号" input-align="right" /> -->
 	<van-cell title="审核意见" is-link arrow-direction="down" bind:click="showOpinion" value="{{opinion}}" />
-	<van-field value="{{remark}}" label="备注" input-align="right" bind:input="getRemark" />
+	<block wx:if="{{success}}">
+		<van-field value="{{manageID}}" label="经营号" input-align="right" bind:input="getManageID" />
+	</block >
 	<!-- 晚上有空再改，设置更改输入框内容的逻辑 -->
+	<van-field value="{{remark}}" label="备注" input-align="right" bind:input="getRemark" />
 	<van-button type="default" bind:click="save">保存</van-button>
 </van-cell-group>
 

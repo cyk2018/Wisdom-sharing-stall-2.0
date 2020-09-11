@@ -1,2 +1,28 @@
-<button bindtap="search">查询</button>
-<button bindtap="insert">预约</button>
+<!-- <button bindtap="search">查询</button>
+<button bindtap="insert">预约</button> -->
+
+<block wx:if="{{Reserved}}">
+			<van-card style="margin: 0rpx 0rpx 0rpx 50px">
+				<view slot="tags" wx:for="{{data}}" wx:for-index="index" wx:for-item="item" style="margin-bottom:20px">
+              <van-cell-group>
+                  ​    <van-cell title="经营号" value="{{manageIDforUser}}" />
+
+                      <van-cell title="摊位号" value="{{item.stallID}}" />
+
+                      <van-cell title="开始时间" value="{{item.startTime}}" />
+
+                      <van-cell title="结束时间" value="{{item.endTime}}" />
+
+                      <van-cell title="提交预约时间" value="{{item.submitTime}}" />
+                      <van-button size="small" data-index="{{index}}" bind:click='cancelReserve'>取消该预约</van-button>
+                      <van-dialog id="van-dialog" />
+                      
+              </van-cell-group>
+				</view>
+			</van-card>
+</block >
+
+<block wx:if="{{!Reserved}}">
+  <van-notify id="van-notify" />
+  <van-empty description="什么也没有" />
+</block > 

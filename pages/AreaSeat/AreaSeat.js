@@ -1,4 +1,5 @@
 var jsonData = require('../../data/json')
+const db = wx.cloud.database()
 Page({
 
   /**
@@ -7,7 +8,9 @@ Page({
   data: {
     row: 0,
     column: 0,
-    seatList: []
+    seatList: [],
+    seatArea: 500,
+    seatScaleHeight: 50
   },
 
   showArea: function (res) {
@@ -27,39 +30,61 @@ Page({
       var seatRowList = []
       for (var j = beforeColumn; j < column; j++) {
         var seat = {
-          row: i,
-          col: j,
-          grow: i,
-          gcol: j
+          // row: i + 1,
+          // col: j + 1,
+          grow: i + 1,
+          gcol: j + 1,
+          icon: "../../images/image_can_select_click.png",
+          // canClick: true
         }
         seatRowList.push(seat)
       }
       // console.log(seatRowList)
       var seatList = seatList.concat(seatRowList)
-      console.log(seatList)
-    }
 
+      // console.log(seatList)
+    }
 
     this.setData({
       seatList: seatList
     })
   },
+
+
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    var that = this
     // this.setData({
     //   max_number: options.max_number,
     //   seatArea: getApp().globalData.screenHeight = getApp.globalData.statusBarHeight - (500 * getApp().globalData.screenWidth / 750),
     //   rpxToPx: getApp().globalData.screenWidth / 750
     // })
-    this.getIcon()
-    var data = this.returnRowAndCol(1, 1)
-    this.setData({
-      row: 1,
-      column: 1
+    that.getIcon()
+    var data = that.returnRowAndCol(1, 1)
+    db.collection('StallArea').where({
+      _id: options.area_id
+    }).get({
+      success: function (res) {
+        if (res.data.length != 0) {
+          console.log(res.data[0].stallList)
+          that.setData({
+            seatList: res.data[0].stallList,
+            row: res.data[0].rowNum,
+            column: res.data[0].columnNum
+          })
+        }
+
+      }
     })
-    this.showArea(data)
+    that.setData({
+      row: 1,
+      column: 1,
+      max_number: options.max_number,
+      area_id: options.area_id,
+    })
+    that.showArea(data)
   },
 
   getIcon: function () {
@@ -86,6 +111,34 @@ Page({
       column: res.detail
     })
     this.showArea(data)
+  },
+
+  clickSeat: function (res) {
+    var that = this
+    var id = res.currentTarget.id
+    // console.log(id)
+    var loc = id.indexOf("-")
+    var row = id.slice(0, loc)
+    var col = id.slice(loc + 1, id.length)
+    // console.log(row)
+    // console.log(col)
+    var locInArray = (parseInt(row) - 1) * that.data.column + parseInt(col) - 1
+    // 这里拿到的数据是字符串类型，所以需要转换为整型
+    // console.log(locInArray)
+    var seat = 'seatList[' + locInArray + ']'
+    var seatIcon = seat + '.icon'
+    if (that.data.seatList[locInArray].icon == "../../images/image_can_select_click.png") {
+      // console.log(that.data.seatList[locInArray])
+      that.setData({
+        [seatIcon]: "../../images/close.png"
+      })
+    } else {
+      // console.log(that.data.seatList[locInArray])
+      that.setData({
+        [seatIcon]: "../../images/image_can_select_click.png"
+      })
+    }
+
   },
 
   returnRowAndCol: function (row, column) {
@@ -123,7 +176,23 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-
+    // 在这里调用云数据库存储相应的数据
+    console.log("不要催了正在做了")
+    db.collection('StallArea').where({
+      _id: this.data.area_id
+    }).update({
+      data: {
+        stallList: this.data.seatList,
+        rowNum: this.data.row,
+        columnNum: this.data.column
+      },
+      success: function (res) {
+        console.log("好，很有精神")
+      },
+      fail: function (res) {
+        console.log(res)
+      }
+    })
   },
 
   /**

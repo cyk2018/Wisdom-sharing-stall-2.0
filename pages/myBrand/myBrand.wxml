@@ -6,7 +6,7 @@
 
   ​    <van-cell title="服务类型" value="{{type}}" />
 
-  ​    <van-cell title="经营地区" value="{{area}}" />
+  <!-- ​    <van-cell title="经营地区" value="{{area}}" /> -->
 
   ​    <van-cell title="经营号" value="{{manageID}}" />
 
