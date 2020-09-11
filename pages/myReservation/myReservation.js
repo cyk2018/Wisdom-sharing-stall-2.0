@@ -1,5 +1,7 @@
 
-import Notify from '../../miniprogram_npm/@vant/weapp/notify/notify';const db = wx.cloud.database()
+import Notify from '../../miniprogram_npm/@vant/weapp/notify/notify';
+import Dialog from '../../miniprogram_npm/@vant/weapp/dialog/dialog';
+const db = wx.cloud.database()
 Page({
 
   /**
@@ -63,7 +65,7 @@ Page({
     }).get({
       success: function (res) {
         var length = res.data.length
-        var data = res.data
+        var data = res.data.reverse()
         console.log(data);
         for (var i = 0; i < length; i++) {
               data[i].startTime = data[i].startTime.toLocaleString()
@@ -159,5 +161,29 @@ Page({
    */
   onShareAppMessage: function () {
 
+  },
+  cancelReserve: function (event) {
+    console.log(event.currentTarget.dataset.index);
+    var index = event.currentTarget.dataset.index;
+    Dialog.confirm({
+      message: '是否确认取消预约（不可撤销）'
+    })
+      .then(() => {
+        // on confirm
+        var id = this.data.data[index]._id
+        db.collection('Reservation').doc(id).remove({
+          success: function (res) {
+                console.log("删除成功");
+          },
+          fail: function(res){
+            console.log("删除失败");
+          }
+        })
+        //重新加载
+        this.onLoad();
+      })
+      .catch(() => {
+        // on cancel
+      });
   }
 })
