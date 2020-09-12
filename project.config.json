@@ -27,16 +27,8 @@
 			"outputPath": ""
 		},
 		"useIsolateContext": true,
-<<<<<<< HEAD
-		"useCompilerModule": true,
-=======
 		"useCompilerModule": false,
->>>>>>> master
-		"userConfirmedUseCompilerModuleSwitch": false,
-		"useMultiFrameRuntime": true,
-		"useApiHook": true,
-		"packNpmManually": false,
-		"packNpmRelationList": []
+		"userConfirmedUseCompilerModuleSwitch": false
 	},
 	"compileType": "miniprogram",
 	"libVersion": "2.12.2",
@@ -44,11 +36,13 @@
 	"projectname": "miniprogram-stall",
 	"cloudfunctionRoot": "cloudfunctions/",
 	"cloudfunctionTemplateRoot": "cloudfunctionTemplate",
+	"watchOptions": {
+		"ignore": []
+	},
 	"debugOptions": {
 		"hidedInDevtools": []
 	},
 	"scripts": {},
-	"isGameTourist": false,
 	"simulatorType": "wechat",
 	"simulatorPluginLibVersion": {},
 	"condition": {
@@ -76,7 +70,6 @@
 			"current": -1,
 			"list": [
 				{
-<<<<<<< HEAD
 					"id": 0,
 					"name": "摊位布局",
 					"pathName": "pages/AreaSeat/AreaSeat",
@@ -84,8 +77,6 @@
 					"scene": null
 				},
 				{
-=======
->>>>>>> master
 					"id": -1,
 					"name": "管理申请",
 					"pathName": "pages/applyManage/applyManage",
@@ -112,7 +103,6 @@
 					"pathName": "pages/reserve/reserve",
 					"query": "",
 					"scene": null
-<<<<<<< HEAD
 				},
 				{
 					"id": -1,
@@ -120,8 +110,6 @@
 					"pathName": "pages/AreaSeat/AreaSeat",
 					"query": "",
 					"scene": null
-=======
->>>>>>> master
 				}
 			]
 		}

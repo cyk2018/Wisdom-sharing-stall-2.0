@@ -5,8 +5,31 @@ Page({
    * 页面的初始数据
    */
   data: {
-    background: ["/images/timg.jfif"]
+    background: ["/images/timg.jfif"],
+    imgUrls: [
+      '/images/test1.jpg',
+      '/images/test2.png',
+      '/images/test3.jpeg',
+  ],
+  indicatorDots: true,
+  autoplay: true,
+  interval: 5000,
+  duration: 1000
   },
+  
+
+  previewImage: function (e) {
+    var imgUrls = this.data.imgUrls;
+    var index = e.currentTarget.dataset.index;
+    
+    //图片预览
+    wx.previewImage({
+      current:imgUrls[index], 
+      urls: imgUrls 
+    })
+    console.log(e)
+  },
+
 
   getOpenid: function () {
     var that = this
@@ -169,6 +192,9 @@ Page({
   onLoad: function (options) {
     this.getOpenid()
     this.getSystemInfo()
+    this.setData({
+      imgUrls:this.data.imgUrls
+    })
   },
 
   /**
