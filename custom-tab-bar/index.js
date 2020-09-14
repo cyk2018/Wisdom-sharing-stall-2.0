@@ -35,14 +35,24 @@ Component({
           active: event.detail
         });
       }
+
+      // if (event.detail == 2) {
+      //   this.switchTab("/pages/recommend/recommend");
+      //   // 设置选中
+      //   this.setData({
+      //     active: event.detail
+      //   });
+      // }
+      // if (event.detail == 3) {
+      //   this.switchTab("/pages/mine/mine");
+      //   // 设置选中
+      //   this.setData({
+      //     active: event.detail
+      //   });
+      // }
+
+
       if (event.detail == 2) {
-        this.switchTab("/pages/recommend/recommend");
-        // 设置选中
-        this.setData({
-          active: event.detail
-        });
-      }
-      if (event.detail == 3) {
         this.switchTab("/pages/mine/mine");
         // 设置选中
         this.setData({

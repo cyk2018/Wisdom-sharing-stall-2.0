@@ -5,13 +5,13 @@ Page({
    * 页面的初始数据
    */
   data: {
-    maxminute:30,
+    maxminute: 30,
     minHour: 10,
     maxHour: 20,
     minDate: new Date().getTime(),
     maxDate: new Date(2021, 10, 1).getTime(),
     currentDate: new Date().getTime(),
-    
+
 
     //currentDate: '12:00',
     filter(type, options) {
@@ -45,12 +45,9 @@ Page({
   },
 
   chooseOnMap: function () {
-    //去数据库中查询对应的信息
-    // db.collection('markers').where({
-
-    // })
+    //传递预约的开始和结束时间
     wx.navigateTo({
-      url: '/pages/reserve/reserve',
+      url: '/pages/reserve/reserve?startTime=' + this.data.startReserveTime + '&endTime=' + this.data.endReserveTime,
     })
   },
 
@@ -89,7 +86,7 @@ Page({
     //this.formatDate(res.detail)
     var d = new Date(res.detail)
     //this.formatDate(d)
-    var a=this.formatDate(d)
+    var a = this.formatDate(d)
     //console.log(d)
     //console.log(res)
     var that = this
@@ -110,16 +107,16 @@ Page({
     }
   },
 
-  formatDate: function(now) {
+  formatDate: function (now) {
     var year = now.getFullYear()
     var month = now.getMonth() + 1
     var date = now.getDate()
     var hour = now.getHours()
     var minute = now.getMinutes() < 10 ? '0' + now.getMinutes() : now.getMinutes()
     //var second = now.getSeconds()
-    console.log(year + "-" + month + "-" + date + " " + hour + ":" + minute ) 
-    return year + "-" + month + "-" + date + " " + hour + ":" + minute 
-},
+    console.log(year + "-" + month + "-" + date + " " + hour + ":" + minute)
+    return year + "-" + month + "-" + date + " " + hour + ":" + minute
+  },
   /**
    * 生命周期函数--监听页面加载
    */
