@@ -11,7 +11,7 @@ Page({
     longitude: "",
     scale: 15,
     markers: [],
-    show: false,
+    // show: false,
     placeholder: "请输入地址"
   },
   startReserve: function (res) {
@@ -174,7 +174,7 @@ Page({
       startReserveTime: options.startTime,
       endReserveTime: options.endTime
     })
-    this.getStallLocation(oprions.startTime, options.endTime)
+    this.getStallLocation(options.startTime, options.endTime)
   },
 
   /**

@@ -23,6 +23,7 @@ Page({
 
   // 点击每个座位触发的函数
   clickSeat: function (res) {
+
     let index = res.currentTarget.dataset.index;
     //获得当前点击座位的索引
     console.log(index)
@@ -42,20 +43,20 @@ Page({
     }
   },
 
-  getIcon: function () {
-    var that = this
-    var res = jsonData.dataList
-    if (res.errorCode == 0) {
-      that.setData({
-        seatTypeList: res.seatTypeList,
-      })
-    }
-  },
+  // getIcon: function () {
+  //   var that = this
+  //   var res = jsonData.dataList
+  //   if (res.errorCode == 0) {
+  //     that.setData({
+  //       seatTypeList: res.seatTypeList,
+  //     })
+  //   }
+  // },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log(options)
+    // console.log(options)
     let that = this;
     that.setData({
       //screenHeight : 屏幕高度 statusBarHeight ： 状态栏高度
@@ -63,7 +64,7 @@ Page({
       seatArea: getApp().globalData.screenHeight - getApp().globalData.statusBarHeight - (500 * getApp().globalData.screenWidth / 750),
       rpxToPx: getApp().globalData.screenWidth / 750
     });
-    this.getIcon()
+    // this.getIcon()
     that.setData({
       id: options.id,
       name: options.name,
@@ -82,6 +83,10 @@ Page({
 
   onShow: function () {
     var that = this;
+    // 数据库设计需要好好看看
+    // db.collection('StallUsageRecord').where({
+      
+    // })
     db.collection('StallArea').where({
       _id: that.data.id
     }).get({
@@ -98,7 +103,7 @@ Page({
         // that.creatSeatMap()
       }
     })
-    
+
   },
   // // 根据seatList 生成一个类map的对象 key值为gRow坐标 value值为gRow为key值的数组
   // creatSeatMap: function () {
