@@ -103,7 +103,6 @@ Page({
         // that.creatSeatMap()
       }
     })
-
   },
   // // 根据seatList 生成一个类map的对象 key值为gRow坐标 value值为gRow为key值的数组
   // creatSeatMap: function () {

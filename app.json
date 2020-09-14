@@ -20,13 +20,15 @@
     "pages/areaDetail/areaDetail",
     "pages/applyManage/applyManage",
     "pages/review/review",
-    "pages/myBrand/myBrand"
+    "pages/myBrand/myBrand",
+    "pages/login/images"
   ],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
     "navigationBarTitleText": "",
     "navigationBarTextStyle": "black"
+    
   },
   "tabBar": {
     "custom": true,

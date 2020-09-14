@@ -51,7 +51,6 @@ Page({
 
         // console.log(seatList)
       }
-
     }
 
     this.setData({

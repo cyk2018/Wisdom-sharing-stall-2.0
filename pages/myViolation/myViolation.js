@@ -67,11 +67,19 @@ Page({
         manageID: that.data.manageIDforUser
       }).get({
         success: function(res) {
+          var length = res.data.length
+          var data = res.data.reverse()
+          console.log(data);
+          for (var i = 0; i < length; i++) {
+                data[i].recordTime = data[i].recordTime.toLocaleString()
+          }
+          console.log(data);
           that.setData({
-            stallID: res.data[0].stallID,
-            item: res.data[0].item,
-            recordTime: res.data[0].recordTime.toLocaleString(),
-            remarks: res.data[0].remarks,
+            // stallID: res.data[0].stallID,
+            // item: res.data[0].item,
+            // recordTime: res.data[0].recordTime.toLocaleString(),
+            // remarks: res.data[0].remarks,
+            data: data,
             Violated: true
           })
         },
