@@ -1,3 +1,4 @@
+var App = getApp()
 var jsonData = require('../../data/json')
 const db = wx.cloud.database()
 Page({
@@ -9,7 +10,6 @@ Page({
     row: 0,
     column: 0,
     seatList: [],
-    seatArea: 500,
     seatScaleHeight: 50
   },
 
@@ -58,17 +58,31 @@ Page({
     })
   },
 
+  getMoveableArea: function () {
+    //可移动区域的宽度
+    // todo
+    // 这里的宽度:屏幕宽度; 这里的高度:屏幕高度 - 状态栏高度;
+    var windowWidth = App.globalData.screenWidth
+    var windowHeight = App.globalData.screenHeight
+    // console.log(areaWidth)
+    // console.log(areaHeight)
+    var areaHeight = windowHeight - 44 - 50 - 50
+    // 这里的函数一定要随项目进度更改
+    var areaWidth = windowWidth
+    this.setData({
+      areaHeight,
+      areaWidth
+    })
+  },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
     var that = this
-    // this.setData({
-    //   max_number: options.max_number,
-    //   seatArea: getApp().globalData.screenHeight = getApp.globalData.statusBarHeight - (500 * getApp().globalData.screenWidth / 750),
-    //   rpxToPx: getApp().globalData.screenWidth / 750
-    // })
+    that.getMoveableArea()
+
+
     that.getIcon()
     var data = that.returnRowAndCol(1, 1)
     db.collection('StallArea').where({
