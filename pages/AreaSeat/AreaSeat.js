@@ -15,34 +15,42 @@ Page({
 
   showArea: function (res) {
     // console.log(res)
+    // 如果是列数发生了变化，因为数组是按行存储的，所以需要重新生成数组
     if (res.beforeRow == res.nowRow) {
       var seatList = []
       var beforeRow = 0
       var beforeColumn = 0
     } else {
+      // 如果列数没有发生变化，而行数发生了变化，只需要对数组最后几个元素进行删除
       var seatList = this.data.seatList
       var beforeRow = res.beforeRow
       var beforeColumn = 0
     }
     var row = res.nowRow
     var column = res.nowColumn
-    for (var i = beforeRow; i < row; i++) {
-      var seatRowList = []
-      for (var j = beforeColumn; j < column; j++) {
-        var seat = {
-          // row: i + 1,
-          // col: j + 1,
-          grow: i + 1,
-          gcol: j + 1,
-          icon: "../../images/image_can_select_click.png",
-          // canClick: true
-        }
-        seatRowList.push(seat)
+    if (beforeRow > row) {
+      for (var i = 0; i < column; i++) {
+        seatList.pop()
       }
-      // console.log(seatRowList)
-      var seatList = seatList.concat(seatRowList)
+    } else {
+      for (var i = beforeRow; i < row; i++) {
+        var seatRowList = []
+        for (var j = beforeColumn; j < column; j++) {
+          var seat = {
+            // row: i + 1,
+            // col: j + 1,
+            grow: i + 1,
+            gcol: j + 1,
+            icon: "../../images/image_can_select_click.png",
+            // canClick: true
+          }
+          seatRowList.push(seat)
+        }
+        // console.log(seatRowList)
+        var seatList = seatList.concat(seatRowList)
 
-      // console.log(seatList)
+        // console.log(seatList)
+      }
     }
 
     this.setData({
@@ -141,6 +149,7 @@ Page({
 
   },
 
+  // 此函数是返回一个变化前后行列值构成的对象
   returnRowAndCol: function (row, column) {
     var data = {}
     data.beforeRow = this.data.row
