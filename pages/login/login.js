@@ -8,6 +8,7 @@ Page({
     background: ["/images/timg.jfif"]
   },
 
+
   getOpenid: function () {
     var that = this
     wx.cloud.callFunction({

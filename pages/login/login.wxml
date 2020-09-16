@@ -15,5 +15,4 @@
 		<van-button type="primary" size="small" bind:click="adminApply">管理员申请（内测版）</van-button>
 	</view>
 </swiper>
-
 <!-- <van-toast id="van-toast" /> -->

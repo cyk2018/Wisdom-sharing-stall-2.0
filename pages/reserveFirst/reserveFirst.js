@@ -115,7 +115,7 @@ Page({
     var month = now.getMonth() + 1
     var date = now.getDate()
     var hour = now.getHours()
-    var minute = now.getMinutes()
+    var minute = now.getMinutes() < 10 ? '0' + now.getMinutes() : now.getMinutes()
     //var second = now.getSeconds()
     console.log(year + "-" + month + "-" + date + " " + hour + ":" + minute ) 
     return year + "-" + month + "-" + date + " " + hour + ":" + minute 
