@@ -1,8 +1,9 @@
-<view class='info'>
+<!-- <view class='info'>
 	<view class='stallName'>{{name}}</view>
 	<view class='stallTime'>{{startTime}} - {{closeTime}}</view>
-</view>
+</view> -->
 
+<progress></progress>
 <movable-area scale-area="true" style="height:{{seatArea}}px; width: 750rpx;">
 <!-- movable-area 表示可缩放区域，其中，高度为seatArea 宽度为750rpx -->
 	<!-- <movable-view class='movableOne' bindscale="handleScale" style="height:{{seatArea}}px; width: 750rpx;" scale="true" direction="all" scale-max="2" scale-min="1" out-of-bounds="true"> -->
