@@ -71,8 +71,8 @@
 			"list": [
 				{
 					"id": 0,
-					"name": "摊位布局",
-					"pathName": "pages/AreaSeat/AreaSeat",
+					"name": "pages/startReserve/startReserve",
+					"pathName": "pages/startReserve/startReserve",
 					"query": "",
 					"scene": null
 				},
@@ -108,6 +108,13 @@
 					"id": -1,
 					"name": "摊位布局",
 					"pathName": "pages/AreaSeat/AreaSeat",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/startReserve/startReserve",
+					"pathName": "pages/startReserve/startReserve",
 					"query": "",
 					"scene": null
 				}

@@ -12,7 +12,6 @@
     "pages/myScore/myScore",
     "pages/myViolation/myViolation",
     "pages/myReservation/myReservation",
-    "pages/reserveFirst/reserveFirst",
     "pages/adminApply/adminApply",
     "pages/chooseArea/chooseArea",
     "pages/myArea/myArea",
@@ -37,7 +36,7 @@
         "pagePath": "pages/apply/apply",
         "text": "资质申请"
       }, {
-        "pagePath": "pages/reserveFirst/reserveFirst",
+        "pagePath": "pages/reserve/reserve",
         "text": "预约选摊"
       },
       {
