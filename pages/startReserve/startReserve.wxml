@@ -1,10 +1,17 @@
 <!-- 要求1:此区域可以放缩 -->
 <!-- 要求2:此区域座位不能超出范围过多 -->
 
-<movable-area scale-area>
+<!-- <movable-area scale-area>
 	<movable-view direction="all" out-of-bounds inertia >text</movable-view>
-</movable-area>
+</movable-area> -->
 
+<!-- 使用别人写的zy-slider组件实现滑块 https://github.com/weixianlove/zy-slider -->
+<view class="top">左右拉动滑块选择时间</view>
+<view class="des">{{leftTime}}-{{rightTime}}</view>
+<view class="zy-slider">
+    <zy-slider minValue="0" maxValue="1439" min="0" max="1439" bind:lowValueChange="lowValueChangeAction"
+                bind:heighValueChange="heighValueChangeAction" />
+</view>
 
 
 <movable-area scale-area="true" style="height:{{seatArea}}px; width: 750rpx;">
@@ -35,4 +42,4 @@
 	<view class='orderComfirm' style="flex-direction:row;">
 		<van-button plain type="primary" block bind:click="confimReserve">确认预约</van-button>
 	</view>
-</view>
+</view> 

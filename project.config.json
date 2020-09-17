@@ -27,7 +27,7 @@
 			"outputPath": ""
 		},
 		"useIsolateContext": true,
-		"useCompilerModule": true,
+		"useCompilerModule": false,
 		"userConfirmedUseCompilerModuleSwitch": false
 	},
 	"compileType": "miniprogram",
@@ -116,6 +116,19 @@
 					"name": "pages/startReserve/startReserve",
 					"pathName": "pages/startReserve/startReserve",
 					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/reserve/reserve",
+					"pathName": "pages/reserve/reserve",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/startReserve/startReserve",
+					"pathName": "pages/startReserve/startReserve",
 					"scene": null
 				}
 			]
