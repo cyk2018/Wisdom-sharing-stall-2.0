@@ -1,13 +1,6 @@
 <!-- 要求1:此区域可以放缩 -->
 <!-- 要求2:此区域座位不能超出范围过多 -->
 
-<<<<<<< HEAD
-<movable-area scale-area>
-	<movable-view direction="all" out-of-bounds inertia >text</movable-view>
-</movable-area>
-
-
-=======
 <!-- <movable-area scale-area>
 	<movable-view direction="all" out-of-bounds inertia >text</movable-view>
 </movable-area> -->
@@ -19,7 +12,6 @@
     <zy-slider minValue="0" maxValue="1439" min="0" max="1439" bind:lowValueChange="lowValueChangeAction"
                 bind:heighValueChange="heighValueChangeAction" />
 </view>
->>>>>>> master
 
 
 <movable-area scale-area="true" style="height:{{seatArea}}px; width: 750rpx;">

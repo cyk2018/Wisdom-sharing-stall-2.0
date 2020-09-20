@@ -10,9 +10,12 @@ Page({
     row: 0,
     column: 0,
     seatList: [],
-    seatScaleHeight: 50
+    seatScaleHeight: 50,
+    AreaSeatHeight: 320,
+    AreaSeatWidth: 300,
   },
 
+  // 这个函数控制着当前座位列表
   showArea: function (res) {
     // console.log(res)
     // 如果是列数发生了变化，因为数组是按行存储的，所以需要重新生成数组
@@ -56,6 +59,8 @@ Page({
     this.setData({
       seatList: seatList
     })
+
+    this.getSeatArea()
   },
 
   getMoveableArea: function () {
@@ -66,12 +71,26 @@ Page({
     var windowHeight = App.globalData.screenHeight
     // console.log(areaWidth)
     // console.log(areaHeight)
-    var areaHeight = windowHeight - 44 - 50 - 50
-    // 这里的函数一定要随项目进度更改
+    var areaHeight = windowHeight - 44 - 50 - 50 - 50
+
+    // 这里的函数一定要随项目进度更改，目前这样设置是为了减去上面三个单元格的高度
     var areaWidth = windowWidth
     this.setData({
       areaHeight,
       areaWidth
+    })
+  },
+
+  getSeatArea: function () {
+    //控制当前座椅的大小,需要实时测算
+    // 在获得当前座位时调用
+    var row = this.data.AreaSeatHeight / this.data.row
+    var col = this.data.AreaSeatWidth / this.data.column
+    // 以上两行通过行数和列数判断当前图形的最小值
+    // 此处的设计思路是在固定区域内，通过当前行列数判断每个图形（默认为正方形）的边长
+    var n = (col < row) ? col : row
+    this.setData({
+      seatScaleHeight: n
     })
   },
 
@@ -96,6 +115,8 @@ Page({
             row: res.data[0].rowNum,
             column: res.data[0].columnNum
           })
+
+          that.getSeatArea()
         }
 
       }

@@ -11,43 +11,29 @@
 <!-- 要求1:此区域可以放缩 -->
 <!-- 要求2:此区域座位不能超出范围过多 -->
 
+<!-- 整个可移动区域的宽高有限制，根据此宽度和高度可以测算出座位图片的大小 -->
 <movable-area scale-area style="height:{{areaHeight}}px; width:{{areaWidth}}px">
-	<movable-view direction="all" out-of-bounds inertia scale>
-		<view>
-<<<<<<< HEAD
+	<movable-view direction="all" out-of-bounds inertia scale style="height:{{areaHeight}}px; width:{{areaWidth}}px">
+		<!-- 这里可移动区域和内部的图片阵列大小都可以人工调整,目前将高度设置为320px,宽度设置为300px -->
+		<!-- 下方高度和宽度调整的是图片阵列的大小 -->
+		<view style="height:{{areaSeatHeight}}px; width:{{areaSeatWidth}}px; left:10px; top:17px; position:absolute">
 			<!-- 这个 view 组件会根据具体情况决定图片的大小 -->
-			<view wx:for="{{seatList}}" wx:key="id" wx:for-index="index" id="{{item.row}}-{{item.col}}" style="left:{{(item.gcol - 1) * seatScaleHeight}}px; top:{{(item.grow - 1) * seatScaleHeight}}px; width:{{seatScaleHeight}}px; height:{{seatScaleHeight}}px">
-=======
-			<view wx:for="{{seatList}}" wx:key="id" wx:for-index="index" id="{{item.row}}-{{item.col}}">
->>>>>>> master
-				<image src="{{item.icon}}"></image>
+			<view wx:for="{{seatList}}" wx:key="id" wx:for-index="index" id="{{item.row}}-{{item.col}}" style="left:{{(item.gcol - 1) * seatScaleHeight}}px; top:{{(item.grow - 1) * seatScaleHeight}}px; width:{{seatScaleHeight}}px; height:{{seatScaleHeight}}px; position:absolute">
+				<!-- 当前最后一个座位的gcol 和 grow 控制着每个座椅的单独大小 -->
+				<image src="{{item.icon}}" style="height:{{seatScaleHeight}}px; width:{{seatScaleHeight}}px"></image>
 			</view>
 		</view>
 	</movable-view>
 </movable-area>
 
-<<<<<<< HEAD
 <!-- <view>
 	<movable-area scale-area="true" style="height:{{seatArea}}px; width: 750rpx;">
 		<movable-view class='movableOne' style="height:{{seatArea}}px; width: 750rpx;" scale="true" direction="all" scale-max="2" scale-min="1" out-of-bounds="true">
 			<view class='seatArea' style='width:{{seatScaleHeight * maxX}}px;height:{{seatScaleHeight * maxY}}px'>
-=======
-<view>
-	<movable-area scale-area="true" style="height:{{seatArea}}px; width: 750rpx;">
-		<!-- movable-area 表示可缩放区域，其中，高度为seatArea 宽度为750rpx -->
-		<movable-view class='movableOne' style="height:{{seatArea}}px; width: 750rpx;" scale="true" direction="all" scale-max="2" scale-min="1" out-of-bounds="true">
-			<!-- bindscale表示缩放过程中触发的事件 -->
-			<view class='seatArea' style='width:{{seatScaleHeight * maxX}}px;height:{{seatScaleHeight * maxY}}px'>
-				<!-- 下面设置的是一张图片的大小和位置 -->
->>>>>>> master
 				<view wx:for="{{seatList}}" wx:key="id" wx:for-index="index" id="{{item.row}}-{{item.col}}" wx:for-item="item" class='seatTap' catchtap='clickSeat' data-index='{{index}}' style="left:{{(item.gcol-1)* seatScaleHeight}}px;top:{{(item.grow-1) * seatScaleHeight}}px;width: {{seatScaleHeight}}px;height: {{seatScaleHeight}}px">
 					<image src="{{item.icon}}" class='normal' />
 				</view>
 			</view>
 		</movable-view>
 	</movable-area>
-<<<<<<< HEAD
 </view> -->
-=======
-</view>
->>>>>>> master
