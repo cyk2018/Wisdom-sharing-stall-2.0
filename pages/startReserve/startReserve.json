@@ -1,3 +1,6 @@
 {
-  "usingComponents": {}
+  "usingComponents": {
+    "zy-slider": "../../component/zyslider"
+  },
+  "navigationBarTitleText": "预约摊位"
 }

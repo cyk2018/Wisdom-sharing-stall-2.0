@@ -14,8 +14,43 @@ Page({
     maxSelect: 1,
     timer: null,
     show: false,
-    hidden: ""
+    hidden: "",
+    //有关滑块
+    leftTime: "00:00",//滑块左边的时间
+    rightTime: "23:59"//滑块右边的时间
   },
+//有关滑块的函数
+lowValueChangeAction: function (e) {//改变左滑块
+  var leftHour=Math.floor(e.detail.lowValue / 60);//滑块左边的小时
+  var leftMinute=e.detail.lowValue % 60;//滑块左边的分钟
+  console.log(leftHour);
+  this.setData({
+      leftTime: leftHour.toString() + ":" + leftMinute.toString(),
+  })
+},
+heighValueChangeAction: function (e) {//改变右滑块
+  var rightHour=Math.floor(e.detail.heighValue / 60);//滑块右边的时间
+  var rightMinute=e.detail.heighValue % 60;//滑块右边的时间
+  this.setData({
+      rightTime: rightHour.toString()+":"+rightMinute.toString()
+  })
+},
+hideSlider: function (e) {//隐藏滑块
+  this.selectComponent("#zy-slider").hide()
+  this.selectComponent("#zy-slider1").hide()
+},
+
+showSlider: function (e){//显示滑块
+  this.selectComponent("#zy-slider").show()
+  this.selectComponent("#zy-slider1").show()
+},
+
+resetSlider: function (e){//重置滑块
+  this.selectComponent("#zy-slider").reset()
+  this.selectComponent("#zy-slider1").reset()
+},
+//以上为有关滑块的函数
+
 
   confimReserve: function () {
     //确认预约，在数据库中更新对应的信息，需要预约时间和位置信息

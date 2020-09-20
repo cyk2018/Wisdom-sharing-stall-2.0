@@ -31,6 +31,10 @@ https://www.jianshu.com/p/86549b4674eb
  ! [rejected]        master     -> master  (non-fast-forward)
  * [new branch]      master     -> github/master
  ```
+<<<<<<< HEAD
 ``` git pull origin master --allow-unrelated-histories
+=======
+``` git pull origin master --allow-unrelated-histories```
+>>>>>>> master
 
 8. git pull 出现问题时，从控制台进入，查看 git pull 返回的结果， 如果返回结果为 Already up-to-date 则说明拉取成功
