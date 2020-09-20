@@ -93,7 +93,16 @@ Page({
     // 添加新的摆摊区域，后期要确保同一个地点不允许有两个相同的区域
     var that = this
     that.loading()
-    
+    var seat = {
+      grow: 0,
+      gcol: 0,
+      icon: "../../images/image_can_select_click.png"
+    }
+    var seatRowList = []
+    seatRowList.push(seat)
+    // console.log(seatRowList)
+    var seatList = []
+    seatList.push(seatRowList)
     db.collection('StallArea').add({
       data: {
         name: that.data.name,
@@ -104,7 +113,10 @@ Page({
         },
         startTime: that.data.start_time,
         endTime: that.data.close_time,
-        stallNum: that.data.max_number
+        stallNum: that.data.max_number,
+        stallList: seatList,
+        rowNum: 1,
+        columnNum: 1
       },
       success: function () {
         wx.hideLoading({
