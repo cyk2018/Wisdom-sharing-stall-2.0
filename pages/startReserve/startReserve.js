@@ -6,7 +6,6 @@ Page({
   data: {
     name: "",
     seatTypeList: "",
-    seatList: [],
     selectedSeat: [],
     scaleValue: 3,
     hidden: "hidden",
@@ -106,13 +105,13 @@ Page({
     return time
   },
 
-  getStallList:function(){
+  getStallList: function () {
     db.collection('StallArea').where({
-      _id:this.data.id
+      _id: this.data.id
     }).get({
-      success:(res)=>{
+      success: (res) => {
         this.setData({
-          stallList:res.data[0].stallList
+          stallList: res.data[0].stallList
         })
       }
     })
@@ -125,21 +124,27 @@ Page({
 
     console.log(startTime)
     console.log(endTime)
+    var that = this
     db.collection('Reservation').where({
-      stallID: this.data.id,
+      stallID: that.data.id,
       startTime: _.lt(endTime),
       endTime: _.gt(startTime)
     }).get({
       success: (res) => {
         console.log(res)
         res.data.forEach(function (item) {
+          // console.log(item)
           var col = item.gcol
-          var row = item.row
+          var row = item.grow
+          console.log(col)
+          console.log(row)
           // 根据行列绘制情况， 调整 seatList 对应位置的元素
-          var seatList = this.data.seatList
-          seatList[row][col].type = 3
-          this.setData({
-            seatList
+          var stallList = that.data.stallList
+          console.log(stallList)
+          stallList[row][col].type = 3
+          console.log(stallList)
+          that.setData({
+            stallList
           })
         })
       }
