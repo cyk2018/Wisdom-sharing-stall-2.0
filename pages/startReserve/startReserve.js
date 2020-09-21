@@ -1,4 +1,4 @@
-var App = getApp()
+const seat = require('../../utils/seatJS')
 var jsonData = require('../../data/json.js');
 const db = wx.cloud.database()
 Page({
@@ -32,6 +32,8 @@ Page({
     this.setData({
       leftTime: leftHour.toString() + ":" + leftMinute.toString(),
     })
+
+    this.search()
   },
   heighValueChangeAction: function (e) { //改变右滑块
     var rightHour = Math.floor(e.detail.heighValue / 60); //滑块右边的时间
@@ -39,6 +41,8 @@ Page({
     this.setData({
       rightTime: rightHour.toString() + ":" + rightMinute.toString()
     })
+
+    this.search()
   },
   hideSlider: function (e) { //隐藏滑块
     this.selectComponent("#zy-slider").hide()
@@ -56,23 +60,6 @@ Page({
   },
   //以上为有关滑块的函数
 
-  getMoveableArea: function () {
-    //可移动区域的宽度
-    // todo
-    // 这里的宽度:屏幕宽度; 这里的高度:屏幕高度 - 状态栏高度;
-    var windowWidth = App.globalData.screenWidth
-    var windowHeight = App.globalData.screenHeight
-    // console.log(windowWidth)
-    // console.log(windowHeight)
-    var areaHeight = windowHeight -77
-
-    // 这里的函数一定要随项目进度更改，目前这样设置是为了减去上面三个单元格的高度
-    var areaWidth = windowWidth
-    this.setData({
-      areaHeight,
-      areaWidth
-    })
-  },
 
   confimReserve: function () {
     //确认预约，在数据库中更新对应的信息，需要预约时间和位置信息
@@ -109,18 +96,58 @@ Page({
   //     })
   //   }
   // },
+
+  getHourAndMinute: function (res) {
+    var n = res.indexOf(":")
+    console.log(n)
+    var time = new Date()
+    time.setHours(res.slice(0, n))
+    time.setMinutes(res.slice(n + 1, ))
+    return time
+  },
+
+  search: function () {
+    const _ = db.command
+    var startTime = this.getHourAndMinute(this.data.leftTime)
+    var endTime = this.getHourAndMinute(this.data.rightTime)
+
+    console.log(startTime)
+    console.log(endTime)
+    db.collection('Reservation').where({
+      stallID: this.data.id,
+      startTime: _.lt(endTime),
+      endTime: _.gt(startTime)
+    }).get({
+      success: function (res) {
+        console.log(res)
+      }
+    })
+  },
+
+
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.getMoveableArea()
+    console.log(options)
+    var res = seat.getMoveableArea(140)
+    var areaHeight = res[0]
+    var areaWidth = res[1]
+
     // this.getIcon()
+
+
     this.setData({
       id: options.id,
       name: options.name,
+      stallList: options.stallList,
+      areaHeight,
+      areaWidth
       // startTime: options.startTime,
       // closeTime: options.closeTime,
     })
+
+    this.search()
   },
 
   /**

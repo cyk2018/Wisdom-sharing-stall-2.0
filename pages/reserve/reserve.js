@@ -15,12 +15,11 @@ Page({
     placeholder: "请输入地址"
   },
   startReserve: function (res) {
-    var that = this
     var marker = this.data.markers[res]
     wx.navigateTo({
       url: '/pages/startReserve/startReserve?id=' + marker._id + '&name=' + marker.name + '&startTime=' +
         marker.startTime + '&closeTime=' +
-        marker.endTime,
+        marker.endTime + '&stallList=' + marker.stallList,
       success: function () {
         console.log("页面跳转成功")
       },

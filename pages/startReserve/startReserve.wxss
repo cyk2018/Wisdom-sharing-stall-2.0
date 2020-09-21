@@ -140,9 +140,6 @@
 
 
 /* 有关滑块 */
-.zy-slider {
-  margin: 60rpx;
-}
 .top {
   text-align: center;
 }
@@ -153,7 +150,7 @@
 
 .zy-slider {
   position: relative;
-  margin: 60rpx;
+  margin: 10px;
 }
 
 .button{
