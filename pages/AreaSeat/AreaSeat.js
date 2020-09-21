@@ -1,6 +1,7 @@
 var App = getApp()
 var jsonData = require('../../data/json')
 const db = wx.cloud.database()
+const seat = require('../../utils/seatJS');
 Page({
 
   /**
@@ -63,24 +64,6 @@ Page({
     this.getSeatArea()
   },
 
-  getMoveableArea: function () {
-    //可移动区域的宽度
-    // todo
-    // 这里的宽度:屏幕宽度; 这里的高度:屏幕高度 - 状态栏高度;
-    var windowWidth = App.globalData.screenWidth
-    var windowHeight = App.globalData.screenHeight
-    // console.log(areaWidth)
-    // console.log(areaHeight)
-    var areaHeight = windowHeight - 44 - 50 - 50 - 50
-
-    // 这里的函数一定要随项目进度更改，目前这样设置是为了减去上面三个单元格的高度
-    var areaWidth = windowWidth
-    this.setData({
-      areaHeight,
-      areaWidth
-    })
-  },
-
   getSeatArea: function () {
     //控制当前座椅的大小,需要实时测算
     // 在获得当前座位时调用
@@ -98,8 +81,18 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    var res = seat.getMoveableArea(194)
+    var areaHeight = res[0]
+    var areaWidth = res[1]
+    this.setData({
+      areaHeight,
+      areaWidth
+    })
+
+
+
+    
     var that = this
-    that.getMoveableArea()
     that.getIcon()
     db.collection('StallArea').where({
       _id: options.area_id

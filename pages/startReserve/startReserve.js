@@ -1,11 +1,10 @@
+var App = getApp()
 var jsonData = require('../../data/json.js');
 const db = wx.cloud.database()
 Page({
 
   data: {
     name: "",
-    startTime: "",
-    closeTime: "",
     seatTypeList: "",
     seatList: [],
     selectedSeat: [],
@@ -16,41 +15,64 @@ Page({
     show: false,
     hidden: "",
     //有关滑块
-    leftTime: "00:00",//滑块左边的时间
-    rightTime: "23:59"//滑块右边的时间
+    leftTime: "00:00", //滑块左边的时间
+    rightTime: "23:59", //滑块右边的时间
+    // leftTime 和 rightTime可以控制限定当前区域的开放时间范围
+    // 如果遇到跨日期的情况在后面的时间加上 “次日” 二字
+
+    // 控制可移动区域的面积
+    AreaSeatHeight: 320,
+    AreaSeatWidth: 470,
   },
-//有关滑块的函数
-lowValueChangeAction: function (e) {//改变左滑块
-  var leftHour=Math.floor(e.detail.lowValue / 60);//滑块左边的小时
-  var leftMinute=e.detail.lowValue % 60;//滑块左边的分钟
-  console.log(leftHour);
-  this.setData({
+  //有关滑块的函数
+  lowValueChangeAction: function (e) { //改变左滑块
+    var leftHour = Math.floor(e.detail.lowValue / 60); //滑块左边的小时
+    var leftMinute = e.detail.lowValue % 60; //滑块左边的分钟
+    console.log(leftHour);
+    this.setData({
       leftTime: leftHour.toString() + ":" + leftMinute.toString(),
-  })
-},
-heighValueChangeAction: function (e) {//改变右滑块
-  var rightHour=Math.floor(e.detail.heighValue / 60);//滑块右边的时间
-  var rightMinute=e.detail.heighValue % 60;//滑块右边的时间
-  this.setData({
-      rightTime: rightHour.toString()+":"+rightMinute.toString()
-  })
-},
-hideSlider: function (e) {//隐藏滑块
-  this.selectComponent("#zy-slider").hide()
-  this.selectComponent("#zy-slider1").hide()
-},
+    })
+  },
+  heighValueChangeAction: function (e) { //改变右滑块
+    var rightHour = Math.floor(e.detail.heighValue / 60); //滑块右边的时间
+    var rightMinute = e.detail.heighValue % 60; //滑块右边的时间
+    this.setData({
+      rightTime: rightHour.toString() + ":" + rightMinute.toString()
+    })
+  },
+  hideSlider: function (e) { //隐藏滑块
+    this.selectComponent("#zy-slider").hide()
+    this.selectComponent("#zy-slider1").hide()
+  },
 
-showSlider: function (e){//显示滑块
-  this.selectComponent("#zy-slider").show()
-  this.selectComponent("#zy-slider1").show()
-},
+  showSlider: function (e) { //显示滑块
+    this.selectComponent("#zy-slider").show()
+    this.selectComponent("#zy-slider1").show()
+  },
 
-resetSlider: function (e){//重置滑块
-  this.selectComponent("#zy-slider").reset()
-  this.selectComponent("#zy-slider1").reset()
-},
-//以上为有关滑块的函数
+  resetSlider: function (e) { //重置滑块
+    this.selectComponent("#zy-slider").reset()
+    this.selectComponent("#zy-slider1").reset()
+  },
+  //以上为有关滑块的函数
 
+  getMoveableArea: function () {
+    //可移动区域的宽度
+    // todo
+    // 这里的宽度:屏幕宽度; 这里的高度:屏幕高度 - 状态栏高度;
+    var windowWidth = App.globalData.screenWidth
+    var windowHeight = App.globalData.screenHeight
+    // console.log(windowWidth)
+    // console.log(windowHeight)
+    var areaHeight = windowHeight -77
+
+    // 这里的函数一定要随项目进度更改，目前这样设置是为了减去上面三个单元格的高度
+    var areaWidth = windowWidth
+    this.setData({
+      areaHeight,
+      areaWidth
+    })
+  },
 
   confimReserve: function () {
     //确认预约，在数据库中更新对应的信息，需要预约时间和位置信息
@@ -91,20 +113,13 @@ resetSlider: function (e){//重置滑块
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    // console.log(options)
-    let that = this;
-    that.setData({
-      //screenHeight : 屏幕高度 statusBarHeight ： 状态栏高度
-      //seatArea:控制可移动区域的高度，通过实际屏幕高度出去2/3的屏幕宽度得到
-      seatArea: getApp().globalData.screenHeight - getApp().globalData.statusBarHeight - (500 * getApp().globalData.screenWidth / 750),
-      rpxToPx: getApp().globalData.screenWidth / 750
-    });
+    this.getMoveableArea()
     // this.getIcon()
-    that.setData({
+    this.setData({
       id: options.id,
       name: options.name,
-      startTime: options.startTime,
-      closeTime: options.closeTime,
+      // startTime: options.startTime,
+      // closeTime: options.closeTime,
     })
   },
 
@@ -120,7 +135,7 @@ resetSlider: function (e){//重置滑块
     var that = this;
     // 数据库设计需要好好看看
     // db.collection('StallUsageRecord').where({
-      
+
     // })
     db.collection('StallArea').where({
       _id: that.data.id

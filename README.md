@@ -1,1 +1,0 @@
-# Wisdom-sharing-stall
