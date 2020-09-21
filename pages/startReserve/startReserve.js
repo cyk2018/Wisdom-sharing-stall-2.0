@@ -118,8 +118,18 @@ Page({
       startTime: _.lt(endTime),
       endTime: _.gt(startTime)
     }).get({
-      success: function (res) {
+      success: (res) => {
         console.log(res)
+        res.data.forEach(function (item) {
+          var col = item.gcol
+          var row = item.row
+          // 根据行列绘制情况， 调整 seatList 对应位置的元素
+          var seatList = this.data.seatList
+          seatList[row][col].type = 3
+          this.setData({
+            seatList
+          })
+        })
       }
     })
   },
@@ -140,7 +150,6 @@ Page({
     this.setData({
       id: options.id,
       name: options.name,
-      stallList: options.stallList,
       areaHeight,
       areaWidth
       // startTime: options.startTime,

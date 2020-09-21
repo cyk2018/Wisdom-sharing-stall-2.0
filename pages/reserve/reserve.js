@@ -19,7 +19,7 @@ Page({
     wx.navigateTo({
       url: '/pages/startReserve/startReserve?id=' + marker._id + '&name=' + marker.name + '&startTime=' +
         marker.startTime + '&closeTime=' +
-        marker.endTime + '&stallList=' + marker.stallList,
+        marker.endTime,
       success: function () {
         console.log("页面跳转成功")
       },
