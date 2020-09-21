@@ -30,17 +30,14 @@ Page({
     this.setData({
       leftTime: leftHour.toString() + ":" + leftMinute.toString(),
     })
-
-    this.search()
   },
   heighValueChangeAction: function (e) { //改变右滑块
+    // console.log(e.detail.)
     var rightHour = Math.floor(e.detail.heighValue / 60); //滑块右边的时间
     var rightMinute = e.detail.heighValue % 60; //滑块右边的时间
     this.setData({
       rightTime: rightHour.toString() + ":" + rightMinute.toString()
     })
-
-    this.search()
   },
   hideSlider: function (e) { //隐藏滑块
     this.selectComponent("#zy-slider").hide()
