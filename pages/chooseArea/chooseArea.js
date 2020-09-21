@@ -96,6 +96,7 @@ Page({
     var seat = {
       grow: 0,
       gcol: 0,
+      type: 1,
       icon: "../../images/image_can_select_click.png"
     }
     var seatRowList = []

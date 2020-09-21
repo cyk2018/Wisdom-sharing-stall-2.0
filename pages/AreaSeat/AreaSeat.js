@@ -1,5 +1,3 @@
-var App = getApp()
-var jsonData = require('../../data/json')
 const db = wx.cloud.database()
 const seat = require('../../utils/seatJS');
 Page({
@@ -17,7 +15,7 @@ Page({
 
   // 这个函数控制着当前座位列表
   showArea: function (res) {
-    console.log(res)
+    // console.log(res)
     // res中存储着变化前后的行列值
     // 如果是列数发生了变化，因为数组是按行存储的，所以需要重新生成数组,但是在重新生成数组的过程中又面临着之前存储的记录无法更新的问题
     var seatList = this.data.seatList
@@ -33,6 +31,7 @@ Page({
         var seat = {
           grow: i,
           gcol: res.nowColumn - 1,
+          type: 1,
           icon: "../../images/image_can_select_click.png"
         }
         seatList[i].push(seat)
@@ -46,6 +45,7 @@ Page({
             var seat = {
               grow: i,
               gcol: j,
+              type: 1,
               icon: "../../images/image_can_select_click.png"
             }
             seatRowList.push(seat)
@@ -91,9 +91,8 @@ Page({
 
 
 
-    
+
     var that = this
-    that.getIcon()
     db.collection('StallArea').where({
       _id: options.area_id
     }).get({
@@ -115,15 +114,6 @@ Page({
     })
     var data = that.returnRowAndCol(1, 1)
     that.showArea(data)
-  },
-
-  getIcon: function () {
-    var res = jsonData.dataList
-    if (res.errorCode == 0) {
-      this.setData({
-        seatTypeList: res.seatTypeList
-      })
-    }
   },
 
   //通过行列数的改变及时调整当前数组中的数据
@@ -151,24 +141,28 @@ Page({
     var loc = id.indexOf("-")
     var row = parseInt(id.slice(0, loc))
     var col = parseInt(id.slice(loc + 1, id.length))
-    console.log(row)
-    console.log(col)
+    // console.log(row)
+    // console.log(col)
     // 这里拿到的数据是字符串类型，所以需要转换为整型
     var seat = 'seatList[' + row + '][' + col + ']'
+    var seatType = seat + '.type'
     var seatIcon = seat + '.icon'
-    if (that.data.seatList[row][col].icon == "../../images/image_can_select_click.png") {
+    if (that.data.seatList[row][col].type == 1) {
       // console.log(that.data.seatList[locInArray])
       that.setData({
+        [seatType]: 0,
         [seatIcon]: "../../images/close.png"
       })
     } else {
       // console.log(that.data.seatList[locInArray])
       that.setData({
+        [seatType]: 1,
         [seatIcon]: "../../images/image_can_select_click.png"
       })
     }
 
   },
+
 
   // 此函数是返回一个变化前后行列值构成的对象
   returnRowAndCol: function (row, column) {
