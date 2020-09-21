@@ -106,6 +106,18 @@ Page({
     return time
   },
 
+  getStallList:function(){
+    db.collection('StallArea').where({
+      _id:this.data.id
+    }).get({
+      success:(res)=>{
+        this.setData({
+          stallList:res.data[0].stallList
+        })
+      }
+    })
+  },
+
   search: function () {
     const _ = db.command
     var startTime = this.getHourAndMinute(this.data.leftTime)
@@ -156,6 +168,7 @@ Page({
       // closeTime: options.closeTime,
     })
 
+    this.getStallList()
     this.search()
   },
 
