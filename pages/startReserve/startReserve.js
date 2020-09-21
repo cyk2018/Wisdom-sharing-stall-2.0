@@ -1,5 +1,4 @@
 const seat = require('../../utils/seatJS')
-var jsonData = require('../../data/json.js');
 const db = wx.cloud.database()
 Page({
 
@@ -30,6 +29,7 @@ Page({
     this.setData({
       leftTime: leftHour.toString() + ":" + leftMinute.toString(),
     })
+    this.search()
   },
   heighValueChangeAction: function (e) { //改变右滑块
     // console.log(e.detail.)
@@ -38,6 +38,7 @@ Page({
     this.setData({
       rightTime: rightHour.toString() + ":" + rightMinute.toString()
     })
+    this.search()
   },
   hideSlider: function (e) { //隐藏滑块
     this.selectComponent("#zy-slider").hide()
@@ -82,15 +83,6 @@ Page({
     }
   },
 
-  // getIcon: function () {
-  //   var that = this
-  //   var res = jsonData.dataList
-  //   if (res.errorCode == 0) {
-  //     that.setData({
-  //       seatTypeList: res.seatTypeList,
-  //     })
-  //   }
-  // },
 
   getHourAndMinute: function (res) {
     var n = res.indexOf(":")
@@ -107,9 +99,9 @@ Page({
     }).get({
       success: (res) => {
         this.setData({
-          stallList: res.data[0].stallList,
-          row:res.data[0].rowNum,
-          col:res.data[0].columnNum
+          seatList: res.data[0].stallList,
+          row: res.data[0].rowNum,
+          col: res.data[0].columnNum
         })
       }
     })
@@ -123,14 +115,14 @@ Page({
     // 以上两行通过行数和列数判断当前图形的最小值
     // 此处的设计思路是在固定区域内，通过当前行列数判断每个图形（默认为正方形）的边长
     var n = (col < row) ? col : row
-    console.log(row),
+    console.log(row)
     console.log(col)
     this.setData({
       seatScaleHeight: n
     })
   },
 
-  
+
 
   search: function () {
     const _ = db.command
@@ -145,44 +137,21 @@ Page({
       startTime: _.lt(endTime),
       endTime: _.gt(startTime)
     }).get({
-      success: function(res) {
-        // console.log(res)
-        for(var i = 0; i < res.data.length; i++){
+      success: function (res) {
+        console.log(res)
+        var seat = that.data.seatList
+        var list = [].concat(seat)
+        console.log(list)
+        for (var i = 0; i < res.data.length; i++) {
           var col = res.data[i].gcol
           var row = res.data[i].grow
-          var stallList = that.data.stallList
-          stallList[row][col].type = 3
-          stallList[row][col].icon = "../../images/image_has_selected.png"
+          list[row][col].type = 3
+          list[row][col].icon = "../../images/image_has_selected.png"
         }
         that.setData({
-          stallList
+          'stallList': list
         })
-
-        console.log("准备进入函数")
         that.getSeatArea()
-        console.log("进去了")
-
-
-        // res.data.forEach(function (item) {
-        //   // console.log(item)
-        //   var col = item.gcol
-        //   var row = item.grow
-        //   // console.log(col)
-        //   // console.log(row)
-        //   // 根据行列绘制情况， 调整 seatList 对应位置的元素
-        //   var stallList = that.data.stallList
-        //   // console.log(stallList[row][col])
-        //   // console.log(stallList[row][col].type)
-        //   stallList[row][col].type = 3
-        //   stallList[row][col].icon = "../../images/image_has_selected.png"
-        //   // console.log(stallList)
-        // })
-        // that.setData({
-        //   stallList
-        // })
-        // console.log("test1")
-        // console.log("test2")
-        // that.getSeatArea()
       }
     })
   },
@@ -196,9 +165,6 @@ Page({
     var res = seat.getMoveableArea(140)
     var areaHeight = res[0]
     var areaWidth = res[1]
-
-    // this.getIcon()
-
 
     this.setData({
       id: options.id,
