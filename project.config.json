@@ -105,9 +105,16 @@
 					"scene": null
 				},
 				{
+					"id": 5,
+					"name": "管理摊位",
+					"pathName": "pages/myArea/myArea",
+					"query": "",
+					"scene": null
+				},
+				{
 					"id": -1,
-					"name": "摊位布局",
-					"pathName": "pages/AreaSeat/AreaSeat",
+					"name": "pages/startReserve/startReserve",
+					"pathName": "pages/startReserve/startReserve",
 					"query": "",
 					"scene": null
 				},

@@ -11,11 +11,19 @@
 <!-- 要求1:此区域可以放缩 -->
 <!-- 要求2:此区域座位不能超出范围过多 -->
 
+<!-- 整个可移动区域的宽高有限制，根据此宽度和高度可以测算出座位图片的大小 -->
 <movable-area scale-area style="height:{{areaHeight}}px; width:{{areaWidth}}px">
-	<movable-view direction="all" out-of-bounds inertia scale>
-		<view>
-			<view wx:for="{{seatList}}" wx:key="id" wx:for-index="index" id="{{item.row}}-{{item.col}}">
-				<image src="{{item.icon}}"></image>
+	<movable-view direction="all" out-of-bounds inertia scale style="height:{{areaHeight}}px; width:{{areaWidth}}px">
+		<!-- 这里可移动区域和内部的图片阵列大小都可以人工调整,目前将高度设置为320px,宽度设置为300px -->
+		<!-- 下方高度和宽度调整的是图片阵列的大小 -->
+		<view style="height:{{areaSeatHeight}}px; width:{{areaSeatWidth}}px; left:10px; top:17px; position:absolute">
+			<!-- 这个 view 组件会根据具体情况决定图片的大小 -->
+			<view wx:for="{{seatList}}" wx:key="*this" wx:for-item="seatRow" wx:for-index="index" >
+			<!-- for-item限定for循环的变量名 -->
+				<view wx:for="{{seatRow}}" wx:key="*this" id="{{item.grow}}-{{item.gcol}}" style="left:{{(item.gcol) * seatScaleHeight}}px; top:{{(item.grow) * seatScaleHeight}}px; width:{{seatScaleHeight}}px; height:{{seatScaleHeight}}px; position:absolute" catchtap="clickSeat">
+					<!-- 当前最后一个座位的gcol 和 grow 控制着每个座椅的单独大小 -->
+					<image src="{{item.icon}}" style="height:{{seatScaleHeight}}px; width:{{seatScaleHeight}}px" ></image>
+				</view>
 			</view>
 		</view>
 	</movable-view>
