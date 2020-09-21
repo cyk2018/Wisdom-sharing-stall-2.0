@@ -120,13 +120,6 @@
 				},
 				{
 					"id": -1,
-					"name": "pages/startReserve/startReserve",
-					"pathName": "pages/startReserve/startReserve",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
 					"name": "pages/reserve/reserve",
 					"pathName": "pages/reserve/reserve",
 					"query": "",
