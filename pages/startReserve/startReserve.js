@@ -5,7 +5,6 @@ Page({
 
   data: {
     name: "",
-    seatTypeList: "",
     selectedSeat: [],
     scaleValue: 3,
     hidden: "hidden",
@@ -20,8 +19,8 @@ Page({
     // 如果遇到跨日期的情况在后面的时间加上 “次日” 二字
 
     // 控制可移动区域的面积
-    AreaSeatHeight: 320,
-    AreaSeatWidth: 470,
+    AreaSeatHeight: 380,
+    AreaSeatWidth: 300,
   },
   //有关滑块的函数
   lowValueChangeAction: function (e) { //改变左滑块
@@ -111,11 +110,30 @@ Page({
     }).get({
       success: (res) => {
         this.setData({
-          stallList: res.data[0].stallList
+          stallList: res.data[0].stallList,
+          row:res.data[0].rowNum,
+          col:res.data[0].columnNum
         })
       }
     })
   },
+
+  getSeatArea: function () {
+    //控制当前座椅的大小,需要实时测算
+    // 在获得当前座位时调用
+    var row = this.data.AreaSeatHeight / this.data.row
+    var col = this.data.AreaSeatWidth / this.data.col
+    // 以上两行通过行数和列数判断当前图形的最小值
+    // 此处的设计思路是在固定区域内，通过当前行列数判断每个图形（默认为正方形）的边长
+    var n = (col < row) ? col : row
+    console.log(row),
+    console.log(col)
+    this.setData({
+      seatScaleHeight: n
+    })
+  },
+
+  
 
   search: function () {
     const _ = db.command
@@ -130,23 +148,44 @@ Page({
       startTime: _.lt(endTime),
       endTime: _.gt(startTime)
     }).get({
-      success: (res) => {
-        console.log(res)
-        res.data.forEach(function (item) {
-          // console.log(item)
-          var col = item.gcol
-          var row = item.grow
-          console.log(col)
-          console.log(row)
-          // 根据行列绘制情况， 调整 seatList 对应位置的元素
+      success: function(res) {
+        // console.log(res)
+        for(var i = 0; i < res.data.length; i++){
+          var col = res.data[i].gcol
+          var row = res.data[i].grow
           var stallList = that.data.stallList
-          console.log(stallList)
           stallList[row][col].type = 3
-          console.log(stallList)
-          that.setData({
-            stallList
-          })
+          stallList[row][col].icon = "../../images/image_has_selected.png"
+        }
+        that.setData({
+          stallList
         })
+
+        console.log("准备进入函数")
+        that.getSeatArea()
+        console.log("进去了")
+
+
+        // res.data.forEach(function (item) {
+        //   // console.log(item)
+        //   var col = item.gcol
+        //   var row = item.grow
+        //   // console.log(col)
+        //   // console.log(row)
+        //   // 根据行列绘制情况， 调整 seatList 对应位置的元素
+        //   var stallList = that.data.stallList
+        //   // console.log(stallList[row][col])
+        //   // console.log(stallList[row][col].type)
+        //   stallList[row][col].type = 3
+        //   stallList[row][col].icon = "../../images/image_has_selected.png"
+        //   // console.log(stallList)
+        // })
+        // that.setData({
+        //   stallList
+        // })
+        // console.log("test1")
+        // console.log("test2")
+        // that.getSeatArea()
       }
     })
   },
@@ -202,7 +241,7 @@ Page({
           hidden: "hidden"
         })
         //计算X和Y坐标最大值
-        that.prosessMaxSeat(seatList);
+        // that.prosessMaxSeat(seatList);
         //按每排生成座位数组对象
         // that.creatSeatMap()
       }
