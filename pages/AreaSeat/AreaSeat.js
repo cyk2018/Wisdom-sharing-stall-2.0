@@ -1,5 +1,5 @@
-var jsonData = require('../../data/json')
 const db = wx.cloud.database()
+const seat = require('../../utils/seatJS');
 Page({
 
   /**
@@ -9,99 +9,111 @@ Page({
     row: 0,
     column: 0,
     seatList: [],
-    seatArea: 500,
-    seatScaleHeight: 50
+    AreaSeatHeight: 320,
+    AreaSeatWidth: 300,
   },
 
+  // 这个函数控制着当前座位列表
   showArea: function (res) {
     // console.log(res)
-    // 如果是列数发生了变化，因为数组是按行存储的，所以需要重新生成数组
+    // res中存储着变化前后的行列值
+    // 如果是列数发生了变化，因为数组是按行存储的，所以需要重新生成数组,但是在重新生成数组的过程中又面临着之前存储的记录无法更新的问题
+    var seatList = this.data.seatList
     if (res.beforeRow == res.nowRow) {
-      var seatList = []
-      var beforeRow = 0
-      var beforeColumn = 0
-    } else {
-      // 如果列数没有发生变化，而行数发生了变化，只需要对数组最后几个元素进行删除
-      var seatList = this.data.seatList
-      var beforeRow = res.beforeRow
-      var beforeColumn = 0
-    }
-    var row = res.nowRow
-    var column = res.nowColumn
-    if (beforeRow > row) {
-      for (var i = 0; i < column; i++) {
-        seatList.pop()
+      // 列数发生了变化
+      if (res.beforeColumn > res.nowColumn) {
+        // 如果列数减少
+        for (var i = 0; i < res.beforeRow; i++) {
+          seatList[i].pop()
+        }
+      }
+      for (var i = 0; i < res.beforeRow; i++) {
+        var seat = {
+          grow: i,
+          gcol: res.nowColumn - 1,
+          type: 1,
+          icon: "../../images/image_can_select_click.png"
+        }
+        seatList[i].push(seat)
       }
     } else {
-      for (var i = beforeRow; i < row; i++) {
+      if (res.nowRow > res.beforeRow) {
+        // 行数增加
         var seatRowList = []
-        for (var j = beforeColumn; j < column; j++) {
-          var seat = {
-            // row: i + 1,
-            // col: j + 1,
-            grow: i + 1,
-            gcol: j + 1,
-            icon: "../../images/image_can_select_click.png",
-            // canClick: true
+        for (var i = res.beforeRow; i < res.nowRow; i++) {
+          for (var j = 0; j < res.nowColumn; j++) {
+            var seat = {
+              grow: i,
+              gcol: j,
+              type: 1,
+              icon: "../../images/image_can_select_click.png"
+            }
+            seatRowList.push(seat)
           }
-          seatRowList.push(seat)
+          seatList.push(seatRowList)
         }
-        // console.log(seatRowList)
-        var seatList = seatList.concat(seatRowList)
-
-        // console.log(seatList)
+      } else {
+        seatList.pop()
       }
     }
 
     this.setData({
       seatList: seatList
     })
+
+    this.getSeatArea()
   },
 
+  getSeatArea: function () {
+    //控制当前座椅的大小,需要实时测算
+    // 在获得当前座位时调用
+    var row = this.data.AreaSeatHeight / this.data.row
+    var col = this.data.AreaSeatWidth / this.data.column
+    // 以上两行通过行数和列数判断当前图形的最小值
+    // 此处的设计思路是在固定区域内，通过当前行列数判断每个图形（默认为正方形）的边长
+    var n = (col < row) ? col : row
+    this.setData({
+      seatScaleHeight: n
+    })
+  },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    var res = seat.getMoveableArea(194)
+    var areaHeight = res[0]
+    var areaWidth = res[1]
+    this.setData({
+      areaHeight,
+      areaWidth
+    })
+
+
+
+
     var that = this
-    // this.setData({
-    //   max_number: options.max_number,
-    //   seatArea: getApp().globalData.screenHeight = getApp.globalData.statusBarHeight - (500 * getApp().globalData.screenWidth / 750),
-    //   rpxToPx: getApp().globalData.screenWidth / 750
-    // })
-    that.getIcon()
-    var data = that.returnRowAndCol(1, 1)
     db.collection('StallArea').where({
       _id: options.area_id
     }).get({
       success: function (res) {
+        console.log(res)
         if (res.data.length != 0) {
-          console.log(res.data[0].stallList)
           that.setData({
             seatList: res.data[0].stallList,
             row: res.data[0].rowNum,
             column: res.data[0].columnNum
           })
         }
-
+        that.getSeatArea()
       }
     })
     that.setData({
-      row: 1,
-      column: 1,
       max_number: options.max_number,
       area_id: options.area_id,
     })
+    var data = that.returnRowAndCol(1, 1)
     that.showArea(data)
-  },
-
-  getIcon: function () {
-    var res = jsonData.dataList
-    if (res.errorCode == 0) {
-      this.setData({
-        seatTypeList: res.seatTypeList
-      })
-    }
   },
 
   //通过行列数的改变及时调整当前数组中的数据
@@ -122,32 +134,35 @@ Page({
   },
 
   clickSeat: function (res) {
+    // 点击具体的座位进行的操作，将改动保存到列表中
     var that = this
     var id = res.currentTarget.id
     // console.log(id)
     var loc = id.indexOf("-")
-    var row = id.slice(0, loc)
-    var col = id.slice(loc + 1, id.length)
+    var row = parseInt(id.slice(0, loc))
+    var col = parseInt(id.slice(loc + 1, id.length))
     // console.log(row)
     // console.log(col)
-    var locInArray = (parseInt(row) - 1) * that.data.column + parseInt(col) - 1
     // 这里拿到的数据是字符串类型，所以需要转换为整型
-    // console.log(locInArray)
-    var seat = 'seatList[' + locInArray + ']'
+    var seat = 'seatList[' + row + '][' + col + ']'
+    var seatType = seat + '.type'
     var seatIcon = seat + '.icon'
-    if (that.data.seatList[locInArray].icon == "../../images/image_can_select_click.png") {
+    if (that.data.seatList[row][col].type == 1) {
       // console.log(that.data.seatList[locInArray])
       that.setData({
+        [seatType]: 0,
         [seatIcon]: "../../images/close.png"
       })
     } else {
       // console.log(that.data.seatList[locInArray])
       that.setData({
+        [seatType]: 1,
         [seatIcon]: "../../images/image_can_select_click.png"
       })
     }
 
   },
+
 
   // 此函数是返回一个变化前后行列值构成的对象
   returnRowAndCol: function (row, column) {

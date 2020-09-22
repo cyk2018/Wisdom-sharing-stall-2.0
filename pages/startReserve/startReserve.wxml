@@ -1,16 +1,20 @@
-<view class='info'>
-	<view class='stallName'>{{name}}</view>
-	<view class='stallTime'>{{startTime}} - {{closeTime}}</view>
+<!-- 使用别人写的zy-slider组件实现滑块 https://github.com/weixianlove/zy-slider -->
+<view class="top">左右拉动滑块选择时间</view>
+<view class="des">{{leftTime}}-{{rightTime}}</view>
+<view class="zy-slider">
+	<zy-slider minValue="0" maxValue="1439" min="0" max="1439" bind:lowValueChange="lowValueChangeAction" bind:heighValueChange="heighValueChangeAction" />
 </view>
 
-<movable-area scale-area="true" style="height:{{seatArea}}px; width: 750rpx;">
-<!-- movable-area 表示可缩放区域，其中，高度为seatArea 宽度为750rpx -->
-	<!-- <movable-view class='movableOne' bindscale="handleScale" style="height:{{seatArea}}px; width: 750rpx;" scale="true" direction="all" scale-max="2" scale-min="1" out-of-bounds="true"> -->
-	<movable-view class='movableOne' style="height:{{seatArea}}px; width: 750rpx;" scale="true" direction="all" scale-max="2" scale-min="1" out-of-bounds="true">
-		<!-- bindscale表示缩放过程中触发的事件 -->
-		<view class='seatArea' style='width:{{seatScaleHeight * maxX}}px;height:{{seatScaleHeight * maxY}}px'>
-			<view wx:for="{{seatList}}" wx:key="id" wx:for-index="index" wx:for-item="item" class='seatTap' catchtap='clickSeat' data-index='{{index}}' style="left:{{(item.gcol-1)* seatScaleHeight}}px;top:{{(item.grow-1) * seatScaleHeight}}px;width: {{seatScaleHeight}}px;height: {{seatScaleHeight}}px">
-				<image src="{{item.icon}}" class='normal' />
+<movable-area scale-area style="height:{{areaHeight}}px; width:{{areaWidth}}px">
+	<movable-view direction="all" out-of-bounds inertia scale style="height:{{areaHeight}}px; width:{{areaWidth}}px">
+		<view style="height:{{areaSeatHeight}}px; width:{{areaSeatWidth}}px; left:10px; top:14px; position:absolute">
+			<!-- 这个 view 组件会根据具体情况决定图片的大小 -->
+			<view wx:for="{{stallList}}" wx:key="*this" wx:for-item="seatRow" wx:for-index="index">
+				<!-- for-item限定for循环的变量名 -->
+				<view wx:for="{{seatRow}}" wx:key="*this" id="{{item.grow}}-{{item.gcol}}" style="left:{{(item.gcol) * seatScaleHeight}}px; top:{{(item.grow) * seatScaleHeight}}px; width:{{seatScaleHeight}}px; height:{{seatScaleHeight}}px; position:absolute" catchtap="clickSeat">
+					<!-- 当前最后一个座位的gcol 和 grow 控制着每个座椅的单独大小 -->
+					<image src="{{item.icon}}" style="height:{{seatScaleHeight}}px; width:{{seatScaleHeight}}px"></image>
+				</view>
 			</view>
 		</view>
 	</movable-view>

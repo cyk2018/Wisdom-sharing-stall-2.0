@@ -1,4 +1,4 @@
-<block wx:for="{{myAreas}}">
+<block wx:for="{{myAreas}}" wx:key="*this">
 	<van-card>
 		<view slot="tags">
 			<van-cell title="区域名称" value="{{item.name}}" size="small" />

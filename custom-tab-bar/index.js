@@ -29,7 +29,7 @@ Component({
         });
       }
       if (event.detail == 1) {
-        this.switchTab("/pages/reserveFirst/reserveFirst");
+        this.switchTab("/pages/reserve/reserve");
         // 设置选中
         this.setData({
           active: event.detail

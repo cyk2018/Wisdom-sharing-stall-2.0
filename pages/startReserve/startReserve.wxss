@@ -137,3 +137,23 @@
   line-height: 100rpx;
   z-index: 3;
 }
+
+
+/* 有关滑块 */
+.top {
+  text-align: center;
+}
+
+.des {
+  text-align: center;
+}
+
+.zy-slider {
+  position: relative;
+  margin: 10px;
+}
+
+.button{
+  width: 200rpx;
+  margin-top: 20px;
+}

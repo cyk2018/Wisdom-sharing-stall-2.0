@@ -1,21 +1,63 @@
+const seat = require('../../utils/seatJS')
 var jsonData = require('../../data/json.js');
 const db = wx.cloud.database()
 Page({
 
   data: {
     name: "",
-    startTime: "",
-    closeTime: "",
-    seatTypeList: "",
-    seatList: [],
     selectedSeat: [],
     scaleValue: 3,
     hidden: "hidden",
     maxSelect: 1,
     timer: null,
     show: false,
-    hidden: ""
+    hidden: "",
+    //有关滑块
+    leftTime: "00:00", //滑块左边的时间
+    rightTime: "23:59", //滑块右边的时间
+    // leftTime 和 rightTime可以控制限定当前区域的开放时间范围
+    // 如果遇到跨日期的情况在后面的时间加上 “次日” 二字
+
+    // 控制可移动区域的面积
+    AreaSeatHeight: 380,
+    AreaSeatWidth: 300,
   },
+  //有关滑块的函数
+  lowValueChangeAction: function (e) { //改变左滑块
+    var leftHour = Math.floor(e.detail.lowValue / 60); //滑块左边的小时
+    var leftMinute = e.detail.lowValue % 60; //滑块左边的分钟
+    console.log(leftHour);
+    this.setData({
+      leftTime: leftHour.toString() + ":" + leftMinute.toString(),
+    })
+
+    this.search()
+  },
+  heighValueChangeAction: function (e) { //改变右滑块
+    var rightHour = Math.floor(e.detail.heighValue / 60); //滑块右边的时间
+    var rightMinute = e.detail.heighValue % 60; //滑块右边的时间
+    this.setData({
+      rightTime: rightHour.toString() + ":" + rightMinute.toString()
+    })
+
+    this.search()
+  },
+  hideSlider: function (e) { //隐藏滑块
+    this.selectComponent("#zy-slider").hide()
+    this.selectComponent("#zy-slider1").hide()
+  },
+
+  showSlider: function (e) { //显示滑块
+    this.selectComponent("#zy-slider").show()
+    this.selectComponent("#zy-slider1").show()
+  },
+
+  resetSlider: function (e) { //重置滑块
+    this.selectComponent("#zy-slider").reset()
+    this.selectComponent("#zy-slider1").reset()
+  },
+  //以上为有关滑块的函数
+
 
   confimReserve: function () {
     //确认预约，在数据库中更新对应的信息，需要预约时间和位置信息
@@ -52,25 +94,126 @@ Page({
   //     })
   //   }
   // },
+
+  getHourAndMinute: function (res) {
+    var n = res.indexOf(":")
+    console.log(n)
+    var time = new Date()
+    time.setHours(res.slice(0, n))
+    time.setMinutes(res.slice(n + 1, ))
+    return time
+  },
+
+  getStallList: function () {
+    db.collection('StallArea').where({
+      _id: this.data.id
+    }).get({
+      success: (res) => {
+        this.setData({
+          stallList: res.data[0].stallList,
+          row:res.data[0].rowNum,
+          col:res.data[0].columnNum
+        })
+      }
+    })
+  },
+
+  getSeatArea: function () {
+    //控制当前座椅的大小,需要实时测算
+    // 在获得当前座位时调用
+    var row = this.data.AreaSeatHeight / this.data.row
+    var col = this.data.AreaSeatWidth / this.data.col
+    // 以上两行通过行数和列数判断当前图形的最小值
+    // 此处的设计思路是在固定区域内，通过当前行列数判断每个图形（默认为正方形）的边长
+    var n = (col < row) ? col : row
+    console.log(row),
+    console.log(col)
+    this.setData({
+      seatScaleHeight: n
+    })
+  },
+
+  
+
+  search: function () {
+    const _ = db.command
+    var startTime = this.getHourAndMinute(this.data.leftTime)
+    var endTime = this.getHourAndMinute(this.data.rightTime)
+
+    console.log(startTime)
+    console.log(endTime)
+    var that = this
+    db.collection('Reservation').where({
+      stallID: that.data.id,
+      startTime: _.lt(endTime),
+      endTime: _.gt(startTime)
+    }).get({
+      success: function(res) {
+        // console.log(res)
+        for(var i = 0; i < res.data.length; i++){
+          var col = res.data[i].gcol
+          var row = res.data[i].grow
+          var stallList = that.data.stallList
+          stallList[row][col].type = 3
+          stallList[row][col].icon = "../../images/image_has_selected.png"
+        }
+        that.setData({
+          stallList
+        })
+
+        console.log("准备进入函数")
+        that.getSeatArea()
+        console.log("进去了")
+
+
+        // res.data.forEach(function (item) {
+        //   // console.log(item)
+        //   var col = item.gcol
+        //   var row = item.grow
+        //   // console.log(col)
+        //   // console.log(row)
+        //   // 根据行列绘制情况， 调整 seatList 对应位置的元素
+        //   var stallList = that.data.stallList
+        //   // console.log(stallList[row][col])
+        //   // console.log(stallList[row][col].type)
+        //   stallList[row][col].type = 3
+        //   stallList[row][col].icon = "../../images/image_has_selected.png"
+        //   // console.log(stallList)
+        // })
+        // that.setData({
+        //   stallList
+        // })
+        // console.log("test1")
+        // console.log("test2")
+        // that.getSeatArea()
+      }
+    })
+  },
+
+
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    // console.log(options)
-    let that = this;
-    that.setData({
-      //screenHeight : 屏幕高度 statusBarHeight ： 状态栏高度
-      //seatArea:控制可移动区域的高度，通过实际屏幕高度出去2/3的屏幕宽度得到
-      seatArea: getApp().globalData.screenHeight - getApp().globalData.statusBarHeight - (500 * getApp().globalData.screenWidth / 750),
-      rpxToPx: getApp().globalData.screenWidth / 750
-    });
+    console.log(options)
+    var res = seat.getMoveableArea(140)
+    var areaHeight = res[0]
+    var areaWidth = res[1]
+
     // this.getIcon()
-    that.setData({
+
+
+    this.setData({
       id: options.id,
       name: options.name,
-      startTime: options.startTime,
-      closeTime: options.closeTime,
+      areaHeight,
+      areaWidth
+      // startTime: options.startTime,
+      // closeTime: options.closeTime,
     })
+
+    this.getStallList()
+    this.search()
   },
 
   /**
@@ -85,7 +228,7 @@ Page({
     var that = this;
     // 数据库设计需要好好看看
     // db.collection('StallUsageRecord').where({
-      
+
     // })
     db.collection('StallArea').where({
       _id: that.data.id
@@ -98,7 +241,7 @@ Page({
           hidden: "hidden"
         })
         //计算X和Y坐标最大值
-        that.prosessMaxSeat(seatList);
+        // that.prosessMaxSeat(seatList);
         //按每排生成座位数组对象
         // that.creatSeatMap()
       }

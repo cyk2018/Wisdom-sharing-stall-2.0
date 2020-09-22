@@ -17,9 +17,10 @@ App({
     let that = this
     wx.getSystemInfo({
       success: res => {
-        that.globalData.screenHeight = res.screenHeight;
+        // that.globalData.screenHeight = res.screenHeight;
         that.globalData.screenWidth = res.screenWidth;
-        that.globalData.statusBarHeight = res.statusBarHeight
+        // that.globalData.statusBarHeight = res.statusBarHeight
+        that.globalData.screenHeight = res.screenHeight - res.statusBarHeight
       }
     })
   },
