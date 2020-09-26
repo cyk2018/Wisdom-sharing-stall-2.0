@@ -10,6 +10,7 @@
 	</view>
 </van-card>
 
+<!-- 这里noApply用于判断当前是否有申请 -->
 <block wx:if="{{noApply}}">
 	<van-empty image="search" description="当前没有申请哈" />
 </block>
