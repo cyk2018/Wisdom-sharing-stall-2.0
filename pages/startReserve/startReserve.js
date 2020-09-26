@@ -1,5 +1,4 @@
 const seat = require('../../utils/seatJS')
-var jsonData = require('../../data/json.js');
 const db = wx.cloud.database()
 Page({
 
@@ -30,16 +29,15 @@ Page({
     this.setData({
       leftTime: leftHour.toString() + ":" + leftMinute.toString(),
     })
-
     this.search()
   },
   heighValueChangeAction: function (e) { //改变右滑块
+    // console.log(e.detail.)
     var rightHour = Math.floor(e.detail.heighValue / 60); //滑块右边的时间
     var rightMinute = e.detail.heighValue % 60; //滑块右边的时间
     this.setData({
       rightTime: rightHour.toString() + ":" + rightMinute.toString()
     })
-
     this.search()
   },
   hideSlider: function (e) { //隐藏滑块
@@ -85,15 +83,6 @@ Page({
     }
   },
 
-  // getIcon: function () {
-  //   var that = this
-  //   var res = jsonData.dataList
-  //   if (res.errorCode == 0) {
-  //     that.setData({
-  //       seatTypeList: res.seatTypeList,
-  //     })
-  //   }
-  // },
 
   getHourAndMinute: function (res) {
     var n = res.indexOf(":")
@@ -110,9 +99,9 @@ Page({
     }).get({
       success: (res) => {
         this.setData({
-          stallList: res.data[0].stallList,
-          row:res.data[0].rowNum,
-          col:res.data[0].columnNum
+          seatList: res.data[0].stallList,
+          row: res.data[0].rowNum,
+          col: res.data[0].columnNum
         })
       }
     })
@@ -126,14 +115,14 @@ Page({
     // 以上两行通过行数和列数判断当前图形的最小值
     // 此处的设计思路是在固定区域内，通过当前行列数判断每个图形（默认为正方形）的边长
     var n = (col < row) ? col : row
-    console.log(row),
+    console.log(row)
     console.log(col)
     this.setData({
       seatScaleHeight: n
     })
   },
 
-  
+
 
   search: function () {
     const _ = db.command
@@ -148,44 +137,21 @@ Page({
       startTime: _.lt(endTime),
       endTime: _.gt(startTime)
     }).get({
-      success: function(res) {
-        // console.log(res)
-        for(var i = 0; i < res.data.length; i++){
+      success: function (res) {
+        console.log(res)
+        var seat = txhat.data.seatList
+        var list = [].concat(seat)
+        console.log(list)
+        for (var i = 0; i < res.data.length; i++) {
           var col = res.data[i].gcol
           var row = res.data[i].grow
-          var stallList = that.data.stallList
-          stallList[row][col].type = 3
-          stallList[row][col].icon = "../../images/image_has_selected.png"
+          list[row][col].type = 3
+          list[row][col].icon = "../../images/image_has_selected.png"
         }
         that.setData({
-          stallList
+          'stallList': list
         })
-
-        console.log("准备进入函数")
         that.getSeatArea()
-        console.log("进去了")
-
-
-        // res.data.forEach(function (item) {
-        //   // console.log(item)
-        //   var col = item.gcol
-        //   var row = item.grow
-        //   // console.log(col)
-        //   // console.log(row)
-        //   // 根据行列绘制情况， 调整 seatList 对应位置的元素
-        //   var stallList = that.data.stallList
-        //   // console.log(stallList[row][col])
-        //   // console.log(stallList[row][col].type)
-        //   stallList[row][col].type = 3
-        //   stallList[row][col].icon = "../../images/image_has_selected.png"
-        //   // console.log(stallList)
-        // })
-        // that.setData({
-        //   stallList
-        // })
-        // console.log("test1")
-        // console.log("test2")
-        // that.getSeatArea()
       }
     })
   },
@@ -199,9 +165,6 @@ Page({
     var res = seat.getMoveableArea(140)
     var areaHeight = res[0]
     var areaWidth = res[1]
-
-    // this.getIcon()
-
 
     this.setData({
       id: options.id,
@@ -224,168 +187,7 @@ Page({
   },
 
 
-  onShow: function () {
-    var that = this;
-    // 数据库设计需要好好看看
-    // db.collection('StallUsageRecord').where({
-
-    // })
-    db.collection('StallArea').where({
-      _id: that.data.id
-    }).get({
-      success: function (res) {
-        var seatList = res.data[0].stallList
-        that.setData({
-          seatList,
-          selectedSeat: [],
-          hidden: "hidden"
-        })
-        //计算X和Y坐标最大值
-        // that.prosessMaxSeat(seatList);
-        //按每排生成座位数组对象
-        // that.creatSeatMap()
-      }
-    })
-  },
-  // // 根据seatList 生成一个类map的对象 key值为gRow坐标 value值为gRow为key值的数组
-  // creatSeatMap: function () {
-  //   let seatList = this.data.seatList
-  //   var obj = {}
-  //   for (let index in seatList) {
-  //     let seatRowList = seatList[index].gRow
-  //     if (seatRowList in obj) {
-  //       // 原本数组下标
-  //       seatList[index].orgIndex = index
-  //       obj[seatRowList].push(seatList[index])
-  //     } else {
-  //       let seatArr = []
-  //       // 原本数组下标
-  //       seatList[index].orgIndex = index
-  //       seatArr.push(seatList[index])
-  //       obj[seatRowList] = seatArr
-  //     }
-  //   }
-  //   this.setData({
-  //     seatMap: obj
-  //   })
-  // },
-
-  prosessSeatList: function (response) {
-    //修改这个地方
-    let resSeatList = response
-    resSeatList.forEach(element => {
-      // 获取座位的类型的首字母
-      let firstNumber = element.type.substr(0, 1)
-      // 加载座位的图标
-      let seatType = this.data.seatTypeList;
-      for (const key in seatType) {
-        // 加载每个座位的初始图标defautIcon 和 当前图标 nowIcon
-        if (element.type === seatType[key].type) {
-          element.nowIcon = seatType[key].icon
-          element.defautIcon = seatType[key].icon
-        }
-        // 根据首字母找到对应的被选中图标
-        if (firstNumber + '-1' === seatType[key].type) {
-          element.selectedIcon = seatType[key].icon
-        }
-        // 根据首字母找到对应的被选中图标
-        if (firstNumber + '-2' === seatType[key].type) {
-          element.soldedIcon = seatType[key].icon
-        }
-      }
-      // 如果座位是已经售出 和 维修座位 加入属性canClick 判断座位是否可以点击
-      if (element.defautIcon === element.soldedIcon) {
-        element.canClick = false
-      } else {
-        element.canClick = true
-      }
-    })
-    return resSeatList
-  },
-
-  //计算最大座位数,生成影厅图大小
-  prosessMaxSeat: function (value) {
-    let seatList = value
-    let maxY = 0;
-    for (let i = 0; i < seatList.length; i++) {
-      let tempY = seatList[i].grow;
-      if (parseInt(tempY) > parseInt(maxY)) {
-        maxY = tempY;
-      }
-    }
-    let maxX = 0;
-    for (var i = 0; i < seatList.length; i++) {
-      var tempX = seatList[i].gcol;
-      if (parseInt(tempX) > parseInt(maxX)) {
-        maxX = tempX;
-      }
-    }
-    let seatRealWidth = parseInt(maxX) * 70 * this.data.rpxToPx
-    let seatRealheight = parseInt(maxY) * 70 * this.data.rpxToPx
-    let seatScale = 1;
-    let seatScaleX = 1;
-    let seatScaleY = 1;
-    let seatAreaWidth = 630 * this.data.rpxToPx
-    let seatAreaHeight = this.data.seatArea - 200 * this.data.rpxToPx
-    if (seatRealWidth > seatAreaWidth) {
-      seatScaleX = seatAreaWidth / seatRealWidth
-    }
-    if (seatRealheight > seatAreaHeight) {
-      seatScaleY = seatAreaHeight / seatRealheight
-    }
-    if (seatScaleX < 1 || seatScaleY < 1) {
-      seatScale = seatScaleX < seatScaleY ? seatScaleX : seatScaleY
-    }
-    this.setData({
-      maxY: parseInt(maxY),
-      maxX: parseInt(maxX),
-      seatScale: seatScale,
-      seatScaleHeight: seatScale * 70 * this.data.rpxToPx
-    });
-  },
-
-
-  // 处理已选的座位
-  processSelected: function (index) {
-    let _selectedSeatList = this.data.selectedSeat
-    let seatList = this.data.seatList
-    // 改变这些座位的图标为初始图标 并 移除id一样的座位
-    seatList[index].nowIcon = seatList[index].defautIcon
-    for (const key in _selectedSeatList) {
-      if (_selectedSeatList[key].id === seatList[index].id) {
-        _selectedSeatList.splice(key, 1)
-      }
-    }
-    this.setData({
-      selectedSeat: _selectedSeatList,
-      seatList: seatList
-    })
-  },
-  // 处理未选择的座位
-  processUnSelected: function (index) {
-    let _selectedSeatList = this.data.selectedSeat
-    let seatList = this.data.seatList
-    // 改变这些座位的图标为已选择图标
-    seatList[index].nowIcon = seatList[index].selectedIcon
-    if (_selectedSeatList.length != 0) {
-      var choosedIndex = _selectedSeatList[0].orgIndex
-      seatList[choosedIndex].nowIcon = seatList[choosedIndex].defautIcon
-    }
-
-    // 记录 orgIndex属性 是原seatList数组中的下标值
-    seatList[index].orgIndex = index
-    // 把选择的座位放入到已选座位数组中
-    _selectedSeatList.length = 0
-    let temp = {
-      ...seatList[index]
-    }
-    _selectedSeatList.push(temp)
-    this.setData({
-      selectedSeat: _selectedSeatList,
-      seatList: seatList,
-      hidden: ""
-    })
-  },
+  onShow: function () {},
 
   /**
    * 生命周期函数--监听页面隐藏
