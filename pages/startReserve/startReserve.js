@@ -98,11 +98,26 @@ Page({
       _id: this.data.id
     }).get({
       success: (res) => {
+        let stallList = JSON.parse(JSON.stringify(res.data[0].stallList))
+
+        // var stallList = []
+        // var stallRow = []
+        // var list = res.data[0].stallList
+        // list.forEach(function (item) {
+        //   item.forEach(function(iitem){
+        //     stallRow.push(iitem)
+        //   })
+        //   stallList.push(item)
+        //   stallRow = []
+        // })
+        // console.log(res.data[0].stallList)
         this.setData({
           seatList: res.data[0].stallList,
           row: res.data[0].rowNum,
-          col: res.data[0].columnNum
+          col: res.data[0].columnNum,
+          stallList
         })
+        this.getSeatArea()
       }
     })
   },
@@ -129,8 +144,10 @@ Page({
     var startTime = this.getHourAndMinute(this.data.leftTime)
     var endTime = this.getHourAndMinute(this.data.rightTime)
 
-    console.log(startTime)
-    console.log(endTime)
+    // console.log(startTime)
+    // console.log(endTime)
+    //seatList 向 stallList 转换
+
     var that = this
     db.collection('Reservation').where({
       stallID: that.data.id,
@@ -139,19 +156,19 @@ Page({
     }).get({
       success: function (res) {
         console.log(res)
-        var seat = txhat.data.seatList
-        var list = [].concat(seat)
-        console.log(list)
+        //修改 stallList 对应位置的信息
+        var stallList = that.data.stallList
         for (var i = 0; i < res.data.length; i++) {
-          var col = res.data[i].gcol
-          var row = res.data[i].grow
-          list[row][col].type = 3
-          list[row][col].icon = "../../images/image_has_selected.png"
+          var col = res.data[i].col
+          var row = res.data[i].row
+          stallList[row][col].type = 3
         }
+
         that.setData({
-          'stallList': list
+          stallList
         })
-        that.getSeatArea()
+        
+
       }
     })
   },
