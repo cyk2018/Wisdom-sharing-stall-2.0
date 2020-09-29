@@ -2,6 +2,7 @@
 <view class="top">左右拉动滑块选择时间</view>
 <view class="des">{{leftTime}}-{{rightTime}}</view>
 <view class="zy-slider">
+<!-- 这里最大值控制着分段长度 -->
 	<zy-slider minValue="0" maxValue="1439" min="0" max="1439" bind:lowValueChange="lowValueChangeAction" bind:heighValueChange="heighValueChangeAction" />
 </view>
 

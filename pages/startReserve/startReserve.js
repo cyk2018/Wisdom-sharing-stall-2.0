@@ -63,23 +63,35 @@ Page({
 
   // 点击每个座位触发的函数
   clickSeat: function (res) {
-
-    let index = res.currentTarget.dataset.index;
-    //获得当前点击座位的索引
-    console.log(index)
-    if (this.data.seatList[index].canClick) {
-      //判断当前座位是否被选中，如果选中的话就取消选择，否则的话选择这个，取消对应的
-      if (this.data.seatList[index].nowIcon === this.data.seatList[index].selectedIcon) {
-        this.processSelected(index)
-      } else {
-        //清空数组
-        this.processUnSelected(index)
-      }
-    }
-    if (this.data.selectedSeat.length == 0) {
-      this.setData({
-        hidden: "hidden"
-      });
+    // 点击具体的座位进行的操作，将改动保存到列表中
+    var that = this
+    var id = res.currentTarget.id
+    var loc = id.indexOf("-")
+    var row = parseInt(id.slice(0, loc))
+    var col = parseInt(id.slice(loc + 1, id.length))
+    // console.log(row)
+    // console.log(col)
+    // 这里拿到的数据是字符串类型，所以需要转换为整型
+    var seat = 'stallList[' + row + '][' + col + ']'
+    var seatType = seat + '.type'
+    var seatIcon = seat + '.icon'
+    if (that.data.stallList[row][col].type == 1 && that.data.selectedSeat.length < 1) {
+      // console.log(that.data.seatList[locInArray])
+      that.setData({
+        [seatType]: 2,
+        [seatIcon]: "../../images/image_is_select.png",
+        selectedSeat: [{
+          row: row + 1,
+          col: col + 1
+        }]
+      })
+    } else if (that.data.stallList[row][col].type == 2) {
+      // console.log(that.data.seatList[locInArray])
+      that.setData({
+        [seatType]: 1,
+        [seatIcon]: "../../images/image_can_select_click.png",
+        selectedSeat: []
+      })
     }
   },
 
@@ -145,13 +157,13 @@ Page({
           var col = res.data[i].col
           var row = res.data[i].row
           stallList[row][col].type = 3,
-          stallList[row][col].icon = "/images/image_has_selected.png"
+            stallList[row][col].icon = "/images/image_has_selected.png"
         }
 
         that.setData({
           stallList
         })
-        
+
 
       }
     })
