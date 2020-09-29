@@ -5,9 +5,10 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    myAreaNo: false
   },
 
+  
   setMaxNumber: function (res) {
     var id = res.currentTarget.id
     var area = this.data.myAreas[id]
@@ -66,9 +67,17 @@ Page({
     }).get({
       success: function (res) {
         console.log(res)
-        that.setData({
-          myAreas: res.data
-        })
+        if (res.data.length == 0){
+          that.setData({
+            myAreas: res.data,
+            myAreaNo: true
+          })
+        }else {
+          that.setData({
+            myAreas: res.data,
+            myAreaNo: false
+          })
+        }
       }
     })
     wx.hideLoading({
