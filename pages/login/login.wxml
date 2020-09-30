@@ -1,12 +1,13 @@
-<scroll-view class="container">
+<view class="container">
 <swiper indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" circular="true" style="height:{{windowHeight}}; width:{{windowWidth}}" >
  <block wx:for="{{imgUrls}}">
    <swiper-item bindtap="previewImage" data-index="{{index}}" >
      <image src="{{item}}"  style="height:{{windowHeight}}; width:{{windowWidth}}" class="img" ></image>
+     <van-button type="primary" bind:click="userLogin">用户登录</van-button>
   </swiper-item>
  </block>
 	<!--/block-->
-	<view class="btn">
+		<view class="btn">
 		<van-button type="primary" bind:click="userLogin">用户登录</van-button>
 	</view>
 	<view class="btn">
@@ -16,5 +17,5 @@
 		<van-button type="primary" size="small" bind:click="adminApply">管理员申请（内测版）</van-button>
 	</view>
 </swiper>
-</scroll-view>
+</view>
 <!-- <van-toast id="van-toast" /> -->
