@@ -19,8 +19,7 @@
     "pages/areaDetail/areaDetail",
     "pages/applyManage/applyManage",
     "pages/review/review",
-    "pages/myBrand/myBrand",
-    "pages/login/images"
+    "pages/myBrand/myBrand"
   ],
   "window": {
     "backgroundTextStyle": "light",

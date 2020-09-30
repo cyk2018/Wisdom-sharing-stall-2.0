@@ -173,8 +173,8 @@ Page({
       success: (result) => {
         console.log("这么小声还想打印屏幕大小？")
         this.setData({
-          windowHeight: result.windowHeight + "px",
-          windowWidth: result.windowWidth + "px"
+          windowHeight: result.windowHeight,
+          windowWidth: result.windowWidth
         })
         // console.log(result.screenWidth)
         // console.log(result.screenHeight)
