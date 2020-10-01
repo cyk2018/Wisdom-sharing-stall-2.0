@@ -28,3 +28,18 @@
 		</view>
 	</movable-view>
 </movable-area>
+
+<view>
+	<movable-area scale-area="true" style="height:{{seatArea}}px; width: 750rpx;">
+		<!-- movable-area 表示可缩放区域，其中，高度为seatArea 宽度为750rpx -->
+		<movable-view class='movableOne' style="height:{{seatArea}}px; width: 750rpx;" scale="true" direction="all" scale-max="2" scale-min="1" out-of-bounds="true">
+			<!-- bindscale表示缩放过程中触发的事件 -->
+			<view class='seatArea' style='width:{{seatScaleHeight * maxX}}px;height:{{seatScaleHeight * maxY}}px'>
+				<!-- 下面设置的是一张图片的大小和位置 -->
+				<view wx:for="{{seatList}}" wx:key="id" wx:for-index="index" id="{{item.row}}-{{item.col}}" wx:for-item="item" class='seatTap' catchtap='clickSeat' data-index='{{index}}' style="left:{{(item.gcol-1)* seatScaleHeight}}px;top:{{(item.grow-1) * seatScaleHeight}}px;width: {{seatScaleHeight}}px;height: {{seatScaleHeight}}px">
+					<image src="{{item.icon}}" class='normal' />
+				</view>
+			</view>
+		</movable-view>
+	</movable-area>
+</view>

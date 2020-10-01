@@ -36,4 +36,4 @@
 	<view class='orderComfirm' style="flex-direction:row;">
 		<van-button plain type="primary" block bind:click="confirmReserve">确认预约</van-button>
 	</view>
-</view>
+</view> 
