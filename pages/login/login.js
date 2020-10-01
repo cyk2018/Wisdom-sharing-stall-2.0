@@ -10,22 +10,25 @@ Page({
       '/images/test1.jpg',
       '/images/test2.png',
       '/images/test3.jpeg',
-  ],
-  indicatorDots: true,
-  autoplay: true,
-  interval: 5000,
-  duration: 1000
+    ],
+    indicatorDots: true,
+    autoplay: true,
+    interval: 5000,
+    duration: 1000
   },
-  
+
+  login: function () {
+    console.log("login")
+  },
 
   previewImage: function (e) {
     var imgUrls = this.data.imgUrls;
     var index = e.currentTarget.dataset.index;
-    
+
     //图片预览
     wx.previewImage({
-      current:imgUrls[index], 
-      urls: imgUrls 
+      current: imgUrls[index],
+      urls: imgUrls
     })
     console.log(e)
   },
@@ -193,7 +196,7 @@ Page({
     this.getOpenid()
     this.getSystemInfo()
     this.setData({
-      imgUrls:this.data.imgUrls
+      imgUrls: this.data.imgUrls
     })
   },
 

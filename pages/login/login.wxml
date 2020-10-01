@@ -1,17 +1,24 @@
 <view class="container">
 	<swiper indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}"
 		circular="true" style="height:{{windowHeight}}px; width:{{windowWidth}}px">
-		<block wx:for="{{imgUrls}}">
+		<block wx:for="{{imgUrls}}" wx:key="*this">
 			<swiper-item bindtap="previewImage" data-index="{{index}}">
-
-				<image src="{{item}}" style="height:{{windowHeight}}px; width:{{windowWidth}}px; position:absolute;" class="img">
-				</image>
 				<!-- 目前还存在的问题 点击放大效果和图片效果会叠加 -->
-				<button style="top:{{windowHeight - 180}}px; right:30px; width:{{windowWidth - 60}}px; z-index:1; position:absolute;"
-					bindtap="userLogin">用户登录</button>
-				<button style="top:{{windowHeight - 120}}px; right:30px; width:{{windowWidth - 60}}px; z-index:1; position:absolute"
-					bindtap="adminLogin">管理员登录</button>
-				<button style="top:{{windowHeight - 60}}px; right:30px; width:{{windowWidth - 60}}px; z-index:1; position:absolute" bindtap="adminApply">管理员申请</button>
+				<view>
+					<image src="{{item}}" style="height:{{windowHeight}}px; width:{{windowWidth}}px; position:absolute;"
+						class="img">
+						<button
+							style="top:{{windowHeight - 180}}px; right:30px; width:{{windowWidth - 60}}px; z-index:1; position:absolute;"
+							bindtap="userLogin">用户登录</button>
+						<button
+							style="top:{{windowHeight - 120}}px; right:30px; width:{{windowWidth - 60}}px; z-index:1; position:absolute"
+							bindtap="adminLogin">管理员登录</button>
+						<button
+							style="top:{{windowHeight - 60}}px; right:30px; width:{{windowWidth - 60}}px; z-index:1; position:absolute"
+							bindtap="adminApply">管理员申请</button>
+					</image>
+				</view>
+
 			</swiper-item>
 		</block>
 
