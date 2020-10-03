@@ -12,8 +12,8 @@ Page({
     show: false,
     hidden: "",
     //有关滑块
-    leftNum: "",  //滑块左边的值
-    rightNum: "",   //滑块右边的值
+    leftNum: "", //滑块左边的值
+    rightNum: "", //滑块右边的值
     leftTime: "00:00", //滑块左边的时间
     rightTime: "00:00", //滑块右边的时间
     // leftTime 和 rightTime可以控制限定当前区域的开放时间范围
@@ -27,16 +27,16 @@ Page({
   lowValueChangeAction: function (e) { //改变左滑块
     var leftHour = Math.floor(e.detail.lowValue / 60); //滑块左边的小时
     var leftMinute = e.detail.lowValue % 60; //滑块左边的分钟
-    if(leftMinute>=30){
-      leftMinute="30"
-    }else{
-      leftMinute="00"
+    if (leftMinute >= 30) {
+      leftMinute = "30"
+    } else {
+      leftMinute = "00"
     }
     //把小时转换为字符串
-    if(leftHour<10){
-      leftHour="0"+leftHour.toString()
-    }else{
-      leftHour=leftHour.toString()
+    if (leftHour < 10) {
+      leftHour = "0" + leftHour.toString()
+    } else {
+      leftHour = leftHour.toString()
     }
     console.log(leftHour);
     this.setData({
@@ -48,16 +48,16 @@ Page({
     // console.log(e.detail.)
     var rightHour = Math.floor(e.detail.heighValue / 60); //滑块右边的时间
     var rightMinute = e.detail.heighValue % 60; //滑块右边的时间
-    if(rightMinute>=30){
-      rightMinute="30"
-    }else{
-      rightMinute="00"
+    if (rightMinute >= 30) {
+      rightMinute = "30"
+    } else {
+      rightMinute = "00"
     }
     //把小时转换为字符串
-    if(rightHour<10){
-      rightHour="0"+rightHour.toString()
-    }else{
-      rightHour=rightHour.toString()
+    if (rightHour < 10) {
+      rightHour = "0" + rightHour.toString()
+    } else {
+      rightHour = rightHour.toString()
     }
     this.setData({
       rightTime: rightHour + ":" + rightMinute
@@ -80,7 +80,7 @@ Page({
   },
   //以上为有关滑块的函数
 
-  doSearch: function(){
+  doSearch: function () {
     this.search()
   },
   confirmReserve: function () {
@@ -195,21 +195,21 @@ Page({
     })
   },
   //获取manageID
-  getManageID: function(){
+  getManageID: function () {
     var that = this
-    db.collection('apply')  
+    db.collection('apply')
       .where({
         _openid: wx.getStorageSync('openid'),
-       condition: "1"
+        condition: "1"
       })
       .get({
-        success: function(res) {
+        success: function (res) {
           console.log('res' + res.data[0].manageID);
           that.setData({
             manageIDforUser: res.data[0].manageID
           })
-    },
-        fail: function(res) {
+        },
+        fail: function (res) {
           console.log("获取经营号失败");
         }
       })
@@ -240,7 +240,8 @@ Page({
         }
 
         that.setData({
-          stallList
+          stallList,
+          selectedSeat: []
         })
 
 
@@ -248,22 +249,22 @@ Page({
     })
   },
 
-//  getAreaTime: function(){
-//   var that = this
-//   db.collection('StallArea').where({
-//     _id: that.data.id,
-//   }).get({
-//     success: function (res) {
-//       console.log(parseInt(res.data[0].endTime.split(":")[0]));
-//       that.setData({
-//         leftTime: res.data[0].startTime,
-//         rightTime: res.data[0].endTime,
-//         leftNum: parseInt(res.data[0].startTime.split(":")[0])*60+parseInt(res.data[0].startTime.split(":")[1]),
-//         rightNum: parseInt(res.data[0].endTime.split(":")[0])*60+parseInt(res.data[0].endTime.split(":")[1])
-//       })
-//     }
-//   })
-// },
+  //  getAreaTime: function(){
+  //   var that = this
+  //   db.collection('StallArea').where({
+  //     _id: that.data.id,
+  //   }).get({
+  //     success: function (res) {
+  //       console.log(parseInt(res.data[0].endTime.split(":")[0]));
+  //       that.setData({
+  //         leftTime: res.data[0].startTime,
+  //         rightTime: res.data[0].endTime,
+  //         leftNum: parseInt(res.data[0].startTime.split(":")[0])*60+parseInt(res.data[0].startTime.split(":")[1]),
+  //         rightNum: parseInt(res.data[0].endTime.split(":")[0])*60+parseInt(res.data[0].endTime.split(":")[1])
+  //       })
+  //     }
+  //   })
+  // },
   /**
    * 生命周期函数--监听页面加载
    */
@@ -273,8 +274,8 @@ Page({
       name: options.name,
       areaStartTime: options.startTime,
       areaEndTime: options.closeTime,
-      leftNum: parseInt(options.startTime.split(":")[0])*60+parseInt(options.startTime.split(":")[1]),
-      rightNum: parseInt(options.closeTime.split(":")[0])*60+parseInt(options.closeTime.split(":")[1])
+      leftNum: parseInt(options.startTime.split(":")[0]) * 60 + parseInt(options.startTime.split(":")[1]),
+      rightNum: parseInt(options.closeTime.split(":")[0]) * 60 + parseInt(options.closeTime.split(":")[1])
     })
     console.log(wx.getStorageSync('openid'));
   },
@@ -302,8 +303,7 @@ Page({
     this.search()
     setTimeout(() => {
       this.getManageID()
-      } 
-    , 1500)
+    }, 1500)
     wx.hideLoading({
       success: (res) => {},
     })
