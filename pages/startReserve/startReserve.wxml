@@ -34,6 +34,7 @@
 		</block>
 	</scroll-view>
 	<view class='orderComfirm' style="flex-direction:row;">
+		<van-button plain type="primary" block bind:click="doSearch">查询</van-button>
 		<van-button plain type="primary" block bind:click="confirmReserve">确认预约</van-button>
 	</view>
 </view> 

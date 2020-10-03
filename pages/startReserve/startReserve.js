@@ -80,7 +80,9 @@ Page({
   },
   //以上为有关滑块的函数
 
-
+  doSearch: function(){
+    this.search()
+  },
   confirmReserve: function () {
     //确认预约，在数据库中更新对应的信息，需要预约时间和位置信息
     if (this.data.selectedSeat.length == 0) {
@@ -101,7 +103,8 @@ Page({
           // 这里万万注意要减一，因为数组存放方式和用户看到的不一样，计算机人数数是从零开始的
           startTime: startTime,
           endTime: endTime,
-          stallID: this.data.id
+          stallID: this.data.id,
+          manageID: this.data.manageIDforUser
         },
         success: function () {
           wx.hideLoading({
@@ -191,7 +194,26 @@ Page({
       seatScaleHeight: n
     })
   },
-
+  //获取manageID
+  getManageID: function(){
+    var that = this
+    db.collection('apply')  
+      .where({
+        _openid: wx.getStorageSync('openid'),
+       condition: "1"
+      })
+      .get({
+        success: function(res) {
+          console.log('res' + res.data[0].manageID);
+          that.setData({
+            manageIDforUser: res.data[0].manageID
+          })
+    },
+        fail: function(res) {
+          console.log("获取经营号失败");
+        }
+      })
+  },
 
 
   search: function () {
@@ -249,9 +271,12 @@ Page({
     this.setData({
       id: options.id,
       name: options.name,
-      // startTime: options.startTime,
-      // closeTime: options.closeTime,
+      areaStartTime: options.startTime,
+      areaEndTime: options.closeTime,
+      leftNum: parseInt(options.startTime.split(":")[0])*60+parseInt(options.startTime.split(":")[1]),
+      rightNum: parseInt(options.closeTime.split(":")[0])*60+parseInt(options.closeTime.split(":")[1])
     })
+    console.log(wx.getStorageSync('openid'));
   },
 
   /**
@@ -275,6 +300,10 @@ Page({
     })
     this.getStallList()
     this.search()
+    setTimeout(() => {
+      this.getManageID()
+      } 
+    , 1500)
     wx.hideLoading({
       success: (res) => {},
     })
