@@ -12,8 +12,10 @@ Page({
     show: false,
     hidden: "",
     //有关滑块
+    leftNum: "",  //滑块左边的值
+    rightNum: "",   //滑块右边的值
     leftTime: "00:00", //滑块左边的时间
-    rightTime: "23:59", //滑块右边的时间
+    rightTime: "00:00", //滑块右边的时间
     // leftTime 和 rightTime可以控制限定当前区域的开放时间范围
     // 如果遇到跨日期的情况在后面的时间加上 “次日” 二字
 
@@ -25,20 +27,42 @@ Page({
   lowValueChangeAction: function (e) { //改变左滑块
     var leftHour = Math.floor(e.detail.lowValue / 60); //滑块左边的小时
     var leftMinute = e.detail.lowValue % 60; //滑块左边的分钟
+    if(leftMinute>=30){
+      leftMinute="30"
+    }else{
+      leftMinute="00"
+    }
+    //把小时转换为字符串
+    if(leftHour<10){
+      leftHour="0"+leftHour.toString()
+    }else{
+      leftHour=leftHour.toString()
+    }
     console.log(leftHour);
     this.setData({
-      leftTime: leftHour.toString() + ":" + leftMinute.toString(),
+      leftTime: leftHour + ":" + leftMinute,
     })
-    this.search()
+    // this.search()
   },
   heighValueChangeAction: function (e) { //改变右滑块
     // console.log(e.detail.)
     var rightHour = Math.floor(e.detail.heighValue / 60); //滑块右边的时间
     var rightMinute = e.detail.heighValue % 60; //滑块右边的时间
+    if(rightMinute>=30){
+      rightMinute="30"
+    }else{
+      rightMinute="00"
+    }
+    //把小时转换为字符串
+    if(rightHour<10){
+      rightHour="0"+rightHour.toString()
+    }else{
+      rightHour=rightHour.toString()
+    }
     this.setData({
-      rightTime: rightHour.toString() + ":" + rightMinute.toString()
+      rightTime: rightHour + ":" + rightMinute
     })
-    this.search()
+    // this.search()
   },
   hideSlider: function (e) { //隐藏滑块
     this.selectComponent("#zy-slider").hide()
@@ -57,6 +81,9 @@ Page({
   //以上为有关滑块的函数
 
 
+  doSearch: function(){
+    this.search()
+  },
   confimReserve: function () {
     //确认预约，在数据库中更新对应的信息，需要预约时间和位置信息
   },
@@ -169,7 +196,22 @@ Page({
     })
   },
 
-
+//  getAreaTime: function(){
+//   var that = this
+//   db.collection('StallArea').where({
+//     _id: that.data.id,
+//   }).get({
+//     success: function (res) {
+//       console.log(parseInt(res.data[0].endTime.split(":")[0]));
+//       that.setData({
+//         leftTime: res.data[0].startTime,
+//         rightTime: res.data[0].endTime,
+//         leftNum: parseInt(res.data[0].startTime.split(":")[0])*60+parseInt(res.data[0].startTime.split(":")[1]),
+//         rightNum: parseInt(res.data[0].endTime.split(":")[0])*60+parseInt(res.data[0].endTime.split(":")[1])
+//       })
+//     }
+//   })
+// },
   /**
    * 生命周期函数--监听页面加载
    */
@@ -183,13 +225,25 @@ Page({
       id: options.id,
       name: options.name,
       areaHeight,
-      areaWidth
-      // startTime: options.startTime,
-      // closeTime: options.closeTime,
+      areaWidth,
+      startTime: options.startTime,
+      closeTime: options.closeTime,
+      leftNum: parseInt(options.startTime.split(":")[0])*60+parseInt(options.startTime.split(":")[1]),
+      rightNum: parseInt(options.closeTime.split(":")[0])*60+parseInt(options.closeTime.split(":")[1])
     })
-
-    this.getStallList()
-    this.search()
+    wx.showLoading({ //弹出框显示内容，当出现hideloading时消失
+      title: '加载中',
+    })
+    setTimeout(() => {
+      wx.hideLoading();
+      // this.getAreaTime()
+      this.getStallList()
+      this.search()
+      } 
+    , 1500)
+    // this.getAreaTime()
+    // this.getStallList()
+    // this.search()
   },
 
   /**
