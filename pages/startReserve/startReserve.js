@@ -81,11 +81,41 @@ Page({
   //以上为有关滑块的函数
 
 
-  doSearch: function(){
-    this.search()
-  },
-  confimReserve: function () {
+  confirmReserve: function () {
     //确认预约，在数据库中更新对应的信息，需要预约时间和位置信息
+    if (this.data.selectedSeat.length == 0) {
+
+    }
+    if (this.data.selectedSeat.length == 1) {
+      wx.showLoading({
+        title: '数据上传中',
+      })
+      var row = this.data.selectedSeat[0].row
+      var col = this.data.selectedSeat[0].col
+      var startTime = this.getHourAndMinute(this.data.leftTime)
+      var endTime = this.getHourAndMinute(this.data.rightTime)
+      db.collection('Reservation').add({
+        data: {
+          row: row - 1,
+          col: col - 1,
+          // 这里万万注意要减一，因为数组存放方式和用户看到的不一样，计算机人数数是从零开始的
+          startTime: startTime,
+          endTime: endTime,
+          stallID: this.data.id
+        },
+        success: function () {
+          wx.hideLoading({
+            success: (res) => {
+              wx.navigateBack({
+                delta: 1,
+              })
+            },
+          })
+        }
+
+      })
+    }
+
   },
 
   // 点击每个座位触发的函数
@@ -216,34 +246,12 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log(options)
-    var res = seat.getMoveableArea(140)
-    var areaHeight = res[0]
-    var areaWidth = res[1]
-
     this.setData({
       id: options.id,
       name: options.name,
-      areaHeight,
-      areaWidth,
-      startTime: options.startTime,
-      closeTime: options.closeTime,
-      leftNum: parseInt(options.startTime.split(":")[0])*60+parseInt(options.startTime.split(":")[1]),
-      rightNum: parseInt(options.closeTime.split(":")[0])*60+parseInt(options.closeTime.split(":")[1])
+      // startTime: options.startTime,
+      // closeTime: options.closeTime,
     })
-    wx.showLoading({ //弹出框显示内容，当出现hideloading时消失
-      title: '加载中',
-    })
-    setTimeout(() => {
-      wx.hideLoading();
-      // this.getAreaTime()
-      this.getStallList()
-      this.search()
-      } 
-    , 1500)
-    // this.getAreaTime()
-    // this.getStallList()
-    // this.search()
   },
 
   /**
@@ -254,7 +262,23 @@ Page({
   },
 
 
-  onShow: function () {},
+  onShow: function () {
+    wx.showLoading({
+      title: '数据请求中',
+    })
+    var res = seat.getMoveableArea(140)
+    var areaHeight = res[0]
+    var areaWidth = res[1]
+    this.setData({
+      areaHeight,
+      areaWidth
+    })
+    this.getStallList()
+    this.search()
+    wx.hideLoading({
+      success: (res) => {},
+    })
+  },
 
   /**
    * 生命周期函数--监听页面隐藏
