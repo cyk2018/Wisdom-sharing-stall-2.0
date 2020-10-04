@@ -8,8 +8,8 @@ Page({
     background: ["/images/timg.jfif"],
     imgUrls: [
       '/images/test1.jpg',
-      '/images/test2.png',
-      '/images/test3.jpeg',
+      //'/images/test2.png',
+      //'/images/test3.jpeg',
     ],
     indicatorDots: true,
     autoplay: true,
