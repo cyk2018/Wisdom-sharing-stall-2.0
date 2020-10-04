@@ -18,8 +18,9 @@
     "pages/AreaSeat/AreaSeat",
     "pages/areaDetail/areaDetail",
     "pages/applyManage/applyManage",
-    "pages/review/review",
-    "pages/myBrand/myBrand"
+    "pages/review/review", 
+    "pages/myBrand/myBrand",
+    "pages/stallTest/stallTest"
   ],
   "window": {
     "backgroundTextStyle": "light",
