@@ -1,11 +1,8 @@
-<!-- <button bindtap="search">查询</button>
-<button bindtap="insert">预约</button> -->
-
 <block wx:if="{{Reserved}}">
 			<van-card style="margin: 0rpx 0rpx 0rpx 50px">
 				<view slot="tags" wx:for="{{data}}" wx:for-index="index" wx:for-item="item" style="margin-bottom:20px">
               <van-cell-group>
-                  ​    <van-cell title="经营号" value="{{manageIDforUser}}" />
+                  <!-- ​    <van-cell title="经营号" value="{{manageIDforUser}}" /> -->
 
                       <van-cell title="摊位号" value="{{item.stallID}}" />
 

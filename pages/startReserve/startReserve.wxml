@@ -3,7 +3,7 @@
 <view class="des">{{leftTime}}-{{rightTime}}</view>
 <view class="zy-slider">
 <!-- 这里最大值控制着分段长度 -->
-	<zy-slider minValue="0" maxValue="1439" min="0" max="1439" bind:lowValueChange="lowValueChangeAction" bind:heighValueChange="heighValueChangeAction" />
+	<zy-slider minValue="{{leftNum}}" maxValue="{{rightNum}}" min="{{leftNum}}" max="{{rightNum}}" bind:lowValueChange="lowValueChangeAction" bind:heighValueChange="heighValueChangeAction" />
 </view>
 
 <movable-area scale-area style="height:{{areaHeight}}px; width:{{areaWidth}}px">
@@ -34,6 +34,7 @@
 		</block>
 	</scroll-view>
 	<view class='orderComfirm' style="flex-direction:row;">
+		<van-button plain type="primary" block bind:click="doSearch">查询</van-button>
 		<van-button plain type="primary" block bind:click="confirmReserve">确认预约</van-button>
 	</view>
 </view> 
