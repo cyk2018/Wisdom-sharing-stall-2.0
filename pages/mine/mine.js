@@ -45,6 +45,16 @@ Page({
   },
   bindGetUser() {
     var that = this
+    wx.getStorage({
+
+      key: 'openid',
+      success: function (res) {
+        console.log(res)
+        that.setData({
+          openid: res.data
+        })
+      }
+    })
     wx.getSetting({
       success(res) {
         if (res.authSetting['scope.userInfo']) {
@@ -57,11 +67,15 @@ Page({
                 imgUrl: res.userInfo.avatarUrl
               })
               db.collection('user')
-                .add({
+                .where({
+                  _openid: that.data.openid
+                })
+                .update({
                   data: {
                     name: that.data.name,
-                    imgUrl: that.data.imgUrl,
+                    //  imgUrl: that.data.imgUrl,
                     type: 0
+                    //初始化用户摆摊状态
                   },
                 })
             },
@@ -88,7 +102,7 @@ Page({
     var checkType
     db.collection('user')
       .where({
-        _openid: wx.getStorageSync('openid')
+        _openid: that.data.openid
       })
       .get({
         success(res) {
@@ -100,6 +114,7 @@ Page({
             checkType = "0"
           }
           wx.setStorageSync('type', checkType)
+          // 把当前用户的摆摊状态存储到本地缓存中
         },
         fail() {
           console.log("当前用户没有提交过申请或请求数据失败")
@@ -178,6 +193,21 @@ Page({
       });
     }
 
+
+    wx.getStorage({
+      key: 'type',
+      success: function (res) {
+        if (res.data == 0) {
+          that.setData({
+            message: "开始摆摊"
+          })
+        } else {
+          that.setData({
+            message: "结束摆摊"
+          })
+        }
+      }
+    })
   },
 
   /**

@@ -1,2 +1,6 @@
-<!--pages/stallTest/stallTest.wxml-->
-<text>pages/stallTest/stallTest.wxml</text>
+<!-- 这个页面展示的信息应该包括：当前二维码中记忆的行列信息、当前定位信息 -->
+<van-cell title="所在区域" value="test" />
+<van-cell title="摊位区域" value="{{row}}行{{col}}列" />
+<van-cell title="当前位置" value="{{location}}" bind:click="getLocation" />
+
+<van-button bindtap="clickButton" type="primary">{{button}}</van-button>

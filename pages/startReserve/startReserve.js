@@ -104,7 +104,8 @@ Page({
           startTime: startTime,
           endTime: endTime,
           stallID: this.data.id,
-          manageID: this.data.manageIDforUser
+          manageID: this.data.manageIDforUser,
+          submitTime: db.serverDate()
         },
         success: function () {
           wx.hideLoading({

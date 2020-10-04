@@ -72,7 +72,7 @@ Page({
         for (var i = 0; i < length; i++) {
               data[i].startTime = data[i].startTime.toLocaleString()
               data[i].endTime = data[i].endTime.toLocaleString()
-              // data[i].submitTime = data[i].submitTime.toLocaleString()
+              data[i].submitTime = data[i].submitTime.toLocaleString()
         }
         console.log(data);
         console.log("完成转换");
