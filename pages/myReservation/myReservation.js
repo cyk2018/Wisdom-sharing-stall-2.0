@@ -9,7 +9,9 @@ Page({
    */
   data: {
     manageIDforUser: "",
-    Reserved: false
+    Reserved: false,
+    check: false,
+    data: ""
   },
   // insert: function () {
   //   //禁用按钮
@@ -61,7 +63,7 @@ Page({
   getReserve: function () {//获取预约
     var that = this
     db.collection('Reservation').where({
-      manageID: that.data.manageIDforUser
+      _openid: wx.getStorageSync('openid')
     }).get({
       success: function (res) {
         var length = res.data.length
@@ -73,10 +75,13 @@ Page({
               data[i].submitTime = data[i].submitTime.toLocaleString()
         }
         console.log(data);
-        that.setData({
-          data: data,
-          Reserved: true
-        })
+        console.log("完成转换");
+        if(length>0){
+          that.setData({
+              data: data,
+              Reserved: true
+          })
+        }
       }
     })
   },
@@ -97,7 +102,6 @@ Page({
       title: '加载中',
     })
     that.setNavigationBar();
-    that.getManageID();
     setTimeout(() => {
       that.getReserve();
       } 
@@ -109,9 +113,9 @@ Page({
           type: 'warning',
           message: '当前无预约信息'
         })
-
       } 
     }, 3000)
+    console.log(that.data.data);
   },
 
   /**

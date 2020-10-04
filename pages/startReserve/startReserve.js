@@ -12,8 +12,10 @@ Page({
     show: false,
     hidden: "",
     //有关滑块
+    leftNum: "", //滑块左边的值
+    rightNum: "", //滑块右边的值
     leftTime: "00:00", //滑块左边的时间
-    rightTime: "23:59", //滑块右边的时间
+    rightTime: "00:00", //滑块右边的时间
     // leftTime 和 rightTime可以控制限定当前区域的开放时间范围
     // 如果遇到跨日期的情况在后面的时间加上 “次日” 二字
 
@@ -25,20 +27,42 @@ Page({
   lowValueChangeAction: function (e) { //改变左滑块
     var leftHour = Math.floor(e.detail.lowValue / 60); //滑块左边的小时
     var leftMinute = e.detail.lowValue % 60; //滑块左边的分钟
+    if (leftMinute >= 30) {
+      leftMinute = "30"
+    } else {
+      leftMinute = "00"
+    }
+    //把小时转换为字符串
+    if (leftHour < 10) {
+      leftHour = "0" + leftHour.toString()
+    } else {
+      leftHour = leftHour.toString()
+    }
     console.log(leftHour);
     this.setData({
-      leftTime: leftHour.toString() + ":" + leftMinute.toString(),
+      leftTime: leftHour + ":" + leftMinute,
     })
-    this.search()
+    // this.search()
   },
   heighValueChangeAction: function (e) { //改变右滑块
     // console.log(e.detail.)
     var rightHour = Math.floor(e.detail.heighValue / 60); //滑块右边的时间
     var rightMinute = e.detail.heighValue % 60; //滑块右边的时间
+    if (rightMinute >= 30) {
+      rightMinute = "30"
+    } else {
+      rightMinute = "00"
+    }
+    //把小时转换为字符串
+    if (rightHour < 10) {
+      rightHour = "0" + rightHour.toString()
+    } else {
+      rightHour = rightHour.toString()
+    }
     this.setData({
-      rightTime: rightHour.toString() + ":" + rightMinute.toString()
+      rightTime: rightHour + ":" + rightMinute
     })
-    this.search()
+    // this.search()
   },
   hideSlider: function (e) { //隐藏滑块
     this.selectComponent("#zy-slider").hide()
@@ -56,30 +80,79 @@ Page({
   },
   //以上为有关滑块的函数
 
-
-  confimReserve: function () {
+  doSearch: function () {
+    this.search()
+  },
+  confirmReserve: function () {
     //确认预约，在数据库中更新对应的信息，需要预约时间和位置信息
+    if (this.data.selectedSeat.length == 0) {
+
+    }
+    if (this.data.selectedSeat.length == 1) {
+      wx.showLoading({
+        title: '数据上传中',
+      })
+      var row = this.data.selectedSeat[0].row
+      var col = this.data.selectedSeat[0].col
+      var startTime = this.getHourAndMinute(this.data.leftTime)
+      var endTime = this.getHourAndMinute(this.data.rightTime)
+      db.collection('Reservation').add({
+        data: {
+          row: row - 1,
+          col: col - 1,
+          // 这里万万注意要减一，因为数组存放方式和用户看到的不一样，计算机人数数是从零开始的
+          startTime: startTime,
+          endTime: endTime,
+          stallID: this.data.id,
+          manageID: this.data.manageIDforUser,
+          submitTime: db.serverDate()
+        },
+        success: function () {
+          wx.hideLoading({
+            success: (res) => {
+              wx.navigateBack({
+                delta: 1,
+              })
+            },
+          })
+        }
+
+      })
+    }
+
   },
 
   // 点击每个座位触发的函数
   clickSeat: function (res) {
-
-    let index = res.currentTarget.dataset.index;
-    //获得当前点击座位的索引
-    console.log(index)
-    if (this.data.seatList[index].canClick) {
-      //判断当前座位是否被选中，如果选中的话就取消选择，否则的话选择这个，取消对应的
-      if (this.data.seatList[index].nowIcon === this.data.seatList[index].selectedIcon) {
-        this.processSelected(index)
-      } else {
-        //清空数组
-        this.processUnSelected(index)
-      }
-    }
-    if (this.data.selectedSeat.length == 0) {
-      this.setData({
-        hidden: "hidden"
-      });
+    // 点击具体的座位进行的操作，将改动保存到列表中
+    var that = this
+    var id = res.currentTarget.id
+    var loc = id.indexOf("-")
+    var row = parseInt(id.slice(0, loc))
+    var col = parseInt(id.slice(loc + 1, id.length))
+    // console.log(row)
+    // console.log(col)
+    // 这里拿到的数据是字符串类型，所以需要转换为整型
+    var seat = 'stallList[' + row + '][' + col + ']'
+    var seatType = seat + '.type'
+    var seatIcon = seat + '.icon'
+    if (that.data.stallList[row][col].type == 1 && that.data.selectedSeat.length < 1) {
+      // console.log(that.data.seatList[locInArray])
+      that.setData({
+        [seatType]: 2,
+        [seatIcon]: "../../images/image_is_select.png",
+        selectedSeat: [{
+          row: row + 1,
+          col: col + 1
+        }]
+      })
+    } else if (that.data.stallList[row][col].type == 2) {
+      // console.log(that.data.seatList[locInArray])
+      that.setData({
+        [seatType]: 1,
+        [seatIcon]: "../../images/image_can_select_click.png",
+        selectedSeat: []
+      })
     }
   },
 
@@ -101,8 +174,9 @@ Page({
         this.setData({
           seatList: res.data[0].stallList,
           row: res.data[0].rowNum,
-          col: res.data[0].columnNum
+          col: res.data[0].columnNum,
         })
+        this.getSeatArea()
       }
     })
   },
@@ -121,7 +195,26 @@ Page({
       seatScaleHeight: n
     })
   },
-
+  //获取manageID
+  getManageID: function () {
+    var that = this
+    db.collection('apply')
+      .where({
+        _openid: wx.getStorageSync('openid'),
+        condition: "1"
+      })
+      .get({
+        success: function (res) {
+          console.log('res' + res.data[0].manageID);
+          that.setData({
+            manageIDforUser: res.data[0].manageID
+          })
+        },
+        fail: function (res) {
+          console.log("获取经营号失败");
+        }
+      })
+  },
 
 
   search: function () {
@@ -129,8 +222,6 @@ Page({
     var startTime = this.getHourAndMinute(this.data.leftTime)
     var endTime = this.getHourAndMinute(this.data.rightTime)
 
-    console.log(startTime)
-    console.log(endTime)
     var that = this
     db.collection('Reservation').where({
       stallID: that.data.id,
@@ -138,45 +229,56 @@ Page({
       endTime: _.gt(startTime)
     }).get({
       success: function (res) {
-        console.log(res)
-        var seat = txhat.data.seatList
-        var list = [].concat(seat)
-        console.log(list)
+        //重要！ 勿删！进行数组拷贝
+        //参考 https://www.cnblogs.com/showjs/p/11358095.html
+        let stallList = JSON.parse(JSON.stringify(that.data.seatList))
+
         for (var i = 0; i < res.data.length; i++) {
-          var col = res.data[i].gcol
-          var row = res.data[i].grow
-          list[row][col].type = 3
-          list[row][col].icon = "../../images/image_has_selected.png"
+          var col = res.data[i].col
+          var row = res.data[i].row
+          stallList[row][col].type = 3,
+            stallList[row][col].icon = "/images/image_has_selected.png"
         }
+
         that.setData({
-          'stallList': list
+          stallList,
+          selectedSeat: []
         })
-        that.getSeatArea()
+
+
       }
     })
   },
 
-
+  //  getAreaTime: function(){
+  //   var that = this
+  //   db.collection('StallArea').where({
+  //     _id: that.data.id,
+  //   }).get({
+  //     success: function (res) {
+  //       console.log(parseInt(res.data[0].endTime.split(":")[0]));
+  //       that.setData({
+  //         leftTime: res.data[0].startTime,
+  //         rightTime: res.data[0].endTime,
+  //         leftNum: parseInt(res.data[0].startTime.split(":")[0])*60+parseInt(res.data[0].startTime.split(":")[1]),
+  //         rightNum: parseInt(res.data[0].endTime.split(":")[0])*60+parseInt(res.data[0].endTime.split(":")[1])
+  //       })
+  //     }
+  //   })
+  // },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log(options)
-    var res = seat.getMoveableArea(140)
-    var areaHeight = res[0]
-    var areaWidth = res[1]
-
     this.setData({
       id: options.id,
       name: options.name,
-      areaHeight,
-      areaWidth
-      // startTime: options.startTime,
-      // closeTime: options.closeTime,
+      areaStartTime: options.startTime,
+      areaEndTime: options.closeTime,
+      leftNum: parseInt(options.startTime.split(":")[0]) * 60 + parseInt(options.startTime.split(":")[1]),
+      rightNum: parseInt(options.closeTime.split(":")[0]) * 60 + parseInt(options.closeTime.split(":")[1])
     })
-
-    this.getStallList()
-    this.search()
+    console.log(wx.getStorageSync('openid'));
   },
 
   /**
@@ -187,7 +289,26 @@ Page({
   },
 
 
-  onShow: function () {},
+  onShow: function () {
+    wx.showLoading({
+      title: '数据请求中',
+    })
+    var res = seat.getMoveableArea(140)
+    var areaHeight = res[0]
+    var areaWidth = res[1]
+    this.setData({
+      areaHeight,
+      areaWidth
+    })
+    this.getStallList()
+    this.search()
+    setTimeout(() => {
+      this.getManageID()
+    }, 1500)
+    wx.hideLoading({
+      success: (res) => {},
+    })
+  },
 
   /**
    * 生命周期函数--监听页面隐藏
