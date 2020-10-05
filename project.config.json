@@ -1,135 +1,129 @@
 {
-	"description": "项目配置文件",
-	"packOptions": {
-		"ignore": []
-	},
-	"setting": {
-		"urlCheck": true,
-		"es6": true,
-		"enhance": false,
-		"postcss": true,
-		"preloadBackgroundData": false,
-		"minified": true,
-		"newFeature": false,
-		"coverView": true,
-		"nodeModules": true,
-		"autoAudits": false,
-		"showShadowRootInWxmlPanel": true,
-		"scopeDataCheck": false,
-		"uglifyFileName": false,
-		"checkInvalidKey": true,
-		"checkSiteMap": false,
-		"uploadWithSourceMap": true,
-		"compileHotReLoad": false,
-		"babelSetting": {
-			"ignore": [],
-			"disablePlugins": [],
-			"outputPath": ""
-		},
-		"useIsolateContext": true,
-		"useCompilerModule": false,
-		"userConfirmedUseCompilerModuleSwitch": false,
-		"useMultiFrameRuntime": false,
-		"useApiHook": true,
-		"enableEngineNative": false,
-		"packNpmManually": false,
-		"packNpmRelationList": []
-	},
-	"compileType": "miniprogram",
-	"libVersion": "2.12.2",
-	"appid": "wx9d0da887d67d2a0c",
-	"projectname": "miniprogram-stall",
-	"cloudfunctionRoot": "cloudfunctions/",
-	"cloudfunctionTemplateRoot": "cloudfunctionTemplate",
-	"watchOptions": {
-		"ignore": []
-	},
-	"debugOptions": {
-		"hidedInDevtools": []
-	},
-	"scripts": {},
-	"simulatorType": "wechat",
-	"simulatorPluginLibVersion": {},
-	"condition": {
-		"search": {
-			"current": -1,
-			"list": []
-		},
-		"conversation": {
-			"current": -1,
-			"list": []
-		},
-		"plugin": {
-			"current": -1,
-			"list": []
-		},
-		"game": {
-			"current": -1,
-			"list": []
-		},
-		"gamePlugin": {
-			"current": -1,
-			"list": []
-		},
-		"miniprogram": {
-			"current": -1,
-			"list": [
-				{
-					"id": 0,
-					"name": "pages/startReserve/startReserve",
-					"pathName": "pages/startReserve/startReserve",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "管理申请",
-					"pathName": "pages/applyManage/applyManage",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/myScore/myScore",
-					"pathName": "pages/myScore/myScore",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "我的",
-					"pathName": "pages/mine/mine",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "地图选点",
-					"pathName": "pages/reserve/reserve",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": 5,
-					"name": "管理摊位",
-					"pathName": "pages/myArea/myArea",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/startReserve/startReserve",
-					"pathName": "pages/startReserve/startReserve",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/reserve/reserve",
-					"pathName": "pages/reserve/reserve",
-					"scene": null
-				}
-			]
-		}
-	}
+  "description": "项目配置文件",
+  "packOptions": {
+    "ignore": []
+  },
+  "setting": {
+    "urlCheck": true,
+    "es6": true,
+    "enhance": false,
+    "postcss": true,
+    "preloadBackgroundData": false,
+    "minified": true,
+    "newFeature": false,
+    "coverView": true,
+    "nodeModules": true,
+    "autoAudits": false,
+    "showShadowRootInWxmlPanel": true,
+    "scopeDataCheck": false,
+    "uglifyFileName": false,
+    "checkInvalidKey": true,
+    "checkSiteMap": false,
+    "uploadWithSourceMap": true,
+    "compileHotReLoad": false,
+    "useMultiFrameRuntime": false,
+    "useApiHook": true,
+    "babelSetting": {
+      "ignore": [],
+      "disablePlugins": [],
+      "outputPath": ""
+    },
+    "useIsolateContext": true,
+    "useCompilerModule": false,
+    "userConfirmedUseCompilerModuleSwitch": false,
+    "packNpmManually": false,
+    "packNpmRelationList": [],
+    "minifyWXSS": true
+  },
+  "compileType": "miniprogram",
+  "libVersion": "2.12.2",
+  "appid": "wx9d0da887d67d2a0c",
+  "projectname": "miniprogram-stall",
+  "cloudfunctionRoot": "cloudfunctions/",
+  "cloudfunctionTemplateRoot": "cloudfunctionTemplate",
+  "watchOptions": {
+    "ignore": []
+  },
+  "debugOptions": {
+    "hidedInDevtools": []
+  },
+  "scripts": {},
+  "simulatorType": "wechat",
+  "simulatorPluginLibVersion": {},
+  "condition": {
+    "search": {
+      "list": []
+    },
+    "conversation": {
+      "list": []
+    },
+    "plugin": {
+      "list": []
+    },
+    "game": {
+      "list": []
+    },
+    "gamePlugin": {
+      "list": []
+    },
+    "miniprogram": {
+      "list": [
+        {
+          "id": 0,
+          "name": "pages/startReserve/startReserve",
+          "pathName": "pages/startReserve/startReserve",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "管理申请",
+          "pathName": "pages/applyManage/applyManage",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "pages/myScore/myScore",
+          "pathName": "pages/myScore/myScore",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "我的",
+          "pathName": "pages/mine/mine",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "地图选点",
+          "pathName": "pages/reserve/reserve",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": 5,
+          "name": "管理摊位",
+          "pathName": "pages/myArea/myArea",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "pages/startReserve/startReserve",
+          "pathName": "pages/startReserve/startReserve",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "pages/reserve/reserve",
+          "pathName": "pages/reserve/reserve",
+          "scene": null
+        }
+      ]
+    }
+  }
 }

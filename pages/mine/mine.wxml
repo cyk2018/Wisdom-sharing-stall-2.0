@@ -16,6 +16,7 @@
 		<van-cell is-link title="我的积分" link-type="navigateTo" url="/pages/myScore/myScore" />
 		<van-notify id="van-notify" />
 		<van-cell is-link title="我的违规" link-type="navigateTo" url="/pages/myViolation/myViolation" />
+		<van-button open-type="feedback" block>反馈建议</van-button>
 		<van-button type="primary" bind:click="exit" block>退出登录</van-button>
 	</van-cell-group>
 </view>
