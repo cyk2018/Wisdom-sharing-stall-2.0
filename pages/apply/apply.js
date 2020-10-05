@@ -52,7 +52,7 @@ Page({
     wx.showLoading({
       title: '加载中',
     })
-    
+
     db.collection('apply').where({
       _openid: that.data.openid
     }).get({
@@ -136,6 +136,10 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+
+    this.setData({
+      activeNames: ['1']
+    })
     if (typeof this.getTabBar === 'function' && this.getTabBar()) {
       this.getTabBar().setData({
         active: 0

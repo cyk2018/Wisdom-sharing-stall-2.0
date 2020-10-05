@@ -5,15 +5,26 @@ App({
    */
   globalData: {},
   onLaunch: function () {
+
+    // 测试用版本
+    // if (!wx.cloud) {
+    //   console.error("请使用更高版本的基础库")
+    // } else {
+    //   wx.cloud.init({
+    //     env: "test-lxqna",
+    //     traceUser: true,
+    //   })
+    // }
+
+    //上线版本
     if (!wx.cloud) {
       console.error("请使用更高版本的基础库")
     } else {
       wx.cloud.init({
-        env: "test-lxqna",
+        env: "online-4gmim6m38cf56463",
         traceUser: true,
       })
     }
-
     let that = this
     wx.getSystemInfo({
       success: res => {
