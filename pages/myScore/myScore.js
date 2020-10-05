@@ -1,3 +1,5 @@
+
+import Notify from '../../miniprogram_npm/@vant/weapp/notify/notify';
 const db = wx.cloud.database()
 Page({
 
@@ -23,16 +25,20 @@ Page({
     var that = this
     db.collection('apply')
       .where({
-        _openid: wx.getStorageSync('openid')
+        _openid: wx.getStorageSync('openid'),
+        newest: 1,
+        condition: "1"
       })
       .get({
         success: function (res) {
           // console.log(res.data[0].nowScore)
           var score = res.data[0].score
-          that.setData({
-            myScore: score,
-            check: true
-          })
+          if(res.data.length>0){
+            that.setData({
+              myScore: score,
+              check: true
+            })
+        }
           wx.hideLoading({})
         },
         fail: function (res) {
@@ -49,6 +55,16 @@ Page({
     })
     this.setNavigationBar()
     this.getScore()
+    setTimeout(() => {
+      wx.hideLoading();
+      if (this.data.check == false) {
+        Notify({
+          type: 'warning',
+          message: '查询品牌积分失败'
+        })
+
+      }
+    }, 1000)
   },
 
   /**
