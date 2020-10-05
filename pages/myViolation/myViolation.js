@@ -38,7 +38,8 @@ Page({
     db.collection('apply')
       .where({
         _openid: wx.getStorageSync('openid'),
-       condition: "1"
+       condition: "1",
+       newest: 1
       })
       .get({
         success: function(res) {
@@ -74,14 +75,16 @@ Page({
                 data[i].recordTime = data[i].recordTime.toLocaleString()
           }
           console.log(data);
-          that.setData({
-            // stallID: res.data[0].stallID,
-            // item: res.data[0].item,
-            // recordTime: res.data[0].recordTime.toLocaleString(),
-            // remarks: res.data[0].remarks,
-            data: data,
-            Violated: true
-          })
+          if(res.data.length>0){
+            that.setData({
+              // stallID: res.data[0].stallID,
+              // item: res.data[0].item,
+              // recordTime: res.data[0].recordTime.toLocaleString(),
+              // remarks: res.data[0].remarks,
+              data: data,
+              Violated: true
+            })
+        }
         },
         fail: function(res) {
           console.log("查询违规记录失败");
