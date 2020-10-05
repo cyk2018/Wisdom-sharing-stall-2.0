@@ -83,43 +83,59 @@ Page({
   doSearch: function () {
     this.search()
   },
-  confirmReserve: function () {
-    //确认预约，在数据库中更新对应的信息，需要预约时间和位置信息
-    if (this.data.selectedSeat.length == 0) {
+  confirm: function(len,row,col){
+    //仅当查询后，当前选择的座位状态为可选，才进行添加数据库操作
+    if(this.data.stallList[row-1][col-1].type != 3){
+      console.log("可以预约");
+      if (len == 0) {
 
+      }
+      if (len == 1) {
+        wx.showLoading({
+          title: '数据上传中',
+        })
+        var startTime = this.getHourAndMinute(this.data.leftTime)
+        var endTime = this.getHourAndMinute(this.data.rightTime)
+        db.collection('Reservation').add({
+          data: {
+            row: row - 1,
+            col: col - 1,
+            // 这里万万注意要减一，因为数组存放方式和用户看到的不一样，计算机人数数是从零开始的
+            startTime: startTime,
+            endTime: endTime,
+            stallID: this.data.id,
+            manageID: this.data.manageIDforUser,
+            submitTime: db.serverDate()
+          },
+          success: function () {
+            wx.hideLoading({
+              success: (res) => {
+                wx.navigateBack({
+                  delta: 1,
+                })
+              },
+            })
+          }
+
+        })
+      }
     }
-    if (this.data.selectedSeat.length == 1) {
-      wx.showLoading({
-        title: '数据上传中',
-      })
-      var row = this.data.selectedSeat[0].row
-      var col = this.data.selectedSeat[0].col
-      var startTime = this.getHourAndMinute(this.data.leftTime)
-      var endTime = this.getHourAndMinute(this.data.rightTime)
-      db.collection('Reservation').add({
-        data: {
-          row: row - 1,
-          col: col - 1,
-          // 这里万万注意要减一，因为数组存放方式和用户看到的不一样，计算机人数数是从零开始的
-          startTime: startTime,
-          endTime: endTime,
-          stallID: this.data.id,
-          manageID: this.data.manageIDforUser,
-          submitTime: db.serverDate()
-        },
-        success: function () {
-          wx.hideLoading({
-            success: (res) => {
-              wx.navigateBack({
-                delta: 1,
-              })
-            },
-          })
-        }
-
-      })
-    }
-
+  },
+  confirmReserve: function () {//确认预约，在数据库中更新对应的信息，需要预约时间和位置信息
+    //保存查询前的数据
+    var len = this.data.selectedSeat.length
+    var row = this.data.selectedSeat[0].row
+    var col = this.data.selectedSeat[0].col
+    console.log("len",len);
+    console.log("row:",row);
+    console.log("col:",col);
+    console.log(this.data.stallList);
+    //进行查询
+    this.search()
+    setTimeout(() => {
+      this.confirm(len,row,col);
+      } 
+    , 1500)
   },
 
   // 点击每个座位触发的函数
@@ -154,6 +170,7 @@ Page({
         selectedSeat: []
       })
     }
+    console.log(this.data.stallList);
   },
 
 
@@ -231,23 +248,23 @@ Page({
       success: function (res) {
         //重要！ 勿删！进行数组拷贝
         //参考 https://www.cnblogs.com/showjs/p/11358095.html
-        let stallList = JSON.parse(JSON.stringify(that.data.seatList))
-
+        var stallList = JSON.parse(JSON.stringify(that.data.seatList))
+        console.log("拷贝完成");
         for (var i = 0; i < res.data.length; i++) {
+          console.log("search处理stallList");
           var col = res.data[i].col
           var row = res.data[i].row
           stallList[row][col].type = 3,
-            stallList[row][col].icon = "/images/image_has_selected.png"
+          stallList[row][col].icon = "../../images/image_has_selected.png"
         }
-
         that.setData({
-          stallList,
+          stallList: stallList,
           selectedSeat: []
         })
-
-
       }
     })
+    console.log("search结束");
+    console.log(that.data.stallList);
   },
 
   //  getAreaTime: function(){
@@ -270,11 +287,12 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    console.log(options);
     this.setData({
       id: options.id,
       name: options.name,
-      areaStartTime: options.startTime,
-      areaEndTime: options.closeTime,
+      leftTime: options.startTime,
+      rightTime: options.closeTime,
       leftNum: parseInt(options.startTime.split(":")[0]) * 60 + parseInt(options.startTime.split(":")[1]),
       rightNum: parseInt(options.closeTime.split(":")[0]) * 60 + parseInt(options.closeTime.split(":")[1])
     })

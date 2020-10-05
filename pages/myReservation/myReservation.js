@@ -81,6 +81,10 @@ Page({
               data: data,
               Reserved: true
           })
+        }else{
+            that.setData({
+              Reserved: false
+          })
         }
       }
     })
