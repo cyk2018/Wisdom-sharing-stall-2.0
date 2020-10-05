@@ -176,21 +176,31 @@ Page({
       that.setData({
         BrandError: "品牌名称不能为空"
       })
+    } else if (that.data.type == "") {
+      Dialog.alert({
+        title: '信息错误',
+        message: '请选择服务类型',
+      })
     } else if (that.data.name == "") {
       that.setData({
         NameError: "姓名不能为空"
+      })
+    } else if (that.data.sex == "") {
+      Dialog.alert({
+        title: '信息错误',
+        message: '请填写负责人性别',
       })
     } else if (that.data.idcard == "") {
       that.setData({
         IDError: "身份证号不能为空"
       })
-    } else if (that.data.tel == "") {
-      that.setData({
-        TELError: "联系方式不能为空"
-      })
     } else if (that.data.idcard.length != 18) {
       that.setData({
         IDError: "请输入18位有效身份证"
+      })
+    } else if (that.data.tel == "") {
+      that.setData({
+        TELError: "联系方式不能为空"
       })
     } else if (that.data.tel.length != 11) {
       that.setData({
@@ -277,7 +287,7 @@ Page({
   onLoad: function (options) {
     let that = this;
     console.log(options);
-    if (options.length != 0) {
+    if (JSON.stringify(options) != "{}") {
       that.setData({
         // url传参，直接填充
         active: options.active,

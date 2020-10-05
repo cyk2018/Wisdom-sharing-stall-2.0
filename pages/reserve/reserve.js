@@ -111,7 +111,7 @@ Page({
       }
     })
   },
-  getStallLocation: function (startTime, endTime) {
+  getStallLocation: function () {
     // 根据 startTime 和 endTime 查询当前的数据库获得标记信息
     var that = this
     const _ = db.command
@@ -169,11 +169,12 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.setData({
-      startReserveTime: options.startTime,
-      endReserveTime: options.endTime
-    })
-    this.getStallLocation(options.startTime, options.endTime)
+
+    // // this.setData({
+    // //   startReserveTime: options.startTime,
+    // //   endReserveTime: options.endTime
+    // // })
+    this.getStallLocation()
   },
 
   /**

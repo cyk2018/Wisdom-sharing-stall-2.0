@@ -18,23 +18,43 @@ Page({
     // console.log(res)
     // res中存储着变化前后的行列值
     // 如果是列数发生了变化，因为数组是按行存储的，所以需要重新生成数组,但是在重新生成数组的过程中又面临着之前存储的记录无法更新的问题
-    var seatList = this.data.seatList
+    if (res.beforeColumn > res.nowColumn) {
+      var seatList = []
+    } else {
+      var seatList = this.data.seatList
+    }
+
     if (res.beforeRow == res.nowRow) {
       // 列数发生了变化
       if (res.beforeColumn > res.nowColumn) {
         // 如果列数减少
+        // console.log(seatList)
+        var seatRowList = []
         for (var i = 0; i < res.beforeRow; i++) {
-          seatList[i].pop()
+          seatRowList = []
+          for (var j = 0; j < res.nowColumn; j++) {
+            var seat = {
+              grow: i,
+              gcol: j,
+              type: 1,
+              icon: "../../images/image_can_select_click.png"
+            }
+            seatRowList.push(seat)
+          }
+          console.log(seatRowList)
+          seatList.push(seatRowList)
         }
-      }
-      for (var i = 0; i < res.beforeRow; i++) {
-        var seat = {
-          grow: i,
-          gcol: res.nowColumn - 1,
-          type: 1,
-          icon: "../../images/image_can_select_click.png"
+        console.log(seatList)
+      } else {
+        for (var i = 0; i < res.beforeRow; i++) {
+          var seat = {
+            grow: i,
+            gcol: res.nowColumn - 1,
+            type: 1,
+            icon: "../../images/image_can_select_click.png"
+          }
+          seatList[i].push(seat)
         }
-        seatList[i].push(seat)
       }
     } else {
       if (res.nowRow > res.beforeRow) {
@@ -125,6 +145,7 @@ Page({
     this.showArea(data)
   },
 
+  //列数变化的时候调用此函数
   onChangeCol: function (res) {
     var data = this.returnRowAndCol(this.data.row, res.detail)
     this.setData({

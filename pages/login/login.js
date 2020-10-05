@@ -7,7 +7,8 @@ Page({
   data: {
     background: ["/images/timg.jfif"],
     imgUrls: [
-      '/images/test1.jpg',
+      '/images/online.jpg'
+      // '/images/test1.jpg',
       //'/images/test2.png',
       //'/images/test3.jpeg',
     ],
